@@ -1,0 +1,50 @@
+html {overflow:-moz-scrollbars-vertical !important;}
+body {margin:0; padding:0; font:12px/18px Helvetica, Arial, sans-serif;}
+
+/*
+*
+* formatting of programme builder
+*
+*/
+
+#communication {
+	margin:20px;
+	border:1px solid red;
+	font-size:1.4em;
+	clear:both;
+}
+
+.liveswimset {
+	margin:10px;
+	border:1px solid purple;
+	font-size:1.0em;
+	clear:both;
+}
+
+.pastfuturecomm {
+	margin:10px;
+	border:1px solid orange;
+	font-size:1.0em;
+	clear:both;
+}
+
+.communicationelement {
+	margin:20px;
+	border:1px solid green;
+	font-size:1.4em;
+	clear:both;
+}
+
+.communicationpool {
+	margin:20px;
+	border:1px solid blue;
+	font-size:1.0em;
+	clear:both;
+}
+
+.communicationedit {
+	margin:5px;
+	border:1px solid pink;
+	font-size:1.0em;
+	clear:both;
+}
