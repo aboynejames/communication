@@ -8,10 +8,10 @@ $(document).ready(function(){
 	$("#canvasDiv").hide();
 		// create pouchdb object
 		livepouch = new pouchdbSettings();	
-	
-	// communication counter id
-	var newcommid =  new Date();
-	var cci = Date.parse(newcommid);
+// delete local pouchdb database		
+	//livepouch.deletePouch();
+	liveHTML = new ttHTML();	
+
 				
 	// datepicker
 	$( "#datepicker" ).datepicker({
@@ -22,27 +22,27 @@ $(document).ready(function(){
 	
 	// add element to communication
 	$("#communication").click(function(e) {
-//console.log('time to distroy the cookie please');
 		e.preventDefault(e);
-console.log('add another train programme element');		
-		
+	
 					var $sotgt = $(e.target);
-//console.log('what tgt look like?');
-console.log($sotgt);		
+
         if ($sotgt.is("#newelement")) {
-console.log('more training');
-					$(".communicationelement").html('<div class="commlistitem" id="communicationelement' + cci +'" data-commid="' + cci +'"><div id="comel' + cci + '" ><div id="elementcounter">' + cci + '</div><div class="communicationpool"><div id="setauthored' + cci + '"></div></div></div><div class="communicationedit"><div class="sketchpadel"><a href="" id="sketchpad' + cci + '">sketchpad</a></div><div class="saveel"><a href="" id="save"  data-saveid="' + cci + '">save</a></div><div class="removeel"><a href="" id="remove' + cci + '">remove</a></div></div></div>');
 					
+					// communication counter id
+					var newcommid =  new Date();		
+					var cci = Date.parse(newcommid);
+					
+					var livecommelemcode =liveHTML.commelementbuild(cci);
+					$(".communicationelement").append(livecommelemcode);
+											
 					// from the set authoring tool abstract
 					$("#setauthored" + cci ).html($("#setsettings").html());
-					
-					$('<div class ="communicationelement" id="communicationelement' + cci + '" ></div>').appendTo("#communication");					
 
 				}
 				else if ($sotgt.is("#save"))
 				{
 					// need to capture remove id number
-					var smi = $("#save").attr('data-saveid');
+					 var smi = $("#save").attr('data-saveid');
 					$("#save" + smi).remove();
 					$('<div class="editel"><a href="" id="edit' + smi + '">edit</a></div>').appendTo("#communicationelement" + smi );
 					
@@ -57,69 +57,151 @@ console.log('more training');
 				else if ($sotgt.is("#savecommunication"))
 				{
 					// collect the date
-					var datein = $( "#datepicker" ).datepicker( "getDate" );
+					var datein = $( "#datepicker" ).datepicker( "getDate" );					
+					// get a list of the unique ids and loop through to extract information
+					var smi = $(".communicationelement");
+//console.log(smi);
+					var smic = $(".communicationelement").children();
+console.log(smic);
+					var smiclength = $(".communicationelement").children().length;
+console.log(smiclength);	
 					
-					// need to capture remove id number
-					var smi = $("#").attr('data-saveid');
+				// check to see if a date exists if not, promp to add a date
+				if(datein == null || smiclength == 0)
+				{
+					var feedbackcomm = '';
+					if(datein == null)
+					{
+						feedbackcomm = 'Please add a date';;
+					}
+					if(smiclength == 0)
+					{
+						feedbackcomm += ' Please add a communication element';
+					}
+					$(".commfeedback").html(feedbackcomm);
+				}
+				else
+				{
+				$(".commfeedback").empty();
+				$(".liveswimset").empty();
+				/**
+				* save one document
+				* @method singleSave
+				*/
+				function savecommunicationset (datein, commgroupdata, smlength) {	
+	console.log(Date.parse(datein));
+					var datestringday = Date.parse(datein);
 					
-					$("#communicationelement" + smi).remove();
-//console.log('date in' + datein)
-					// get all the set element data
-				swimtype = $("#swimtype").val();
-				swimstroke = $("#swimstroke").val();
-				swimtechnique = $("#swimtechnique").val();
-				swimdistance = $("#swimdistance").val();
-				swimrepetition = $("#swimrepetition").val();
-console.log('reps=' + swimrepetition);			
+						swimgroupcomm = {};
+						newjsoncomm = {};
+							
+						var chdiv = Object.keys(commgroupdata);
+						chdiv.forEach(function(dataid) {
+			console.log('in the loop' + dataid);	
+			//console.log(smic[dataid].dataset);
+							if(dataid < smlength)
+							{
+						//#setauthored1373464381000 #swimsettings select#swimrepetition
+						//sample = "#setauthored" + commelidin + " .swimsettings .swimsettingslabel select#swimtype";
+				
+						var divcapturein = "#setauthored" + commgroupdata[dataid].dataset.commid + " .swimsettings .swimsettingslabel select";		
+							// get all the set element data
+						swimtype = $( divcapturein + "#swimtype").val();
+						swimstroke = $( divcapturein + "#swimstroke").val();
+						swimtechnique = $( divcapturein + "#swimtechnique").val();
+						swimdistance = $( divcapturein + "#swimdistance").val();
+						swimrepetition = $( divcapturein + "#swimrepetition").val();
+		//console.log('reps=' + swimrepetition);			
 
 						// collect into object and save via pouchdb.
-									// form swim data
-			swimcommstatus = {};
-				swimcommstatus['commdate'] = datein;
-				swimcommstatus['commtype'] = swimtype;
-				swimcommstatus['commstroke'] = swimstroke;
-				swimcommstatus['commtechnique'] = swimtechnique;
-				swimcommstatus['commdistance'] = swimdistance;
-				swimcommstatus['commrepetition'] = swimrepetition;
+						// form swim data
+						swimcommstatus = {};
+						swimcommstatus['commdate'] = datein;
+						swimcommstatus['commtype'] = swimtype;
+						swimcommstatus['commstroke'] = swimstroke;
+						swimcommstatus['commtechnique'] = swimtechnique;
+						swimcommstatus['commdistance'] = swimdistance;
+						swimcommstatus['commrepetition'] = swimrepetition;
+		console.log(dataid + 'what');
+						
+						swimgroupcomm[commgroupdata[dataid].dataset.commid] = swimcommstatus;
+					// save to localpouchdb need to prepare buld array json structure
+														
+						newjsoncomm["commid"] = datein;//commgroupdata[dataid].dataset.commid;
+						newjsoncomm["commdate"] = Date.parse(datein);
+						newjsoncomm["swimmerid"] = [11111111,222222,333333];
+						newjsoncomm["communication"] = swimgroupcomm;	
+		console.log(newjsoncomm);					
 
-			// save to localpouchdb need to prepare buld array json structure
-				newjsoncomm = {};								
-				newjsoncomm["commid"] = '';
-				newjsoncomm["commdate"] = {};
-				newjsoncomm["swimmerid"] = 12345678;
-				newjsoncomm["communication"] = swimcommstatus;	
+							}
+							
+						});
+		console.log('before save');				
+		console.log(newjsoncomm);					
+						livepouch.singleSave(newjsoncomm);
 
-				livepouch.singleSave(newjsoncomm);
+						$("#canvasDiv").hide();
+							
+						} // closes function	
+									
+
+						var dateid = '<div class="swimcommdate"><a href="" id="fpdate" data-dcommid="' + Date.parse(datein) + '" >' + datein + '</a></div>';
+						$(dateid).appendTo(".pastfuturecomm");
+
+						// pass the data over for saving
+						savecommunicationset(datein, smic, smiclength);
 			
-					
-					
-					// need to capture remove id number
-					var dateid = '<div class="swimcommdate"><a href="" id="fpdate" >' + datein + '</a></div>';
-					$(dateid).appendTo(".pastfuturecomm");
-
-					$("#canvasDiv").hide();
+//console.log('before empty call');
+						$(".communicationelement").empty();
+				}
 				}
 				else if ($sotgt.is("#fpdate"))
 				{
 					// playback a communication programme
+							// empty the existing live communication
+					$(".liveswimset").empty();
+					
 					//load data back from pouchdb
-						function localCommcall(commdate, callback) {  
-							livepouch.mapQueryCommdate(commdate, callback);
+					// extract fpdate clicked
+//console.log('the clicke fpdate');				
+//console.log($sotgt);			
+					var commdatein = $sotgt[0].dataset.dcommid;
+					
+						function localCommcall(commdatein, callback) {  
+							livepouch.mapQueryCommdate(commdatein, callback);
 						}  
       
-						localCommcall('133', function(rtmap) {  
+						localCommcall(commdatein, function(rtmap) {  
 
 						presentcommunication = '';
-	
+//console.log(rtmap);	
 						rtmap["rows"].forEach(function(rowcomm){
-
-
+//console.log('live training set');
+//console.log(rowcomm);
+//console.log(rowcomm.key + 'the key date');
+//console.log(commdatein + 'clicke date');							
+							if(rowcomm.key == commdatein)
+							{
+								
+								// get the index keys of the object
+								var setgroupcomm = Object.keys(rowcomm.value[1]);
+								
+								setgroupcomm.forEach(function(seteldata) {
+//console.log('start of interation of setgruop elements');
+//console.log(seteldata);									
 								// get the communication data and display programme
 								presentcommunication += 1;
-								$(".liveswimset").text(rowcomm.key.commtype);
-								
+							
+							
+									$(".liveswimset").append('<div class="liveswimelement" id="livedate' + seteldata + '"><div id="swimrepetition" >' + rowcomm.value[1][seteldata].commrepetition + '</div> ' + '<div id="swimtype">' + rowcomm.value[1][seteldata].commtype + '</div> <div id="swimstroke">' + rowcomm.value[1][seteldata].commstroke + '</div> <div id="swimdistance">' + rowcomm.value[1][seteldata].commdistance + '</div> <div id="swimtechnique">' + rowcomm.value[1][seteldata].commtechnique + ' </div></div>' );
+								});
+							}
+							
+							
 						});
 					});
+					// empty the commuication on screen.
+					$(".communicationelement").empty();
 					
 				}				
 				else if ($sotgt.is("#sketchpad1"))
@@ -140,16 +222,10 @@ console.log('reps=' + swimrepetition);
       
 						localCommcall('133', function(rtmap) {  
 
-						presentcommunication = '';
-	
-						rtmap["rows"].forEach(function(rowcomm){
-
-
-								// get the communication data and display programme
-								presentcommunication += 1;
-								$(".pastfuturecomm").html('<div id="swimcommdate"> <a href="" id="fpdate" >' + rowcomm.key.commdate + '</a></div>');
-								
-						});
+						var livecommcode =liveHTML.livecommunicationset(rtmap["rows"]);
+							
+						$(".pastfuturecomm").html(livecommcode);	
+							
 					});
 	
 		

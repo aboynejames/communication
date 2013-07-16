@@ -1,7 +1,7 @@
 /*
 * check the homepage index.html webpage has been displayed
 */
-var baseUrl = "http://localhost/sites/playground/html5/canvas/trainprogramme/trainprogramme.html";
+var baseUrl = "http://localhost/ll/opensportproject/swimtraintimer/communication/src/trainprogramme.html";
 
 casper.test.comment("Scenario: A base layout of communcation builder");
 

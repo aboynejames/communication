@@ -172,14 +172,14 @@ pouchdbSettings.prototype.mapQueryCommdate = function(commdatein, callbackin) {
 		Pouch(this.account['pouchdbname'], function(err, db) {
 //console.log('lane number in pouch' + lanein);				
 				function map(commquery) {
-//console.log('lane number in map' + lanequery['lanein']);			
-					if(commquery.communication) {
-					emit(commquery.communication, [commquery.swimmerid, commquery.commid]);
+		
+					if(commquery.commdate) {
+					emit(commquery.commdate, [commquery.swimmerid, commquery.communication, commquery.commid]);
 					}
 				}
 
 				db.query({map: map}, {reduce: false}, function(err, response) {
-console.log(response);		
+//console.log(response);		
 				callbackin(response);
 			});
 		});
