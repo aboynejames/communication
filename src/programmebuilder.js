@@ -11,7 +11,64 @@ $(document).ready(function(){
 // delete local pouchdb database		
 	//livepouch.deletePouch();
 	liveHTML = new ttHTML();	
+	var elementliverecid = 0;
+	
+	/*
+	* manage interface between record data and communication set
+	*
+	*/
+	$("#record").click(function(e) {
+		e.preventDefault(e);
 
+		// need to keep a counter of element order start if with one
+		var norepetitionsobject = $('#swimrepetition.recordlive');	
+console.log(norepetitionsobject);				
+		//var norepetitionselements = $('#swimrepetition.recordlive').length;
+		
+		var totalelementrec = $(".liveswimelement").length -1;
+		// add one to recordcounter
+		var newcounter = parseInt($(".recordcount").text());
+		nextcount = newcounter + 1;
+console.log(nextcount + 'next count');		
+		//html body div.liveswimset div#livedate1374053681000.liveswimelement div#swimrepetition.recordlive
+		var norepetitionsobject = $('#swimrepetition.recordlive');		
+		var norepetitions =norepetitionsobject[elementliverecid].innerHTML;
+console.log(norepetitions + 'repetitions');		
+		
+		if(nextcount > norepetitions)
+		{
+console.log(elementliverecid + 'on which record element');
+console.log(totalelementrec + 'total no of record elements');			
+			// check if more record element or time to finish recording
+			if(elementliverecid == totalelementrec)
+			{
+			$(".recordfeedback").text('Finished recording');
+				// need to reset / clear record variables
+				elementliverecid = 0;
+
+			}
+			else
+			{
+				elementliverecid++;
+				//remove record live from current element and add it to the next
+				$('.recordcount').remove();
+				// add it to the next item
+				//$().html('<div class="recordcount">1</div>');
+				//$("#livedate1374053688000").append('<div class="recordcount" >1</div>');
+console.log(norepetitionsobject[elementliverecid].parentNode.id);				
+				$('#' + norepetitionsobject[elementliverecid].parentNode.id).append('<div class="recordcount" >1</div>');
+
+console.log(elementliverecid + 'the liverecord count');				
+			}
+		}
+		else
+		{
+			$(".recordcount").text(nextcount);
+		}
+		
+
+	});
+	
 				
 	// datepicker
 	$( "#datepicker" ).datepicker({
@@ -144,7 +201,6 @@ console.log(smiclength);
 							
 						} // closes function	
 									
-
 						var dateid = '<div class="swimcommdate"><a href="" id="fpdate" data-dcommid="' + Date.parse(datein) + '" >' + datein + '</a></div>';
 						$(dateid).appendTo(".pastfuturecomm");
 
@@ -160,7 +216,8 @@ console.log(smiclength);
 					// playback a communication programme
 							// empty the existing live communication
 					$(".liveswimset").empty();
-					
+					$(".recordfeedback").text('');
+
 					//load data back from pouchdb
 					// extract fpdate clicked
 //console.log('the clicke fpdate');				
@@ -193,12 +250,22 @@ console.log(smiclength);
 								presentcommunication += 1;
 							
 							
-									$(".liveswimset").append('<div class="liveswimelement" id="livedate' + seteldata + '"><div id="swimrepetition" >' + rowcomm.value[1][seteldata].commrepetition + '</div> ' + '<div id="swimtype">' + rowcomm.value[1][seteldata].commtype + '</div> <div id="swimstroke">' + rowcomm.value[1][seteldata].commstroke + '</div> <div id="swimdistance">' + rowcomm.value[1][seteldata].commdistance + '</div> <div id="swimtechnique">' + rowcomm.value[1][seteldata].commtechnique + ' </div></div>' );
+									$(".liveswimset").append('<div class="liveswimelement" id="livedate' + seteldata + '"><div id="swimrepetition" class="recordlive" >' + rowcomm.value[1][seteldata].commrepetition + '</div> ' + '<div id="swimtype">' + rowcomm.value[1][seteldata].commtype + '</div> <div id="swimstroke">' + rowcomm.value[1][seteldata].commstroke + '</div> <div id="swimdistance">' + rowcomm.value[1][seteldata].commdistance + '</div> <div id="swimtechnique">' + rowcomm.value[1][seteldata].commtechnique + ' </div></div>' );
 								});
+								
+
+								
 							}
 							
 							
 						});
+						
+							// markup first repetition as first element to record
+						//html body div.liveswimset div#livedate1373966711000.liveswimelement div#swimrepetition
+							//$(".liveswimelement #swimrepetition").addClass("recordlive");
+							//$(".liveswimelement #swimrepetition").append('<div class="recordcount" >1</div>');
+							$('<div class="recordcount" >1</div>').insertBefore(".liveswimelement:first #swimrepetition");
+						
 					});
 					// empty the commuication on screen.
 					$(".communicationelement").empty();

@@ -61,3 +61,10 @@ body {margin:0; padding:0; font:12px/18px Helvetica, Arial, sans-serif;}
 	text-align:left;
 	font-size:1.0em;
 }
+
+.recordcount {
+	display:inline;
+	border:1px solid blue;
+	font-size:1.5em;
+}
+
