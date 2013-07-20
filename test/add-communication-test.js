@@ -4,7 +4,7 @@
 var baseUrl = "http://localhost/ll/opensportproject/swimtraintimer/communication/src/trainprogramme.html";
 var commid = '';
 var testdate = "";
-casper.test.comment("Scenario: A base layout of communcation builder");
+casper.test.comment("Scenario: start adding communication elements and edits");
 
 casper.start(baseUrl, function() {	
 	this.test.comment('click on the datepicker button');
@@ -25,13 +25,11 @@ casper.then(function() {
 	
 });
 
-
 casper.then(function() {
 	this.test.comment('the group element of conversation exist');
 	
 		this.commid = this.getElementAttribute('.commlistitem', 'data-commid');
 //console.log(this.commid);
-	
 	casper.test.assertExists('#communicationelement' + this.commid, 'the element exists');
 	casper.test.assertExists('#comel' + this.commid, 'the element exists');
 	casper.test.assertExists('.communicationpool', 'the element exists');
@@ -42,6 +40,10 @@ casper.then(function() {
 	casper.test.assertExists('#swimtechnique', 'the element exists');
 	casper.test.assertExists('#swimdistance', 'the element exists');
 	casper.test.assertExists('#swimrepetition', 'the element exists');
+	
+	// the plan view for when not active edit element
+	casper.test.assertNotVisible('.editswimelement');	
+	
 	// the edit options
 	casper.test.assertExists('#sketchpad' + this.commid, 'the element exists');
 	casper.test.assertExists('#save', 'the element exists');
@@ -84,14 +86,81 @@ casper.then(function() {
 
 casper.then(function() {
 	this.test.comment('ensure both ids are different');
-//console.log(this.getElementAttribute('.commlistitem:last-child', 'data-commid'));
-	
+//require('utils').dump(this.getElementsAttribute('.commlistitem', 'data-commid')); 
+//console.log('new list of element tribues');	
+//require('utils').dump(this.getElementsInfo('.commlistitem'));
 	this.commid = this.getElementAttribute('.commlistitem', 'data-commid');
 	this.id2 = this.getElementAttribute('.commlistitem:last-child', 'data-commid');
-//console.log(this.id2);	
-	//casper.test.assertTruthy(this.id2 !== this.commid);
+
 	casper.test.assertNotEquals(this.id2, this.commid, "ids are different");
 	
+});
+
+casper.then(function() {
+	this.test.comment('previous element goes to text view');
+	
+	this.commide = this.getElementsAttribute('.commlistitem', 'data-commid');
+console.log(this.commide);
+console.log('is list in order authored???');
+console.log(this.commide[0]);
+
+
+	// first assert previous edit mode is not visable and text view is visiable
+	casper.test.assertNotVisible('#editswimelement' + this.commide[1] );	
+	casper.test.assertVisible('#editdate' + this.commide[0]);	
+		
+	
+	casper.test.assertExists('#edit', 'the element exists');
+	 //this.getElementAttribute('.elementeditid', 'data-commid');
+	casper.test.assertExists('.editswimelement', 'the element exists');
+	casper.test.assertExists('#editdate' + this.commide[0] + ' #swimrepetition', 'the element exists');
+	casper.test.assertExists('#editdate' + this.commide[0] + ' #swimtype', 'the element exists');
+	casper.test.assertExists('#editdate' + this.commide[0] + ' #swimstroke', 'the element exists');
+	casper.test.assertExists('#editdate' + this.commide[0] + ' #swimdistance', 'the element exists');
+	casper.test.assertExists('#editdate' + this.commide[0] + ' #swimtechnique', 'the element exists');	
+	
+	// also make sure the selected values set are present
+	this.previousdataelementset = this.fetchText('#editdate' + this.commide[0] + ' #swimrepetition');
+console.log(this.previousdataelementset + 'any text');
+casper.test.assertTruthy(this.previousdataelementset > 0 );
+	
+});
+
+casper.then(function() {
+	this.test.comment('click on edit to turn element back into input form mode');
+		this.mouseEvent('click', '#edit');	
+//this.echo(this.getHTML());
+	
+	// assert the form view is now visable
+	casper.test.assertVisible('#communicationelement' + this.commide[0]);	
+	// the text view now not visable
+	casper.test.assertNotVisible('#editswimelement' + this.commide[0] );	
+	
+	// all the elements of the form view are now set again
+	casper.test.assertExists('#communicationelement' + this.commide[0], 'the element exists');
+	casper.test.assertExists('#comel' + this.commide[0], 'the element exists');
+	casper.test.assertExists('.communicationpool', 'the element exists');
+	casper.test.assertExists('.communicationedit', 'the element exists');
+	// element of a swim set
+	casper.test.assertExists('#swimtype', 'the element exists');
+	casper.test.assertExists('#swimstroke', 'the element exists');
+	casper.test.assertExists('#swimtechnique', 'the element exists');
+	casper.test.assertExists('#swimdistance', 'the element exists');
+	casper.test.assertExists('#swimrepetition', 'the element exists');
+	// the edit options
+	casper.test.assertExists('#sketchpad' + this.commide[0], 'the element exists');
+	casper.test.assertExists('#save', 'the element exists');
+	casper.test.assertExists('#remove' + this.commide[0], 'the element exists');
+});
+
+casper.then(function() {
+	this.test.comment('check the current edit item is swtich to text view');
+
+	// assert the form view is now visable
+	casper.test.assertVisible('#editdate' + this.commide[1]);	
+	// the text view now not visable
+	casper.test.assertNotVisible('#communicationelement' + this.commide[1] );	
+
 });
 
 casper.then(function() {

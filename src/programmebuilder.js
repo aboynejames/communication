@@ -12,6 +12,8 @@ $(document).ready(function(){
 	//livepouch.deletePouch();
 	liveHTML = new ttHTML();	
 	var elementliverecid = 0;
+	var uniqueelementids = [];
+	var currentliveelementid = [];
 	
 	/*
 	* manage interface between record data and communication set
@@ -80,21 +82,129 @@ console.log(elementliverecid + 'the liverecord count');
 	// add element to communication
 	$("#communication").click(function(e) {
 		e.preventDefault(e);
-	
-					var $sotgt = $(e.target);
-
-        if ($sotgt.is("#newelement")) {
-					
+		var $sotgt = $(e.target);
+console.log(uniqueelementids);
+console.log(currentliveelementid);
+        if ($sotgt.is("#newelement"))
+				{			
 					// communication counter id
-					var newcommid =  new Date();		
-					var cci = Date.parse(newcommid);
+					cci = new Date().getTime();
 					
+					// set new current id
+					currentliveelementid.push(cci);
+					
+					//keep a list of unique ids
+					uniqueelementids.push(cci);
+console.log(uniqueelementids);
+//					currentliveelementid.push(cci);
+console.log(currentliveelementid);					
+console.log('holding ids live in right order?');					
+					// make HTML code for edit and un edit mode
 					var livecommelemcode =liveHTML.commelementbuild(cci);
 					$(".communicationelement").append(livecommelemcode);
-											
+					
+					// capture the element settings before hiding
+
+					//only if on second the do
+					if(uniqueelementids.length > 1)
+					{
+						// hide previous edit element and show it in text mode
+						// work out current position and go back one
+	//console.log(uniqueelementids.length + 'number of element in array');
+						var secondlastid ='';
+						if(uniqueelementids.length == 1)
+						{
+						 secondlastid = uniqueelementids[0];
+						}
+						else
+						{
+							secondlastid = uniqueelementids[(uniqueelementids.length - 2)];
+						}
+	//console.log(secondlastid);
+	//console.log(uniqueelementids[secondlastid]);
+						// need to collect values set  #setauthored1374308817000 div.swimsettings div.swimsettingslabel select#swimtype.rightselect
+						var divcapturelast = "#setauthored" + secondlastid + " .swimsettings .swimsettingslabel select";
+//console.log(divcapturelast);						
+							// get all the set element data
+						swimtype = $( divcapturelast + "#swimtype").val();
+						swimstroke = $( divcapturelast + "#swimstroke").val();
+						swimtechnique = $( divcapturelast + "#swimtechnique").val();
+						swimdistance = $( divcapturelast + "#swimdistance").val();
+						swimrepetition = $( divcapturelast + "#swimrepetition").val();
+//console.log('reps=' + swimrepetition);	
+							//now set the text version settings  #editdate1374309051000.editswimelement div#swimrepetition
+						var textmodesettings = "#editdate" + secondlastid + ".editswimelement ";					
+						$(textmodesettings + "#swimtype").text(swimtype);
+						$(textmodesettings + "#swimstroke").text(swimstroke);
+						$(textmodesettings + "#swimtechnique").text(swimtechnique);
+						$(textmodesettings + "#swimdistance").text(swimdistance);
+						$(textmodesettings + "#swimrepetition").text(swimrepetition);			
+						
+						$("#communicationelement" + secondlastid ).hide();
+						
+						$("#editdate" + secondlastid ).show();
+					}
+					
+					// hide plain text view
+					$("#editdate" + cci).hide();
 					// from the set authoring tool abstract
 					$("#setauthored" + cci ).html($("#setsettings").html());
-
+					
+					
+				}
+				else if ($sotgt.is("#edit"))
+				{
+console.log($sotgt[0].dataset.editid);					
+					// need to capture edit data id
+					 //var emi = $("#edit").attr('data-editid');
+					var emi = $sotgt[0].dataset.editid;
+										// set new current id
+					currentliveelementid.push(emi);
+console.log(emi);					
+					// make this text view into form view
+					$("#communicationelement" + emi ).show();
+					$("#editdate" + emi ).hide();
+						var textmodesettings = "#editdate" + emi + ".editswimelement ";					
+						eswimtype = $(textmodesettings + "#swimtype").text();
+						eswimstroke = $(textmodesettings + "#swimstroke").text();
+						eswimtechnique = $(textmodesettings + "#swimtechnique").text();
+						eswimdistance = $(textmodesettings + "#swimdistance").text();
+						eswimrepetition = $(textmodesettings + "#swimrepetition").text();		
+					
+					// and set the form values
+						$( divcapturelast + "#swimtype").val(eswimtype);
+						$( divcapturelast + "#swimstroke").val(eswimstroke);
+						$( divcapturelast + "#swimtechnique").val(eswimtechnique);
+						$( divcapturelast + "#swimdistance").val(eswimdistance);
+						$( divcapturelast + "#swimrepetition").val(eswimrepetition);
+	
+					// the previous id coud by any element, need to track
+					//previousid = uniqueelementids.length-1;
+					previousid = currentliveelementid.length - 2;
+console.log(currentliveelementid);					
+console.log(currentliveelementid.length);					
+console.log(previousid);					
+console.log(currentliveelementid[previousid] + 'current elementlive ie last in array');					
+					$("#editdate" + currentliveelementid[previousid] ).show();
+					$("#communicationelement" + currentliveelementid[previousid] ).hide();
+					// turn element before to text view
+						var divcapturelast = "#setauthored" + currentliveelementid[previousid]  + " .swimsettings .swimsettingslabel select";
+//console.log(divcapturelast);						
+							// get all the set element data
+						swimtype = $( divcapturelast + "#swimtype").val();
+						swimstroke = $( divcapturelast + "#swimstroke").val();
+						swimtechnique = $( divcapturelast + "#swimtechnique").val();
+						swimdistance = $( divcapturelast + "#swimdistance").val();
+						swimrepetition = $( divcapturelast + "#swimrepetition").val();
+//console.log('reps=' + swimrepetition);	
+							//now set the text version settings  #editdate1374309051000.editswimelement div#swimrepetition
+						var textmodesettings = "#editdate" + currentliveelementid[previousid]  + ".editswimelement ";					
+						$(textmodesettings + "#swimtype").text(swimtype);
+						$(textmodesettings + "#swimstroke").text(swimstroke);
+						$(textmodesettings + "#swimtechnique").text(swimtechnique);
+						$(textmodesettings + "#swimdistance").text(swimdistance);
+						$(textmodesettings + "#swimrepetition").text(swimrepetition);	
+					
 				}
 				else if ($sotgt.is("#save"))
 				{
@@ -152,16 +262,14 @@ console.log(smiclength);
 						swimgroupcomm = {};
 						newjsoncomm = {};
 							
-						var chdiv = Object.keys(commgroupdata);
-						chdiv.forEach(function(dataid) {
+						//var chdiv = Object.keys(commgroupdata);
+						commgroupdata.forEach(function(dataid) {
 			console.log('in the loop' + dataid);	
 			//console.log(smic[dataid].dataset);
-							if(dataid < smlength)
-							{
 						//#setauthored1373464381000 #swimsettings select#swimrepetition
 						//sample = "#setauthored" + commelidin + " .swimsettings .swimsettingslabel select#swimtype";
 				
-						var divcapturein = "#setauthored" + commgroupdata[dataid].dataset.commid + " .swimsettings .swimsettingslabel select";		
+						var divcapturein = "#setauthored" + dataid + " .swimsettings .swimsettingslabel select";		
 							// get all the set element data
 						swimtype = $( divcapturein + "#swimtype").val();
 						swimstroke = $( divcapturein + "#swimstroke").val();
@@ -181,7 +289,7 @@ console.log(smiclength);
 						swimcommstatus['commrepetition'] = swimrepetition;
 		console.log(dataid + 'what');
 						
-						swimgroupcomm[commgroupdata[dataid].dataset.commid] = swimcommstatus;
+						swimgroupcomm[dataid] = swimcommstatus;
 					// save to localpouchdb need to prepare buld array json structure
 														
 						newjsoncomm["commid"] = datein;//commgroupdata[dataid].dataset.commid;
@@ -190,7 +298,6 @@ console.log(smiclength);
 						newjsoncomm["communication"] = swimgroupcomm;	
 		console.log(newjsoncomm);					
 
-							}
 							
 						});
 		console.log('before save');				
@@ -205,8 +312,11 @@ console.log(smiclength);
 						$(dateid).appendTo(".pastfuturecomm");
 
 						// pass the data over for saving
-						savecommunicationset(datein, smic, smiclength);
-			
+						savecommunicationset(datein, uniqueelementids, smiclength);
+						// NEED TO CLEAR UNIQUE AND HISTORY ARRAYS
+						uniqueelementids = [];
+						currentliveelementid = [];
+						
 //console.log('before empty call');
 						$(".communicationelement").empty();
 				}
@@ -239,7 +349,6 @@ console.log(smiclength);
 //console.log(commdatein + 'clicke date');							
 							if(rowcomm.key == commdatein)
 							{
-								
 								// get the index keys of the object
 								var setgroupcomm = Object.keys(rowcomm.value[1]);
 								
@@ -249,21 +358,14 @@ console.log(smiclength);
 								// get the communication data and display programme
 								presentcommunication += 1;
 							
-							
 									$(".liveswimset").append('<div class="liveswimelement" id="livedate' + seteldata + '"><div id="swimrepetition" class="recordlive" >' + rowcomm.value[1][seteldata].commrepetition + '</div> ' + '<div id="swimtype">' + rowcomm.value[1][seteldata].commtype + '</div> <div id="swimstroke">' + rowcomm.value[1][seteldata].commstroke + '</div> <div id="swimdistance">' + rowcomm.value[1][seteldata].commdistance + '</div> <div id="swimtechnique">' + rowcomm.value[1][seteldata].commtechnique + ' </div></div>' );
 								});
-								
-
-								
+										
 							}
-							
-							
+
 						});
 						
 							// markup first repetition as first element to record
-						//html body div.liveswimset div#livedate1373966711000.liveswimelement div#swimrepetition
-							//$(".liveswimelement #swimrepetition").addClass("recordlive");
-							//$(".liveswimelement #swimrepetition").append('<div class="recordcount" >1</div>');
 							$('<div class="recordcount" >1</div>').insertBefore(".liveswimelement:first #swimrepetition");
 						
 					});
