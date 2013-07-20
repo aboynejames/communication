@@ -1,7 +1,7 @@
 html {overflow:-moz-scrollbars-vertical !important;}
 body {margin:0; padding:0; font:12px/18px Helvetica, Arial, sans-serif;}
 
-/*
+/**
 *
 * formatting of programme builder
 *
@@ -28,9 +28,20 @@ body {margin:0; padding:0; font:12px/18px Helvetica, Arial, sans-serif;}
 	clear:both;
 }
 
+/**
+* form entry view
+*/
 .communicationelement {
 	margin:20px;
 	border:1px solid green;
+	font-size:1.4em;
+	clear:both;
+}
+
+.commlistitem {
+	margin:2px;
+	border:1px solid #CCCCCC;
+	background: #F6F6F6;
 	font-size:1.4em;
 	clear:both;
 }
@@ -49,6 +60,72 @@ body {margin:0; padding:0; font:12px/18px Helvetica, Arial, sans-serif;}
 	clear:both;
 }
 
+#elementcounter {
+	display:none;
+	
+}
+
+
+label {
+	float: left;
+	padding-top:0.4em;
+	width:86px;
+	margin-right:6px;
+	vertical-align: bottom;
+	font: bold;
+}
+
+	.swimsettingslabel label {
+	float: left;
+	padding-top:0.4em;
+	/*font-size:18px;*/
+	width:160px;
+	margin-right:6px;
+	vertical-align: bottom;
+	}
+
+.rightselect {
+	font-size: 1em;
+	width:60%;
+	
+}
+
+.sketchpadel  {
+	display:inline;
+	text-align:left;
+	margin-right:20px;
+	
+}
+.saveel {
+	display:inline;
+	text-align:left;
+	margin-right:20px;
+}
+
+.removeel {
+	display:inline;
+	text-align:left;
+	margin-right:20px;	
+}
+
+/**
+* text view element
+*/
+.editswimelement {
+	margin:20px;
+	border:1px solid red;
+	font-size:1.2em;
+	clear:both;
+}
+
+.editswimelement #swimrepetition, #swimtype, #swimstroke, #swimdistance, #swimtechnique {
+	display:inline;
+	text-align:left;
+}
+
+/**
+* playback record view
+*/
 .liveswimelement {
 	margin:2px;
 	border:1px solid blue;

@@ -566,10 +566,10 @@ ttHTML.prototype.livecommunicationset = function(commlive) {
 ttHTML.prototype.commelementbuild = function(cci) {
 	commelemhtml = '';
 						
-								commelemhtml += '<div class="commlistitem" id="communicationelement' + cci +'" data-commid="' + cci +'"><div id="comel' + cci + '" ><div id="elementcounter">' + cci + '</div><div class="communicationpool"><div id="setauthored' + cci + '"></div></div></div><div class="communicationedit"><div class="sketchpadel"><a href="" id="sketchpad' + cci + '">sketchpad</a></div><div class="saveel"><a href="" id="save"  data-saveid="' + cci + '">save</a></div><div class="removeel"><a href="" id="remove' + cci + '">remove</a></div></div></div>';
+								commelemhtml += '<div class="commlistitem" id="communicationelement' + cci +'" data-commid="' + cci +'"><div id="comel' + cci + '" ><div id="elementcounter">' + cci + '</div><div class="communicationpool"><div id="setauthored' + cci + '"></div></div></div><div class="communicationedit"><div class="sketchpadel"><a href="" id="sketchpad" data-sketchid="' + cci + '">sketchpad</a></div><div class="saveel"><a href="" id="save"  data-saveid="' + cci + '">save</a></div><div class="removeel"><a href="" id="remove" data-removeid ="' + cci + '">remove</a></div></div></div>';
 	
 	// first get the input data 
-					commelemhtml += '<div class="editswimelement" id="editdate' + cci + '"><div id="swimrepetition" class="" ></div> ' + '<div id="swimtype"></div> <div id="swimstroke"></div> <div id="swimdistance"></div> <div id="swimtechnique"></div><a href="" id="edit" data-editid="' + cci + '">edit</a></div>';
+					commelemhtml += '<div class="editswimelement" id="editdate' + cci + '"><div id="swimrepetition" ></div> ' + '<div id="swimtype"></div> <div id="swimstroke"></div> <div id="swimdistance"></div> <div id="swimtechnique"></div><a href="" id="edit" data-editid="' + cci + '">edit</a></div>';
 
 	return commelemhtml;
 };

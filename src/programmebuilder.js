@@ -24,23 +24,23 @@ $(document).ready(function(){
 
 		// need to keep a counter of element order start if with one
 		var norepetitionsobject = $('#swimrepetition.recordlive');	
-console.log(norepetitionsobject);				
+//console.log(norepetitionsobject);				
 		//var norepetitionselements = $('#swimrepetition.recordlive').length;
 		
 		var totalelementrec = $(".liveswimelement").length -1;
 		// add one to recordcounter
 		var newcounter = parseInt($(".recordcount").text());
 		nextcount = newcounter + 1;
-console.log(nextcount + 'next count');		
+//console.log(nextcount + 'next count');		
 		//html body div.liveswimset div#livedate1374053681000.liveswimelement div#swimrepetition.recordlive
 		var norepetitionsobject = $('#swimrepetition.recordlive');		
 		var norepetitions =norepetitionsobject[elementliverecid].innerHTML;
-console.log(norepetitions + 'repetitions');		
+//console.log(norepetitions + 'repetitions');		
 		
 		if(nextcount > norepetitions)
 		{
-console.log(elementliverecid + 'on which record element');
-console.log(totalelementrec + 'total no of record elements');			
+//console.log(elementliverecid + 'on which record element');
+//console.log(totalelementrec + 'total no of record elements');			
 			// check if more record element or time to finish recording
 			if(elementliverecid == totalelementrec)
 			{
@@ -57,10 +57,10 @@ console.log(totalelementrec + 'total no of record elements');
 				// add it to the next item
 				//$().html('<div class="recordcount">1</div>');
 				//$("#livedate1374053688000").append('<div class="recordcount" >1</div>');
-console.log(norepetitionsobject[elementliverecid].parentNode.id);				
+//console.log(norepetitionsobject[elementliverecid].parentNode.id);				
 				$('#' + norepetitionsobject[elementliverecid].parentNode.id).append('<div class="recordcount" >1</div>');
 
-console.log(elementliverecid + 'the liverecord count');				
+//console.log(elementliverecid + 'the liverecord count');				
 			}
 		}
 		else
@@ -83,8 +83,8 @@ console.log(elementliverecid + 'the liverecord count');
 	$("#communication").click(function(e) {
 		e.preventDefault(e);
 		var $sotgt = $(e.target);
-console.log(uniqueelementids);
-console.log(currentliveelementid);
+//console.log(uniqueelementids);
+//console.log(currentliveelementid);
         if ($sotgt.is("#newelement"))
 				{			
 					// communication counter id
@@ -95,10 +95,10 @@ console.log(currentliveelementid);
 					
 					//keep a list of unique ids
 					uniqueelementids.push(cci);
-console.log(uniqueelementids);
+//console.log(uniqueelementids);
 //					currentliveelementid.push(cci);
-console.log(currentliveelementid);					
-console.log('holding ids live in right order?');					
+//console.log(currentliveelementid);					
+//console.log('holding ids live in right order?');					
 					// make HTML code for edit and un edit mode
 					var livecommelemcode =liveHTML.commelementbuild(cci);
 					$(".communicationelement").append(livecommelemcode);
@@ -154,13 +154,13 @@ console.log('holding ids live in right order?');
 				}
 				else if ($sotgt.is("#edit"))
 				{
-console.log($sotgt[0].dataset.editid);					
+//console.log($sotgt[0].dataset.editid);					
 					// need to capture edit data id
 					 //var emi = $("#edit").attr('data-editid');
 					var emi = $sotgt[0].dataset.editid;
 										// set new current id
 					currentliveelementid.push(emi);
-console.log(emi);					
+//console.log(emi);					
 					// make this text view into form view
 					$("#communicationelement" + emi ).show();
 					$("#editdate" + emi ).hide();
@@ -181,10 +181,10 @@ console.log(emi);
 					// the previous id coud by any element, need to track
 					//previousid = uniqueelementids.length-1;
 					previousid = currentliveelementid.length - 2;
-console.log(currentliveelementid);					
-console.log(currentliveelementid.length);					
-console.log(previousid);					
-console.log(currentliveelementid[previousid] + 'current elementlive ie last in array');					
+//console.log(currentliveelementid);					
+//console.log(currentliveelementid.length);					
+//console.log(previousid);					
+//console.log(currentliveelementid[previousid] + 'current elementlive ie last in array');					
 					$("#editdate" + currentliveelementid[previousid] ).show();
 					$("#communicationelement" + currentliveelementid[previousid] ).hide();
 					// turn element before to text view
@@ -214,10 +214,14 @@ console.log(currentliveelementid[previousid] + 'current elementlive ie last in a
 					$('<div class="editel"><a href="" id="edit' + smi + '">edit</a></div>').appendTo("#communicationelement" + smi );
 					
 				}
-				else if ($sotgt.is("#remove1"))
+				else if ($sotgt.is("#remove"))
 				{
+//console.log($sotgt[0].dataset.removeid);						
 					// need to capture remove id number
-					var rmi = 1;
+					var rmi = $sotgt[0].dataset.removeid;
+					// need to remove from tracking arrays
+					//uniqueelementids;
+					//currentliveelementid;
 					$("#communicationelement" + rmi ).remove();
 					
 				}
@@ -229,9 +233,9 @@ console.log(currentliveelementid[previousid] + 'current elementlive ie last in a
 					var smi = $(".communicationelement");
 //console.log(smi);
 					var smic = $(".communicationelement").children();
-console.log(smic);
+//console.log(smic);
 					var smiclength = $(".communicationelement").children().length;
-console.log(smiclength);	
+//console.log(smiclength);	
 					
 				// check to see if a date exists if not, promp to add a date
 				if(datein == null || smiclength == 0)
@@ -256,7 +260,7 @@ console.log(smiclength);
 				* @method singleSave
 				*/
 				function savecommunicationset (datein, commgroupdata, smlength) {	
-	console.log(Date.parse(datein));
+	//console.log(Date.parse(datein));
 					var datestringday = Date.parse(datein);
 					
 						swimgroupcomm = {};
@@ -264,7 +268,7 @@ console.log(smiclength);
 							
 						//var chdiv = Object.keys(commgroupdata);
 						commgroupdata.forEach(function(dataid) {
-			console.log('in the loop' + dataid);	
+//console.log('in the loop' + dataid);	
 			//console.log(smic[dataid].dataset);
 						//#setauthored1373464381000 #swimsettings select#swimrepetition
 						//sample = "#setauthored" + commelidin + " .swimsettings .swimsettingslabel select#swimtype";
@@ -287,7 +291,7 @@ console.log(smiclength);
 						swimcommstatus['commtechnique'] = swimtechnique;
 						swimcommstatus['commdistance'] = swimdistance;
 						swimcommstatus['commrepetition'] = swimrepetition;
-		console.log(dataid + 'what');
+//console.log(dataid + 'what');
 						
 						swimgroupcomm[dataid] = swimcommstatus;
 					// save to localpouchdb need to prepare buld array json structure
@@ -296,12 +300,12 @@ console.log(smiclength);
 						newjsoncomm["commdate"] = Date.parse(datein);
 						newjsoncomm["swimmerid"] = [11111111,222222,333333];
 						newjsoncomm["communication"] = swimgroupcomm;	
-		console.log(newjsoncomm);					
+//console.log(newjsoncomm);					
 
 							
 						});
-		console.log('before save');				
-		console.log(newjsoncomm);					
+//console.log('before save');				
+//console.log(newjsoncomm);					
 						livepouch.singleSave(newjsoncomm);
 
 						$("#canvasDiv").hide();
@@ -373,7 +377,7 @@ console.log(smiclength);
 					$(".communicationelement").empty();
 					
 				}				
-				else if ($sotgt.is("#sketchpad1"))
+				else if ($sotgt.is("#sketchpad"))
 				{
 					// show the canvas sketchpad UI
 					var smi = 1;
