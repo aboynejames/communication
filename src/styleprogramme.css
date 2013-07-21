@@ -3,23 +3,81 @@ body {margin:0; padding:0; font:12px/18px Helvetica, Arial, sans-serif;}
 
 /**
 *
-* formatting of programme builder
+* formatting of communication builder
 *
 */
+#newcommunication {
+	display:inline;
+	text-align:left;
+}
+
+#communicationdate p{
+	display:inline;
+	text-align:left;
+	border:0px solid blue;
+	clear:both;
+}
+
+#savecommunication  {
+    -moz-box-shadow:inset 0px 1px 0px 0px #ffffff;
+    -webkit-box-shadow:inset 0px 1px 0px 0px #ffffff;
+    box-shadow:inset 0px 1px 0px 0px #ffffff;
+    background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #ffffff), color-stop(1, #d1d1d1) );
+    background:-moz-linear-gradient( center top, #ffffff 5%, #d1d1d1 100% );
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#d1d1d1');
+    background-color:#ffffff;
+    -moz-border-radius:6px;
+    -webkit-border-radius:6px;
+    border-radius:6px;
+    border:1px solid #dcdcdc;
+    display:inline-block;
+    color:#777777;
+    font-family:arial;
+    font-size:15px;
+    font-weight:bold;
+    padding:6px 24px;
+    text-decoration:none;
+    text-shadow:1px 1px 0px #ffffff;
+}
+
+#newelement  a{
+	display:block;
+	text-align:left;
+	margin-top: 30px;
+	margin-left: 20px;
+	width:200px;	
+	background-color: #68b12f;
+	background: -webkit-gradient(linear, left top, left bottom, from(#68b12f), to(#50911e));
+	background: -webkit-linear-gradient(top, #68b12f, #50911e);
+	background: -moz-linear-gradient(top, #68b12f, #50911e);
+	background: -ms-linear-gradient(top, #68b12f, #50911e);
+	background: -o-linear-gradient(top, #68b12f, #50911e);
+	background: linear-gradient(top, #68b12f, #50911e);
+	border: 1px solid #509111;
+	border-bottom: 1px solid #5b992b;
+	border-radius: 3px;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	-ms-border-radius: 3px;
+	-o-border-radius: 3px;
+	box-shadow: inset 0 1px 0 0 #9fd574;
+	-webkit-box-shadow: 0 1px 0 0 #9fd574 inset ;
+	-moz-box-shadow: 0 1px 0 0 #9fd574 inset;
+	-ms-box-shadow: 0 1px 0 0 #9fd574 inset;
+	-o-box-shadow: 0 1px 0 0 #9fd574 inset;
+	color: white;
+	font-weight: bold;
+	padding: 6px 20px;
+	text-shadow: 0 -1px 0 #396715;
+}
 
 #communication {
 	margin:20px;
-	border:1px solid red;
+	border:0px solid red;
 	font-size:1.4em;
 	clear:both;
 }
 
-.liveswimset {
-	margin:10px;
-	border:1px solid purple;
-	font-size:1.0em;
-	clear:both;
-}
 
 .pastfuturecomm {
 	margin:10px;
@@ -29,11 +87,21 @@ body {margin:0; padding:0; font:12px/18px Helvetica, Arial, sans-serif;}
 }
 
 /**
+* saved dates
+*/
+.swimcommdate {
+	margin:10px;
+	border:0px solid blue;
+	font-size:1.2em;
+	clear:both;
+}
+
+/**
 * form entry view
 */
 .communicationelement {
 	margin:20px;
-	border:1px solid green;
+	border:0px solid green;
 	font-size:1.4em;
 	clear:both;
 }
@@ -48,14 +116,14 @@ body {margin:0; padding:0; font:12px/18px Helvetica, Arial, sans-serif;}
 
 .communicationpool {
 	margin:20px;
-	border:1px solid blue;
+	border:0px solid blue;
 	font-size:1.0em;
 	clear:both;
 }
 
 .communicationedit {
 	margin:5px;
-	border:1px solid pink;
+	border:0px solid pink;
 	font-size:1.0em;
 	clear:both;
 }
@@ -113,7 +181,7 @@ label {
 */
 .editswimelement {
 	margin:20px;
-	border:1px solid red;
+	border:0px solid red;
 	font-size:1.2em;
 	clear:both;
 }
@@ -126,10 +194,18 @@ label {
 /**
 * playback record view
 */
-.liveswimelement {
-	margin:2px;
-	border:1px solid blue;
+
+.liveswimset {
+	margin:20px;
+	border:1px solid #CCCCCC;
 	font-size:1.0em;
+	clear:both;
+}
+
+.liveswimelement {
+	margin:12px;
+	border:0px solid blue;
+	font-size:1.8em;
 	clear:both;
 }
 
@@ -142,6 +218,7 @@ label {
 .recordcount {
 	display:inline;
 	border:1px solid blue;
-	font-size:1.5em;
+	background: #F6F6F6;
+	font-size:2em;
 }
 

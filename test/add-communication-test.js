@@ -45,23 +45,11 @@ casper.then(function() {
 	casper.test.assertNotVisible('.editswimelement');	
 	
 	// the edit options
-	casper.test.assertExists('#sketchpad' + this.commid, 'the element exists');
 	casper.test.assertExists('#save', 'the element exists');
-	casper.test.assertExists('#remove' + this.commid, 'the element exists');
+	casper.test.assertExists('#remove', 'the element exists');
 	
 });
 
-casper.then(function() {
-	this.test.comment('click on sketchpad');
-	this.mouseEvent('click', '#sketchpad' + this.commid);	
-	
-});
-
-casper.then(function() {
-	this.test.comment('check sketchpad canvas div exists');
-	casper.test.assertExist('#canvasDiv', 'the element exists');
-	
-});
 
 casper.then(function() {
 console.log(this.commid);
@@ -148,9 +136,8 @@ casper.then(function() {
 	casper.test.assertExists('#swimdistance', 'the element exists');
 	casper.test.assertExists('#swimrepetition', 'the element exists');
 	// the edit options
-	casper.test.assertExists('#sketchpad' + this.commide[0], 'the element exists');
 	casper.test.assertExists('#save', 'the element exists');
-	casper.test.assertExists('#remove' + this.commide[0], 'the element exists');
+	casper.test.assertExists('#remove', 'the element exists');
 });
 
 casper.then(function() {

@@ -12,9 +12,8 @@ $(document).ready(function(){
 	//livepouch.deletePouch();
 	liveHTML = new ttHTML();	
 	var elementliverecid = 0;
-	var uniqueelementids = [];
-	var currentliveelementid = [];
-	
+	uniqueelementids = [];
+	currentliveelementid = [];
 	/*
 	* manage interface between record data and communication set
 	*
@@ -159,10 +158,9 @@ $(document).ready(function(){
 					 //var emi = $("#edit").attr('data-editid');
 					var emi = $sotgt[0].dataset.editid;
 										// set new current id
-					currentliveelementid.push(emi);
-//console.log(emi);					
+					currentliveelementid.push(parseInt(emi) );
 					// make this text view into form view
-					$("#communicationelement" + emi ).show();
+					$("#communicationelement" + emi).show();
 					$("#editdate" + emi ).hide();
 						var textmodesettings = "#editdate" + emi + ".editswimelement ";					
 						eswimtype = $(textmodesettings + "#swimtype").text();
@@ -170,7 +168,7 @@ $(document).ready(function(){
 						eswimtechnique = $(textmodesettings + "#swimtechnique").text();
 						eswimdistance = $(textmodesettings + "#swimdistance").text();
 						eswimrepetition = $(textmodesettings + "#swimrepetition").text();		
-					
+
 					// and set the form values
 						$( divcapturelast + "#swimtype").val(eswimtype);
 						$( divcapturelast + "#swimstroke").val(eswimstroke);
@@ -179,9 +177,11 @@ $(document).ready(function(){
 						$( divcapturelast + "#swimrepetition").val(eswimrepetition);
 	
 					// the previous id coud by any element, need to track
-					//previousid = uniqueelementids.length-1;
-					previousid = currentliveelementid.length - 2;
-//console.log(currentliveelementid);					
+					// speical case if length of array 1 then only -1
+					if(uniqueelementids.length > 1)
+					{
+						previousid = currentliveelementid.length - 2;
+						//console.log(currentliveelementid);					
 //console.log(currentliveelementid.length);					
 //console.log(previousid);					
 //console.log(currentliveelementid[previousid] + 'current elementlive ie last in array');					
@@ -204,6 +204,15 @@ $(document).ready(function(){
 						$(textmodesettings + "#swimtechnique").text(swimtechnique);
 						$(textmodesettings + "#swimdistance").text(swimdistance);
 						$(textmodesettings + "#swimrepetition").text(swimrepetition);	
+					}
+					else
+					{
+						previousid = $sotgt[0].dataset.editid;
+//console.log($sotgt[0].dataset.editid + 'in else mode');						
+					$("#communicationelement" + $sotgt[0].dataset.editid).show();
+					$("#editdate" + $sotgt[0].dataset.editid ).hide();
+					}
+
 					
 				}
 				else if ($sotgt.is("#save"))
@@ -220,10 +229,16 @@ $(document).ready(function(){
 					// need to capture remove id number
 					var rmi = $sotgt[0].dataset.removeid;
 					// need to remove from tracking arrays
-					//uniqueelementids;
-					//currentliveelementid;
+					newinnumber = parseInt(rmi);
+					var indexunique = uniqueelementids.indexOf(newinnumber);
+					var indexcurrent = currentliveelementid.indexOf(newinnumber);
+					uniqueelementids.splice(indexunique, 1);
+					currentliveelementid.splice(indexcurrent, 1); 
+			
 					$("#communicationelement" + rmi ).remove();
-					
+					$("#editdate" + rmi ).remove();
+//console.log(uniqueelementids);
+//console.log(currentliveelementid);	
 				}
 				else if ($sotgt.is("#savecommunication"))
 				{

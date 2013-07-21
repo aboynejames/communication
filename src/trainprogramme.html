@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" manifest="communication.appcache"> <!--manifest="traintimer.appcache"--> 
   <head>
     <title>Swim Train Timer - communication builder</title>
 		<script type="text/javascript" src="pouchdb.alpha.js"></script>
@@ -18,18 +18,22 @@
 
 <div class="liveswimset"></div>
 	
-	<div id="communication">
-		<div class="pastfuturecomm"></div>
-		<div class="commfeedback"></div>
-		<div id="communicationdate">	<p>Date: <input type="text" id="datepicker" /></p></div>
-		<div id="communicationswimmers">All or select group</div>
-		
-		<div id="newelement">
-			<a href="" id="newelement">new element</a>
-		</div>	
-		<div id="newcommunication">
-			<a href="" id="savecommunication">Save Programme</a>
-		</div>
+<div id="communication">
+<div class="pastfuturecomm"></div>
+<div id="communicationswimmers">LIST OF SWIMMERS communication for:</div>
+<div class="commfeedback"></div>
+
+<div id="communicationdate">	<p>Date: <input type="text" id="datepicker" /></p>
+	<div id="newcommunication">
+		<a href="" id="savecommunication">Save Programme</a>
+	</div>
+</div>
+
+
+<div id="newelement">
+	<a href="" id="newelement">new element</a>
+</div>	
+
 		
 		<!-- add date, and template that includes set element, diagram tools and tagging
 		// feedback   past  present  future tabs-->
