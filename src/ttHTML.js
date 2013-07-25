@@ -551,7 +551,7 @@ ttHTML.prototype.livecommunicationset = function(commlive) {
 //console.log(rowcomm);
 								// get the communication data and display programme
 								presentcommunication += 1;
-								commlivehtml += '<div class="swimcommdate"> <a href="" id="fpdate" data-dcommid="' + rowcomm.key + '" >' + rowcomm.value[2] + '</a></div>';
+								commlivehtml += '<div class="swimcommdate"> <a href="" id="fpdate" data-dcommid="' + rowcomm.key + '" >' + rowcomm.value[2] + '</a> </div>';
 								
 						});
 						

@@ -1,6 +1,114 @@
 html {overflow:-moz-scrollbars-vertical !important;}
 body {margin:0; padding:0; font:12px/18px Helvetica, Arial, sans-serif;}
 
+
+
+/**
+*
+* Framework navigation
+*
+*/
+ #framework {
+	border:1px solid blue;
+	margin: 10px;
+}
+
+.identity {
+	display:inline;
+	text-align:center;
+	margin: 10px;
+}
+
+.stream {
+	display:inline;
+	text-align:center;
+	margin: 10px;
+	background: cyan;
+}
+
+.record {
+	display:inline;
+	text-align:center;
+	margin: 10px;	
+}
+
+.make {
+	display:inline;
+	text-align:center;
+	margin: 10px;
+}
+
+.date {
+	display:inline;
+	text-align:center;
+	margin: 10px;
+}
+
+.lifestyle {
+	display:inline;
+	text-align:center;
+	margin: 10px;
+}
+
+/**
+*
+* Attention context settings
+*
+*/
+.dateset {
+	border:1px solid blue;
+	display:none;
+	margin: 10px;
+}
+
+.social {
+	border:1px solid green;
+	display:none;
+	margin: 10px;
+}
+
+.tools {
+	border:1px solid red;
+	display:none;
+	margin: 10px;
+}
+
+
+
+
+/**
+*
+* Flow sections
+*
+*/
+#meflow {
+	border:1px solid pink;
+	display:none;
+	margin: 10px;
+}
+
+#streamflow {
+	border:1px solid blue;
+	margin: 10px;
+}
+
+#recordflow {
+	border:1px solid green;
+	display:none;
+	margin: 10px;
+}
+
+#makeflow {
+	border:1px solid orange;
+	display:none;
+	margin: 10px;
+}
+
+#connectivity {
+	border:1px solid grey;
+	margin: 10px;
+}
+
 /**
 *
 * formatting of communication builder

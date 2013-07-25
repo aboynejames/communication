@@ -42,25 +42,34 @@ casper.then(function() {
 	this.test.comment('first collect the first element repetition number');
 	this.repetitionnumber = this.fetchText('.recordcount');
 	casper.test.assertEquals(this.repetitionnumber, "1", "the repetition number is correct");
-
+//this.echo(this.getHTML());
 });
 
 casper.then(function() {
-	this.test.comment('click #record button to simulate finish of a recording item');
-	this.mouseEvent('click', '#record');
+	this.test.comment('click #record button to simulate finish of a recording element');
+	//this.mouseEvent('click', '#record');
+	this.evaluate(function() {
+	 starttiming.activetimeclock.startclock.recordmanagement();
+	});
+//this.echo(this.getHTML());
 });
 
 casper.then(function() {
 	this.test.comment('the record counter should now read 2');
+//this.echo(this.getHTML());	
 	this.repetitionnumbernext = this.fetchText('.recordcount');
-//console.log(this.repetitionnumbernext + 'rep after one record');
+console.log(this.repetitionnumbernext + 'rep after one record');
 	casper.test.assertEquals(this.repetitionnumbernext, "2", "the repetition number is correct");
 
 });
 
 casper.then(function() {
 	this.test.comment('click #record button to simulate finish of a recording element');
-	this.mouseEvent('click', '#record');
+		this.evaluate(function() {
+	 starttiming.activetimeclock.startclock.recordmanagement();
+	});
+	//this.mouseEvent('click', '#record');
+
 });
 
 casper.then(function() {
@@ -74,16 +83,18 @@ casper.then(function() {
 
 casper.then(function() {
 	this.test.comment('click #record button 3 times to complete 2nd element and 6 times for third');
-	this.mouseEvent('click', '#record');
-	this.mouseEvent('click', '#record');
-	this.mouseEvent('click', '#record');
-	this.mouseEvent('click', '#record');
-	this.mouseEvent('click', '#record');
-	this.mouseEvent('click', '#record');
-	this.mouseEvent('click', '#record');
-	this.mouseEvent('click', '#record');
-	this.mouseEvent('click', '#record');
-	this.mouseEvent('click', '#record');
+	this.evaluate(function() {
+		starttiming.activetimeclock.startclock.recordmanagement();
+		starttiming.activetimeclock.startclock.recordmanagement();		
+		starttiming.activetimeclock.startclock.recordmanagement();
+		starttiming.activetimeclock.startclock.recordmanagement();			
+		starttiming.activetimeclock.startclock.recordmanagement();
+		starttiming.activetimeclock.startclock.recordmanagement();		
+		starttiming.activetimeclock.startclock.recordmanagement();
+		starttiming.activetimeclock.startclock.recordmanagement();
+		starttiming.activetimeclock.startclock.recordmanagement();
+		starttiming.activetimeclock.startclock.recordmanagement();						
+	});
 });
 
 
@@ -93,17 +104,6 @@ casper.then(function() {
 	this.recordfeedbacktext = this.fetchText('.recordfeedback');
 //console.log(this.repetitionnumbernext + 'rep after one record');
 	casper.test.assertEquals(this.recordfeedbacktext, 'Finished recording', "the recording set is over");
-	
-});
-
-casper.then(function() {
-	this.test.comment('new recording, click on new communication date');
-	
-	// need to mock up again TODO
-	
-	this.recordfeedbacktext = this.fetchText('.recordfeedback');
-//console.log(this.repetitionnumbernext + 'rep after one record');
-	casper.test.assertEquals(this.recordfeedbacktext, '', "the recording set is over");
 	
 });
 
