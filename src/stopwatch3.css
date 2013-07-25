@@ -1,0 +1,1104 @@
+html {overflow:-moz-scrollbars-vertical !important;}
+body {margin:0; padding:0; font:12px/18px Helvetica, Arial, sans-serif;}
+
+/* === Remove input autofocus webkit === */
+*:focus {outline: none;}
+
+.clear {clear:both;}
+
+#container {position:relative; z-index:100; width:265px; padding:20px; margin:20px auto 0; border:8px solid rgba(0, 0, 0, 0.5); border-radius:8px; -moz-border-radius:8px; -webkit-border-radius:8px; background:#EEE;}
+#masterclock {display:block; height: 100px;  text-align:left; color:#999; text-decoration:none; outline:1; margin-bottom:2px; border:0px solid black;}	
+#swimadmin {display:block; clear: both; text-align:left; color:#999; text-decoration:none; outline:0; margin-top:20px; border-top:1px solid #EEEEEE; padding-top:20px; }	
+#swimsettings {display:block; text-align:left; color:#999; text-decoration:none; outline:2;}	
+#ifsignedin {display:inline; text-align:left;}	
+
+/*
+* Control and clock
+*/
+#thecontrols {
+	float:left;
+	border:0px solid blue;
+}
+
+#theclock {
+	display:inline;
+	float:left;
+	margin:0px;
+	padding-top:40px;
+	border:0px solid green;
+	min-height:48px;
+}
+
+#timer {margin:0; font-size:48px; line-height:0px; color:#C00; text-shadow:#FFF 0 1px 0;}
+#controls { height:25px; margin:0 0 20px; padding:0; list-style:none;}
+#controls li {display:inline; float:left; margin:10px;}
+#controls li:last-child, #controls li.last {margin-right:0;}
+/*#controls li a {display:block; width:85px; text-align:center; line-height:60px; color:#FFF; text-shadow:#000 0 -1px 0; text-decoration:none; border-radius:3px; -moz-border-radius:3px; -webkit-border-radius:3px; -moz-box-shadow:rgba(0, 0, 0, 0.5) 1px 1px 0; -webkit-box-shadow:rgba(0, 0, 0, 0.5) 0 1px 3px; outline:none;}*/
+	
+/*#start li a {display:block; width:170px; text-align:center; line-height:60px; color:#FFF; text-shadow:#000 0 -1px 0; text-decoration:none; border-radius:3px; -moz-border-radius:3px; -webkit-border-radius:3px; -moz-box-shadow:rgba(0, 0, 0, 0.5) 1px 1px 0; -webkit-box-shadow:rgba(0, 0, 0, 0.5) 0 1px 3px; outline:none;}*/	
+	
+ #start {background:#090; display:block; width:170px;  text-align:center; line-height:80px; color:#FFF; text-shadow:#000 0 -1px 0; text-decoration:none; border-radius:3px; -moz-border-radius:3px; -webkit-border-radius:3px; -moz-box-shadow:rgba(0, 0, 0, 0.5) 1px 1px 0; -webkit-box-shadow:rgba(0, 0, 0, 0.5) 0 1px 3px; outline:none;}
+ #stop {background:#F7F;}
+ #split {background:#069;  width:120px;  height:70px;}
+ #reset {background:#C00; display:block; width:85px; text-align:center; line-height:60px; color:#FFF; text-shadow:#000 0 -1px 0; text-decoration:none; border-radius:3px; -moz-border-radius:3px; -webkit-border-radius:3px; -moz-box-shadow:rgba(0, 0, 0, 0.5) 1px 1px 0; -webkit-box-shadow:rgba(0, 0, 0, 0.5) 0 1px 3px; outline:none;}
+ #save {background:#C50; display:block; width:85px; text-align:center; line-height:60px; color:#FFF; text-shadow:#000 0 -1px 0; text-decoration:none; border-radius:3px; -moz-border-radius:3px; -webkit-border-radius:3px; -moz-box-shadow:rgba(0, 0, 0, 0.5) 1px 1px 0; -webkit-box-shadow:rgba(0, 0, 0, 0.5) 0 1px 3px; outline:none;}
+			 
+/*#controls li a:hover {background:#333;}*/
+/*#controls li a:active {position:relative; top:1px;}*/
+
+#labels { float:left; color:#666; text-shadow:#FFF 0 1px 0; padding-left:10px; padding-top:16px; border:0px solid red;}
+#labels span {margin-left:48px;}
+
+/*
+* Help
+*/
+#help {position:relative; z-index:100; width:305px; padding:0 16px; margin:0 auto; font-family:Arial, Verdana, sans-serif; background:#FFF;}
+#help-switch {display:block; text-align:right; color:#999; text-decoration:none; outline:0;}
+#help div {display:none;}
+#help dt {font:italic 14px/18px Georgia, serif; border-bottom:1px solid #000;}
+#help dd {margin-top:5px;}
+#ads {position:fixed; top:20px; right:20px; z-index:1; width:160px;}
+
+/*
+* Drag and Drop area
+*/
+.demo {clear: both;}
+#sortable { list-style-type: none; margin: 0; padding: 0; width: 60%; border:2px solid black; }
+#sortable li { margin: 0 3px 3px 3px; padding: 0.4em; padding-left: 0.5em; font-size: 1.4em; height: 18px; }
+#sortable li span { position: absolute; margin-left: -1.3em; }
+	
+#bluebox {background-color: lightblue;}
+#sortable2 li{ cursor: move; margin: 5px; padding: 5px; font-size: 1.2em; width: 250px;  background: none; background-color: white;}
+
+#sortable1 {
+	border: 0px solid purple;
+	margin-left:10px;
+	
+}
+
+/*
+*
+* welcome summary
+*
+*/
+
+#welcomesummary {
+	font-size:2em;
+	margin-left: 60px;
+	
+	
+}
+
+
+
+
+/*
+*
+* formatting of settings
+*
+*/
+
+#setsettings {
+	margin-top:20px;
+	border:0px solid red;
+	font-size:1.4em;
+	clear:both;
+}
+
+#liveswimset {
+	font-size:1em;
+}
+
+.swimsettings {
+		border:0px solid pink;
+		font-size: 1.6em;
+		clear:both;
+     }
+	 
+.menu-text {
+	
+	font-size: 2.4em;
+	padding-top: 20px;
+	margin-left: 20px;
+
+}
+
+.inmenu-text {
+	
+	font-size: 2.4em;
+	padding-top: 20px;
+	margin-top: 120px;
+
+}
+
+/*
+* load swimmer area
+*/
+
+#controloptions {
+	display:block;
+	border:0px solid black;
+	
+}	
+	
+.control-text {
+    -moz-box-shadow:inset 0px 1px 0px 0px #ffffff;
+    -webkit-box-shadow:inset 0px 1px 0px 0px #ffffff;
+    box-shadow:inset 0px 1px 0px 0px #ffffff;
+    background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #ffffff), color-stop(1, #d1d1d1) );
+    background:-moz-linear-gradient( center top, #ffffff 5%, #d1d1d1 100% );
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#d1d1d1');
+    background-color:#ffffff;
+    -moz-border-radius:6px;
+    -webkit-border-radius:6px;
+    border-radius:6px;
+    border:1px solid #dcdcdc;
+    display:inline-block;
+    color:#777777;
+    font-family:arial;
+    font-size:15px;
+    font-weight:bold;
+    padding:6px 24px;
+    text-decoration:none;
+    text-shadow:1px 1px 0px #ffffff;
+}
+.control-text:hover {
+    background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #d1d1d1), color-stop(1, #ffffff) );
+    background:-moz-linear-gradient( center top, #d1d1d1 5%, #ffffff 100% );
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#d1d1d1', endColorstr='#ffffff');
+    background-color:#d1d1d1;
+}
+.control-text:active {
+    position:relative;
+    top:1px;
+}
+
+/*when setting button is pressed */
+.control-textpressed {
+    -moz-box-shadow:inset 0px 1px 0px 0px #ffffff;
+    -webkit-box-shadow:inset 0px 1px 0px 0px #ffffff;
+    box-shadow:inset 0px 1px 0px 0px #ffffff;
+    background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #ffffff), color-stop(1, #ffffff) );
+    background:-moz-linear-gradient( center top, #ffffff 5%, #ffffff 100% );
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#ffffff');
+    background-color:#003300;
+    -moz-border-radius:6px;
+    -webkit-border-radius:6px;
+    border-radius:6px;
+    border:1px solid #dcdcdc;
+    display:inline-block;
+    color:#090;
+    font-family:arial;
+    font-size:15px;
+    font-weight:bold;
+    padding:6px 24px;
+    text-decoration:none;
+    text-shadow:1px 1px 0px #003300;
+}
+
+.control-textpressed:hover {
+    background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #d1d1d1), color-stop(1, #ffffff) );
+    background:-moz-linear-gradient( center top, #d1d1d1 5%, #ffffff 100% );
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#d1d1d1', endColorstr='#ffffff');
+    background-color:#d1d1d1;
+}
+.control-textpressed:active {
+    position:relative;
+    top:1px;
+}
+
+
+.controlspanel {
+	width:100%;
+	
+}
+
+.controlspanel li {
+	padding-top:0.4em;
+	width:70%;
+	margin-left:20px;
+	font-size: 2em;
+	list-style-type:none;
+	border: 0px solid green;
+}
+
+.load-text {
+
+	
+}
+
+.load-text label {
+
+}
+
+#addnewswimmer {
+	display:block;
+	width:100%;
+	min-height:60px;
+	padding-top:25px;
+	border:0px solid pink;
+}
+
+#addswimmer {
+	display:block;
+	width:66px;
+	margin-left:160px;
+	padding-top: 0.4em;
+}
+
+#clearallswimmers {
+	float:left;
+	width:86px;
+	margin-top:20px;
+	margin-bottom:30px;
+}	
+
+.clearswimmers-text {
+	padding-top: 10px;
+	font-size: 2em;
+	margin: 6px;
+	
+}
+
+.check-style {
+	font-size: 2em;
+	margin: 12px;
+}
+
+/*
+* PerAnalysis
+*/
+.peranalysis {
+	float:left;
+	width: 100%;
+	font-size:1.5em;
+	margin-top: 20px;
+	margin-bottom: 10px;
+	border:0px solid blue;
+	clear:both;
+}
+
+#peranalysisid {
+	font-size:1.6em;
+	
+}
+
+.analysislabel label {
+
+}
+
+/*
+* Add biostatistic  HR & SC 
+*/
+.biostats-form {
+	font-size: 1em;
+	
+}
+
+.biostats-form label {
+    width:38px;
+    margin-top: 3px;
+    display:inline-block;
+    float:left;
+    padding:3px;
+}
+
+.biostats-form input {
+    height:20px;
+    width:20px;
+	display:inline-block;
+	float:left;
+    padding:5px 8px;
+}
+
+
+
+
+/*
+* Add new swimmer
+*/
+.addswimmer-form {
+	font-size: 0.5em;
+	
+}
+
+.addswimmer-form ul {
+    width:100%;
+    list-style-type:none;
+    list-style-position:outside;
+    margin:0px;
+    padding:0px;
+}
+
+.addswimmer-form li{
+	width:100%;
+    padding:18px;
+    border-bottom:1px solid #eee;
+    position:relative;
+}
+
+.addswimmer-form li:first-child, .addswimmer-form li:last-child {
+    border-bottom:1px solid #777;
+}
+
+.form_hint {
+	font-size: 0.7em;	
+	background: #d45252;
+    border-radius: 3px 3px 3px 3px;
+    color: white;
+    margin-left:8px;
+    padding: 1px 6px;
+    z-index: 999; /* hints stay above all other elements */
+    position: absolute; /* allows proper formatting if hint is two lines */
+    display: none;
+	
+}
+
+.form_hint::before {
+    content: "\25C0"; /* left point triangle in escaped unicode */
+    color:#d45252;
+    position: absolute;
+    top:1px;
+    left:-6px;
+}
+
+.addswimmer-form input:focus + .form_hint {display: inline;}
+.addswimmer-form input:required:valid + .form_hint {background: #28921f;} /* change form hint color when valid */
+.addswimmer-form input:required:valid + .form_hint::before {color:#28921f;} /* change form hint arrow color when valid */
+
+.addswimmer-form label {
+    width:80px;
+    margin-top: 3px;
+    display:inline-block;
+    float:left;
+    padding:3px;
+}
+.addswimmer-form input {
+    height:20px;
+    width:220px;
+    padding:5px 8px;
+}
+
+/* Button Style */
+button.submit {
+	margin-left:90px;
+    background-color: #68b12f;
+    background: -webkit-gradient(linear, left top, left bottom, from(#68b12f), to(#50911e));
+    background: -webkit-linear-gradient(top, #68b12f, #50911e);
+    background: -moz-linear-gradient(top, #68b12f, #50911e);
+    background: -ms-linear-gradient(top, #68b12f, #50911e);
+    background: -o-linear-gradient(top, #68b12f, #50911e);
+    background: linear-gradient(top, #68b12f, #50911e);
+    border: 1px solid #509111;
+    border-bottom: 1px solid #5b992b;
+    border-radius: 3px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    -ms-border-radius: 3px;
+    -o-border-radius: 3px;
+    box-shadow: inset 0 1px 0 0 #9fd574;
+    -webkit-box-shadow: 0 1px 0 0 #9fd574 inset ;
+    -moz-box-shadow: 0 1px 0 0 #9fd574 inset;
+    -ms-box-shadow: 0 1px 0 0 #9fd574 inset;
+    -o-box-shadow: 0 1px 0 0 #9fd574 inset;
+    color: white;
+    font-weight: bold;
+    padding: 6px 20px;
+    text-align: center;
+    text-shadow: 0 -1px 0 #396715;
+}
+
+button.submit:hover {
+    opacity:.85;
+    cursor: pointer;
+}
+button.submit:active {
+    border: 1px solid #20911e;
+    box-shadow: 0 0 10px 5px #356b0b inset;
+    -webkit-box-shadow:0 0 10px 5px #356b0b inset ;
+    -moz-box-shadow: 0 0 10px 5px #356b0b inset;
+    -ms-box-shadow: 0 0 10px 5px #356b0b inset;
+    -o-box-shadow: 0 0 10px 5px #356b0b inset;
+}
+
+.addswimmer-form input  {
+    padding-right:30px;
+}
+
+input:required {
+   /* background: #fff url(images/red_asterisk.png) no-repeat 98% center;*/
+}
+
+#newswimerror {
+	margin-left:90px;
+	color:red;
+	font-size:1em;
+	padding-top:10px;
+	
+}
+
+/*
+* SignIn formatting
+*/
+.onlinemode {
+	font-size: 1.0em;
+	
+}
+
+.onlinemode ul {
+    width:100%;
+    list-style-type:none;
+    list-style-position:outside;
+    margin:0px;
+    padding:0px;
+}
+
+.onlinemode li{
+    padding:18px;
+    border-bottom:1px solid #eee;
+    position:relative;
+}
+
+
+#swimdate {
+		font-size: 0.8em;
+		margin: 6px;
+	
+}
+	
+label {
+	float: left;
+	padding-top:0.4em;
+	width:86px;
+	margin-right:6px;
+	vertical-align: bottom;
+	font: bold;
+}
+
+	.swimsettingslabel label {
+	float: left;
+	padding-top:0.4em;
+	/*font-size:18px;*/
+	width:130px;
+	margin-right:6px;
+	vertical-align: bottom;
+	}
+
+.rightselect {
+	font-size: 1em;
+	width:60%;
+	
+}
+
+/* Per swimmer boxes */
+#percontrols { float:left; width: 200px; height:60px; margin:0 0 22px; padding:0; list-style:none;}
+#percontrols li {display:inline; float:left; margin:10px;}
+#percontrols li:last-child, #percontrols li.last {margin-right:0;}
+#percontrols li a {display:block; width:120px; text-align:center; line-height:60px; color:#FFF; text-shadow:#000 0 -1px 0; text-decoration:none; border-radius:3px; -moz-border-radius:3px; -webkit-border-radius:3px; -moz-box-shadow:rgba(0, 0, 0, 0.5) 1px 1px 0; -webkit-box-shadow:rgba(0, 0, 0, 0.5) 0 1px 3px; outline:none; }
+	
+			 #perstart {background:#090;}
+			 #perstop {background:#F7F;}
+			 #persplit {background:#069; }
+			 #perreset {background:#C00;}
+			 #persave {background:#C50;}
+			 
+/*#controls li a:hover {background:#333;}*/
+#percontrols li a:active {position:relative; top:1px;}
+
+#perswimmerset {
+	float:left;
+	/*border:1px solid red;*/
+	clear:both;
+}
+
+#pername {
+	/*border:2px solid black;*/
+	font-size:1em;
+	color: DarkBlue;
+	
+}
+
+#perrealtime {
+	float:left;
+	/*border:1px solid green;*/
+
+}
+
+.peredit {
+	float:left;
+	width: 100%;
+	border:0px solid blue;
+	clear:both;
+
+}
+
+.perdetails {
+	float:right;
+	border:0px solid green;
+	margin-bottom: 10px;
+	margin-top: 10px;
+	font-size:1.6em;
+}
+
+#pereditidremove {
+	color:red;
+	font-size:0.6em;
+	/*margin-left: 30px;*/
+
+}
+
+#pereditiddelete {
+	color:red;
+	font-size:0.6em;
+	margin-left: 30px;
+}
+
+.historicalanalysis {
+	float:left;
+	border:0px solid green;
+
+}
+
+
+/* Splits */
+.splits {display:none; margin:5px 0 0 20px; padding:0; list-style:none; border:1px solid #666; -moz-box-shadow:inset rgba(0, 0, 0, 0.3) 0 0 5px; -webkit-box-shadow:inset rgba(0, 0, 0, 0.3) 0 0 5px; border-radius:8px; -moz-border-radius:8px; -webkit-border-radius:8px; background:#F9F9F9;}
+.splits li {display:inline; padding-left:10px; font-size:18px; text-shadow:#FFF 0 1px 0; line-height:30px; border-bottom:1px solid #CCC; border-top:1px solid #FFF;}
+.splits li span {margin-right:10px; padding:0 2px; color:#FFF; text-shadow:#666 0 -1px 0; border-radius:3px; -moz-border-radius:3px; -webkit-border-radius:3px; background:#ffc04d;}
+.splits li:first-child, .splits li.first {border-top:none;}
+.splits li:last-child, .splits li.last {border-bottom:none;}
+
+
+/* Analysis */
+.analysis {display:none; margin:5px 0 0 20px; padding:0; list-style:none; border:0px solid #666; -moz-box-shadow:inset rgba(0, 0, 0, 0.3) 0 0 5px; -webkit-box-shadow:inset rgba(0, 0, 0, 0.3) 0 0 5px; border-radius:8px; -moz-border-radius:8px; -webkit-border-radius:8px; background:#F9F9F9;}
+.analysis li {display:inline; padding-left:10px; font-size:18px; text-shadow:#FFF 0 1px 0; line-height:30px; border-bottom:1px solid #CCC; border-top:1px solid #FFF;}
+.analysis li span {margin-right:10px; padding:0 2px; color:#FFF; text-shadow:#666 0 -1px 0; border-radius:3px; -moz-border-radius:3px; -webkit-border-radius:3px; background:#999;}
+.analysis li:first-child, .analysis  li.first {border-top:none;}
+.analysis li:last-child, .analysis  li.last {border-bottom:none;}
+
+	
+/*
+*
+* for view data 
+*
+*/	
+
+#visualisedata {
+	padding-top:0.4em;
+	width:70%;
+	margin-right:20px;
+	font: 2em;
+
+}
+
+.splitview {
+	float:left;
+}
+
+.splitviewrep {
+float:left;
+width:40px;
+color: blue;
+font-size: 2em;
+margin-left:20px;
+margin-top: 20px;
+
+}
+
+.splitviewcompare {
+	float:left;
+	margin-left:20px;
+	margin-top: 20px;
+
+}
+
+.splitview li {
+	padding-top:0.4em;
+	width:70%;
+	margin-left:50px;
+	font-size: 1em;
+	list-style-type:none;
+}
+
+#theswimmerview {
+	font-size: 2em;
+	width:80%;
+	
+}
+
+.lastcomparespace {
+	display: inline;
+	width:25%;
+	margin-left:20px;
+	clear:both;
+}
+
+.lanewidthnew {
+	width:30px;
+	font-size: 1em;
+	
+}
+
+
+.selectswimmer {
+	font-size: 0.8em;	
+	width:100px;
+	margin-top:14px;	
+	margin-left:20px;	
+}
+
+	
+/*
+* chart
+*/
+.historicalchart {
+	border:2px solid black;
+	margin-top: 10px;
+	height:600px;
+	width:80%;
+}
+
+#perchartid {
+	margin-left:20px;
+	font-size:1.6em;
+	
+}
+
+	
+/*
+* summary analysis
+*/
+.historicalsummary {
+	border:2px solid black;
+	margin-top: 10px;
+	height:600px;
+	width:80%;
+}
+
+#persummaryid {
+	margin-left:20px;
+	font-size:1.6em;
+	
+}
+
+.trainingstats {
+	border:1px solid blue;
+	float:left;
+	margin: 10px;
+	height:400px;
+	width:30%;
+	font-size:1.4em;
+}
+
+.seasonbeststats {
+	border:1px solid green;
+	float:left;
+	margin: 10px;
+	height:400px;
+	width:30%;
+	font-size:1.4em;
+}
+
+.personalbeststats {
+	border:1px solid red;
+	float:left;
+	margin: 10px;
+	height:400px;
+	width:30%;
+	font-size:1.4em;
+}
+
+.beststat {
+	border:1px solid green;
+	margin: 10px;
+	height:60px;
+	width:90%;
+	color: green;
+	padding:8px;
+}
+
+.slowstat {
+	border:1px solid red;
+	margin: 10px;
+	height:60px;
+	width:90%;
+	color: red;
+	padding:8px;
+}
+
+.avgstat {
+	border:1px solid blue;
+	margin: 10px;
+	height:60px;
+	width:90%;
+	color: blue;
+	padding:8px;
+}
+
+	
+/*
+* bio stats
+*/
+.historicalbio {
+	border:2px solid black;
+	margin-top: 10px;
+	height:600px;
+	width:80%;
+}
+
+#perbioid {
+	margin-left:20px;
+	font-size:1.6em;
+	
+}
+
+
+
+/*
+*  signup form
+*/
+
+#contactspacereply {
+	font-size:1.6em;
+	margin: 20px;
+	line-height:140%;
+	width:90%;
+
+}
+
+/* === Form Typography === */
+
+.contact_form h2, .contact_form label {font-family:Trebuchet MS', Trebuchet, 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif';}
+.form_hint, .required_notification {font-size: 11px;}
+
+/* === List Styles === */
+.contact_form ul {
+    width:750px;
+    list-style-type:none;
+	list-style-position:outside;
+	margin:0px;
+	padding:0px;
+}
+.contact_form li{
+	padding:12px; 
+	border-bottom:1px solid #eee;
+	position:relative;
+} 
+.contact_form li:first-child, .contact_form li:last-child {
+	border-bottom:1px solid #777;
+}
+
+/* === Form Header === */
+.contact_form h2 {
+	margin:0;
+	display: inline;
+}
+.required_notification {
+	color:#d45252; 
+	margin:5px 0 0 0; 
+	display:inline;
+	float:right;
+}
+
+/* === Form Elements === */
+.contact_form label {
+	width:150px;
+	margin-top: 3px;
+	display:inline-block;
+	float:left;
+	padding:3px;
+}
+.contact_form input {
+	height:20px; 
+	width:260px; 
+	padding:5px 8px;
+}
+.contact_form textarea {padding:8px; width:300px;}
+.contact_form button {margin-left:156px;}
+
+	/* form element visual styles */
+	.contact_form input, .contact_form textarea { 
+		border:1px solid #aaa;
+		box-shadow: 0px 0px 3px #ccc, 0 10px 15px #eee inset;
+		border-radius:2px;
+		padding-right:30px;
+		-moz-transition: padding .25s; 
+		-webkit-transition: padding .25s; 
+		-o-transition: padding .25s;
+		transition: padding .25s;
+	}
+	.contact_form input:focus, .contact_form textarea:focus {
+		background: #fff; 
+		border:1px solid #555; 
+		box-shadow: 0 0 3px #aaa; 
+		padding-right:70px;
+	}
+
+/* === HTML5 validation styles === */	
+.contact_form input:required, .contact_form textarea:required {
+	background: #fff url(images/red_asterisk.png) no-repeat 98% center;
+}
+.contact_form input:required:valid, .contact_form textarea:required:valid {
+	background: #fff url(images/valid.png) no-repeat 98% center;
+	box-shadow: 0 0 5px #5cd053;
+	border-color: #28921f;
+}
+.contact_form input:focus:invalid, .contact_form textarea:focus:invalid {
+	background: #fff url(images/invalid.png) no-repeat 98% center;
+	box-shadow: 0 0 5px #d45252;
+	border-color: #b03535
+}
+
+/* === Form hints === */
+.form_hint {
+	background: #d45252;
+	border-radius: 3px 3px 3px 3px;
+	color: white;
+	margin-left:8px;
+	padding: 1px 6px;
+	z-index: 999; /* hints stay above all other elements */
+	position: absolute; /* allows proper formatting if hint is two lines */
+	display: none;
+}
+.form_hint::before {
+	content: "\25C0";
+	color:#d45252;
+	position: absolute;
+	top:1px;
+	left:-6px;
+}
+.contact_form input:focus + .form_hint {display: inline;}
+.contact_form input:required:valid + .form_hint {background: #28921f;}
+.contact_form input:required:valid + .form_hint::before {color:#28921f;}
+	
+/* === Button Style === */
+button.submit {
+	background-color: #68b12f;
+	background: -webkit-gradient(linear, left top, left bottom, from(#68b12f), to(#50911e));
+	background: -webkit-linear-gradient(top, #68b12f, #50911e);
+	background: -moz-linear-gradient(top, #68b12f, #50911e);
+	background: -ms-linear-gradient(top, #68b12f, #50911e);
+	background: -o-linear-gradient(top, #68b12f, #50911e);
+	background: linear-gradient(top, #68b12f, #50911e);
+	border: 1px solid #509111;
+	border-bottom: 1px solid #5b992b;
+	border-radius: 3px;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	-ms-border-radius: 3px;
+	-o-border-radius: 3px;
+	box-shadow: inset 0 1px 0 0 #9fd574;
+	-webkit-box-shadow: 0 1px 0 0 #9fd574 inset ;
+	-moz-box-shadow: 0 1px 0 0 #9fd574 inset;
+	-ms-box-shadow: 0 1px 0 0 #9fd574 inset;
+	-o-box-shadow: 0 1px 0 0 #9fd574 inset;
+	color: white;
+	font-weight: bold;
+	padding: 6px 20px;
+	text-align: center;
+	text-shadow: 0 -1px 0 #396715;
+}
+button.submit:hover {
+	opacity:.85;
+	cursor: pointer; 
+}
+button.submit:active {
+	border: 1px solid #20911e;
+	box-shadow: 0 0 10px 5px #356b0b inset; 
+	-webkit-box-shadow:0 0 10px 5px #356b0b inset ;
+	-moz-box-shadow: 0 0 10px 5px #356b0b inset;
+	-ms-box-shadow: 0 0 10px 5px #356b0b inset;
+	-o-box-shadow: 0 0 10px 5px #356b0b inset;
+	
+}
+
+#formfeedback {
+	font-size: 1.4em;
+	color:red;
+	margin-left:120px;
+	
+}
+
+
+
+
+	
+/*
+* Footer
+*/
+#footer {
+	border:0px solid black;
+	margin-top: 10px;
+}
+
+@media screen and (max-width: 240px) {
+	
+
+	
+
+	 
+}
+
+
+@media screen and (min-width: 600px) {
+	
+	.menu-text {
+	
+	font-size: 2.0em;
+	padding-top: 10px;
+	margin-left: 40px;
+
+	}
+	
+	.inmenu-text {
+	
+	font-size: 1.4em;
+	padding-top: 20px;
+	margin-top: 20px;
+
+	}
+	
+	.swimsettings {
+
+		font-size: 1.6em;
+		clear:both;
+
+     }
+	
+	.rightselect {
+	width:60%;
+	font-size: 1em;
+	
+	}
+	
+	.control-text {
+	padding-top:0.4em;
+	font-size: 1.4em;
+	margin: 6px;
+	
+	}
+
+	.control-textpressed {
+	padding-top:0.4em;
+	font-size: 1.4em;
+	margin: 6px;
+	
+	}
+	
+	label {
+	float: left;
+	padding-top:1.0em;
+	/*font-size:18px;*/
+	width:130px;
+	margin-right:6px;
+	vertical-align: bottom;
+	}
+	
+	.swimsettingslabel label {
+	float: left;
+	padding-top:0.4em;
+	/*font-size:18px;*/
+	width:130px;
+	margin-right:6px;
+	vertical-align: bottom;
+	}
+
+/* Analysis / Edit section */
+
+	.peredit {
+		font-size: 1.6em;
+		margin-top: 20px;
+	}
+
+	.analysislabel input {
+	float:left;
+	/*font-size:18px;*/
+	width:30px;
+	margin-right:6px;
+	}
+
+	.analysislabel label {
+	float:left;
+	width:70px;
+	margin-right:6px;
+	vertical-align: top;
+	}
+
+	#visualisedata {
+	
+	padding-top:0.4em;
+	width:70%;
+	margin-right:20px;
+	font: 2em;
+
+	}
+
+	.splitview {
+	float:left;
+	border:0px solid black;
+
+	}
+	
+	.splitviewrep {
+	float:left;
+	width:40px;
+	border:0px solid black;
+
+	}
+
+	.splitviewcompare {	
+	float:left;
+	width:220px;
+	margin-left:20px;
+	border:0px solid blue;
+	color: blue;
+	font-size: 1.4em;
+	clear:both;
+	}
+
+	.splitview li {
+	
+	padding-top:0.4em;
+	width:70%;
+	margin-left:50px;
+	font-size: 1.4em;
+	list-style-type:none;
+
+	}
+
+	#theswimmerview {
+	font-size: 2em;
+	width:20%;
+	
+	}
+
+	.lastcomparespace {
+	display: inline;
+	width:25%;
+	margin-left:20px;
+	clear:both;
+	}
+
+	#pername {
+	/*border:2px solid black;*/
+	font-size:2em;
+
+	}
+
+	.lanewidthnew {
+	width:50px;
+	font-size: 1.4em;
+	
+	}
+	
+	.selectswimmer {
+	font-size: 1.0em;	
+	width:100px;
+		
+	}
+	
+	#liveswimset {
+	font-size:1.4em;
+	}
+
+
+}
