@@ -23,7 +23,7 @@ $(document).ready(function(){
 	var today = new Date();
 		
 	// connect to socket.io
-  var socketpi = io.connect('http://localhost:8842');		
+  var socketpi = io.connect('http://192.168.1.44:8842');		
 //console.log(socketpi);
 		socketpi.emit('swimmerclient', { swimmerdevice: 'localhitchup' });
 	
