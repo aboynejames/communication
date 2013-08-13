@@ -9,33 +9,116 @@ body {margin:0; padding:0; font:12px/18px Helvetica, Arial, sans-serif;}
 *
 */
  #framework {
-	border:1px solid blue;
-	margin: 10px;
+	display:block;
+	border:1px solid #eee;
+	background: #eee;
+	margin: 8px;
+	text-align:center;
+	height: 100px;
+	
+}
+
+nav {
+    font-size:2em;
+	
 }
 
 .identity {
 	display:inline;
-	text-align:center;
-	margin: 10px;
+	margin-left:1em;
+	margin-top:0.1em;
+   -moz-box-shadow:inset 0px 1px 0px 0px #ffffff;
+    -webkit-box-shadow:inset 0px 1px 0px 0px #ffffff;
+    box-shadow:inset 0px 1px 0px 0px #ffffff;
+    background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #ffffff), color-stop(1, #d1d1d1) );
+    background:-moz-linear-gradient( center top, #ffffff 5%, #d1d1d1 100% );
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#d1d1d1');
+    background-color:#ffffff;
+    -moz-border-radius:6px;
+    -webkit-border-radius:6px;
+    border-radius:6px;
+    border:1px solid #dcdcdc;
+    display:inline-block;
+    color:#777777;
+    font-family:arial;
+    font-size:2em;
+    font-weight:bold;
+    padding:0.6em 1em;
+    text-decoration:none;
+    text-shadow:1px 1px 0px #ffffff;
+	
 }
 
 .stream {
 	display:inline;
-	text-align:center;
-	margin: 10px;
-	background: cyan;
+	margin-left:1em;
+   -moz-box-shadow:inset 0px 1px 0px 0px #ffffff;
+    -webkit-box-shadow:inset 0px 1px 0px 0px #ffffff;
+    box-shadow:inset 0px 1px 0px 0px #ffffff;
+    background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #009900), color-stop(1, #d1d1d1) );
+    background:-moz-linear-gradient( center top, #009900 5%, #d1d1d1 100% );
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#009900', endColorstr='#d1d1d1');
+    background-color:#009900;
+    -moz-border-radius:6px;
+    -webkit-border-radius:6px;
+    border-radius:6px;
+    border:1px solid #dcdcdc;
+    display:inline-block;
+    color:#777777;
+    font-family:arial;
+    font-size:2em;
+    font-weight:bold;
+    padding:0.6em 1em;
+    text-decoration:none;
+    text-shadow:1px 1px 0px #ffffff;
 }
 
 .record {
 	display:inline;
-	text-align:center;
-	margin: 10px;	
+	margin-left:1em;
+   -moz-box-shadow:inset 0px 1px 0px 0px #ffffff;
+    -webkit-box-shadow:inset 0px 1px 0px 0px #ffffff;
+    box-shadow:inset 0px 1px 0px 0px #ffffff;
+    background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #ffffff), color-stop(1, #d1d1d1) );
+    background:-moz-linear-gradient( center top, #ffffff 5%, #d1d1d1 100% );
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#d1d1d1');
+    background-color:#ffffff;
+    -moz-border-radius:6px;
+    -webkit-border-radius:6px;
+    border-radius:6px;
+    border:1px solid #dcdcdc;
+    display:inline-block;
+    color:#777777;
+    font-family:arial;
+    font-size:2em;
+    font-weight:bold;
+    padding:0.6em 1em;
+    text-decoration:none;
+    text-shadow:1px 1px 0px #ffffff;
 }
 
 .make {
 	display:inline;
-	text-align:center;
-	margin: 10px;
+	margin-left:1em;
+   -moz-box-shadow:inset 0px 1px 0px 0px #ffffff;
+    -webkit-box-shadow:inset 0px 1px 0px 0px #ffffff;
+    box-shadow:inset 0px 1px 0px 0px #ffffff;
+    background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #ffffff), color-stop(1, #d1d1d1) );
+    background:-moz-linear-gradient( center top, #ffffff 5%, #d1d1d1 100% );
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#d1d1d1');
+    background-color:#ffffff;
+    -moz-border-radius:6px;
+    -webkit-border-radius:6px;
+    border-radius:6px;
+    border:1px solid #dcdcdc;
+    display:inline-block;
+    color:#777777;
+    font-family:arial;
+    font-size:2em;
+    font-weight:bold;
+    padding:0.6em 1em;
+    text-decoration:none;
+    text-shadow:1px 1px 0px #ffffff;
 }
 
 .date {
@@ -105,7 +188,7 @@ body {margin:0; padding:0; font:12px/18px Helvetica, Arial, sans-serif;}
 }
 
 #connectivity {
-	border:1px solid grey;
+	border:1px solid #eee;
 	margin: 10px;
 }
 

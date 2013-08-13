@@ -327,9 +327,10 @@
 
 <section id="connectivity">
 <header id="connect-header"><b>Connectivity:</b> Peer, Local PI or Public Web</header>
-<div id="swimadmin">
-						<a title="on" id="touchpadmode" href="" class="menu-text">WIFI TouchPad</a><span id="localpi">Not Connected</span>
-	<br>
+<header id="swimadmin">
+		<b>Sensors:</b> <a title="on" id="touchpadmode" href="" class="sensor-text">WIFI TouchPad</a><span id="localpi">Not Connected</span>
+		<br>
+		</header>
 
 	<header class="onlinemode">
 		<nav>
@@ -342,47 +343,48 @@
 	<div>Welcome, to Train Timer </div>
 	<form id="siginform" action="#" method="post">
 	<div><label for="name">Username</label><input type="text" size="16" title="name" class="text ui-widget-content ui-corner-all" id="name"></div>
-	<div><label for="password">Password</label><input type="password" size="16" title="password" value="" class="text ui-widget-content ui-corner-all" id="password"></div></form>
+	<div><label for="password">Password</label><input type="password" size="16" title="password" value="" class="text ui-widget-content ui-corner-all" id="password"></div>
+	</form>
 	<div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix"> <div class="ui-dialog-buttonset"><button aria-disabled="false" role="button" type="button" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only"><span class="ui-button-text">Sign me in</span></button></div></div><div id="responsemessage"></div>
 	</div>
 				</li>
-								<li>
+				<li>
 					<a title="on" id="signupstart" href="" class="control-text">Sign-up</a>
 					<div id="signupform"></div>
-	<div id="signupspace" style="display: none;">
-	<form name="contact_form" method="post" action="#" class="contact_form">
-    <ul>
-        <li>
-             <h2>Sign-up to data storage</h2>
-             <span class="required_notification">* Denotes Required Field</span>
-        </li>
-        <li>
-            <label for="name">Name:</label>
-            <input type="text" id="namein" required="" placeholder="name">
-        </li>
-        <li>
-            <label for="email">Email:</label>
-            <input type="email" id="emailin" required="" placeholder="mail@gmail.com" name="email">
-            <span class="form_hint">Proper format "name@something.com"</span>
-        </li>
-				<li>
-            <label for="inpassword">Enter a password:</label>
-            <input type="password" id="inpassword" required="" name="inpassword">
-        </li>
-        <li>
-            <label for="website">Website:</label>
-            <input type="url" id="websitein" placeholder="http://www.mepath.com" name="website">
-            <span class="form_hint">Proper format "http://www.someaddress.com"</span>
-        </li>
-        <li>
-            <label for="message">Swim Club:</label>
-            <input id="messagein" required="" name="message">
-        </li>
-        <li>
-        	<button type="submit" class="submit" id="contactin">Submit Form</button>
-        </li>
-    </ul>
-</form>
+					<div id="signupspace" style="display: none;">
+					<form name="contact_form" method="post" action="#" class="contact_form">
+					<ul>
+						<li>
+								 <h2>Sign-up to data storage</h2>
+								 <span class="required_notification">* Denotes Required Field</span>
+						</li>
+						<li>
+								<label for="name">Name:</label>
+								<input type="text" id="namein" required="" placeholder="name">
+						</li>
+						<li>
+								<label for="email">Email:</label>
+								<input type="email" id="emailin" required="" placeholder="mail@gmail.com" name="email">
+								<span class="form_hint">Proper format "name@something.com"</span>
+						</li>
+						<li>
+								<label for="inpassword">Enter a password:</label>
+								<input type="password" id="inpassword" required="" name="inpassword">
+						</li>
+						<li>
+								<label for="website">Website:</label>
+								<input type="url" id="websitein" placeholder="http://www.mepath.com" name="website">
+								<span class="form_hint">Proper format "http://www.someaddress.com"</span>
+						</li>
+						<li>
+								<label for="message">Swim Club:</label>
+								<input id="messagein" required="" name="message">
+						</li>
+						<li>
+							<button type="submit" class="submit" id="contactin">Submit Form</button>
+						</li>
+					</ul>
+				</form>
 	<div id="formfeedback"></div>
 
 	</div>

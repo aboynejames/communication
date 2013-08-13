@@ -31,7 +31,7 @@ llLogic.prototype.frameworklogic = function(intentionin) {
 	$("#streamflow").hide();
 	$("#recordflow").hide();
 	$("#makeflow").hide();
-	$(".identity").css('background', 'cyan');
+	$(".identity").css('background', '#009900');
 	$(".stream").css('background', 'white');
 	$(".recordme").css('background', 'white');
 	$(".make").css('background', 'white');		
@@ -42,7 +42,7 @@ llLogic.prototype.frameworklogic = function(intentionin) {
 	$("#meflow").hide();
 	$("#recordflow").hide();
 	$("#makeflow").hide();
-	$(".stream").css('background', 'cyan');
+	$(".stream").css('background', '#009900');
 	$(".identity").css('background', 'white');
 	$(".record").css('background', 'white');
 	$(".make").css('background', 'white');	
@@ -53,7 +53,7 @@ llLogic.prototype.frameworklogic = function(intentionin) {
 	$("#meflow").hide();
 	$("#streamflow").hide();
 	$("#makeflow").hide();
-	$(".record").css('background', 'cyan');
+	$(".record").css('background', '#009900');
 	$(".stream").css('background', 'white');
 	$(".identity").css('background', 'white');
 	$(".make").css('background', 'white');	
@@ -64,7 +64,7 @@ llLogic.prototype.frameworklogic = function(intentionin) {
 	$("#streamflow").hide();
 	$("#recordflow").hide();
 	$("#meflow").hide();
-	$(".make").css('background', 'cyan');
+	$(".make").css('background', '#009900');
 	$(".stream").css('background', 'white');
 	$(".identity").css('background', 'white');
 	$(".record").css('background', 'white');	
