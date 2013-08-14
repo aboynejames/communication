@@ -25,23 +25,31 @@
 <body>
 <header id="framework">
 	<nav>
-		<div class="identity"><a id="me" href="" >me</a></div><div class="stream"><a id="stream" href="" >Stream</a></div><div class="record"><a id="recordme" href="" >Record</a></div><div class="make"><a id="make" href="" >Make</a></div>
+		<div class="identity">
+			<a id="me" href="" >me</a></div>
+			<div class="stream"><a id="stream" href="" >Stream</a></div>
+			<div class="record"><a id="recordme" href="" >Record</a></div>
+			<div class="make"><a id="make" href="" >Make</a></div>
 	</nav>
 </header>
 <section id="attention">
-	<div class="time"><time>2013-10-10</time></div>
-	<nav>
-		<a href="" id="datecontext" data-datestatus="on" >Date</a>
-		<a href="" id="socialcontext" data-socialstatus="on" >Social</a>
-		<a href="" id="toolscontext" data-toolsstatus="on" >Tools</a>
+	<nav id="timetext">
+		<li><div class="time"><time id="livetime" ></time> <a href="" id="datecontext" data-datestatus="on" >Set</a></div>
+			<section class="dateset">
+				<div class="pastfuturecomm"></div>
+				<p>Date: <input type="text" id="datepicker" /></p>
+			</section>
+		</li>
+		<li><div class="lifestyle">Swimming</div>
+			<section id="context">
+			<!-- placer for forming text context e.g. word cloud, chaining words, selet tweet, blog post or other content to set context-->
+			</section>
+		</li>
 	</nav>
-	
-<section class="dateset">
-	<div class="pastfuturecomm"></div>
-	<p>Date: <input type="text" id="datepicker" /></p>
-</section>
-
-<section class="social">
+	<nav id="socialtools" >
+		<ul>
+			<li><a href="" id="socialcontext" data-socialstatus="on" >Social</a>
+			<section class="social">
 
 		<div class="demo">
 			<h2>
@@ -130,17 +138,17 @@
 
 </section>
 
-<section class="tools">
-
-	<a class="control-text"  href="/viewsplits" id="viewdata" title="on" >Analysis</a>
-	<a class="control-text" href="#"  id="startsort" title="on" >Edit</a>
-
-</section>
-
-<section id="context">
-<div class="lifestyle">Swimming</div>
-</section>
-
+			</li>
+			
+			<li><a href="" id="toolscontext" data-toolsstatus="on" >Tools</a>
+				<section class="tools">
+					<a class="control-text"  href="/viewsplits" id="viewdata" title="on" >Analysis</a>
+					<a class="control-text" href="#"  id="startsort" title="on" >Edit</a>
+				</section>
+			</li>
+		</ul>
+	</nav>
+	
 </section> <!-- close attention settings -->
 
 <section id="meflow">me</section>
@@ -328,7 +336,7 @@
 <section id="connectivity">
 <header id="connect-header"><b>Connectivity:</b> Peer, Local PI or Public Web</header>
 <header id="swimadmin">
-		<b>Sensors:</b> <a title="on" id="touchpadmode" href="" class="sensor-text">WIFI TouchPad</a><span id="localpi">Not Connected</span>
+		<b>Sensors:</b> <a title="on" id="touchpadmode" href="" class="sensor-text">WIFI TouchPad</a><span id="localpi">Not Connected</span> <a title="on" id="videomode" href="" class="sensor-text">Video</a><span id="localvideo">Not Connected</span>
 		<br>
 		</header>
 

@@ -21,7 +21,12 @@ $(document).ready(function(){
 	//fire up the classes
 	starttiming = new SwimtimeController();
 	var today = new Date();
-		
+	var month = today.getUTCMonth();
+	var day = today.getUTCDate();
+	var year = today.getUTCFullYear();
+	// display date live day month year
+	$("#livetime").html(day + '/' + month + '/' + year);
+	
 	// connect to socket.io
   var socketpi = io.connect('http://192.168.1.44:8842');		
 //console.log(socketpi);
