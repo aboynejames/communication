@@ -34,10 +34,13 @@
 </header>
 <section id="attention">
 	<nav id="timetext">
-		<li><div class="time"><time id="livetime" ></time> <a href="" id="datecontext" data-datestatus="on" >Set</a></div>
+		<li><div class="time"><time id="livetime" ></time> <a href="" id="datecontext" data-datestatus="on" >Set date</a></div>
 			<section class="dateset">
-				<div class="pastfuturecomm"></div>
-				<p>Date: <input type="text" id="datepicker" /></p>
+				<div id="newdate" >Select date: <input type="text" id="datepicker" /></div>
+				<div id="existingdates">Existing
+					<div class="pastfuturecomm"></div>
+				</div>	
+				<div style="clear:both">
 			</section>
 		</li>
 		<li><div class="lifestyle">Swimming</div>
@@ -223,38 +226,26 @@
 <section id="makeflow">
 
 <div id="communication">
-<div id="communicationswimmers"></div>
-<div class="commfeedback"></div>
+	<div id="communicationswimmers"></div>
+	<div class="commfeedback"></div>
 
-<div id="communicationdate">	
-	<div id="newcommunication">
-		<a href="" id="savecommunication">Save Programme</a>
+	<div id="communicationdate">	
+		<div id="newelements">
+			<a href="" id="newelement">new element</a>
+		</div>	
+		<div id="newcommunication">
+			<a href="" id="savecommunication">Save Programme</a>
+		</div>
 	</div>
-</div>
-
-
-<div id="newelements">
-	<a href="" id="newelement">new element</a>
-</div>	
-
-		
+	<div id="swimdate"></div>
 		<!-- add date, and template that includes set element, diagram tools and tagging
 		// feedback   past  present  future tabs-->
-
 	<div class ="communicationelement" ></div>
 
 	</div> 
 	
-    <div id="canvasDiv"></div>
-    <!--[if IE]><script type="text/javascript" src="excanvas.js"></script><![endif]-->
-		<script type="text/javascript" src="html5-canvas-drawing-app.js"></script>
-    <script type="text/javascript">
-    	 drawingApp.init();
-	</script>
-	
 	<div id="setsettings" >
 	<div class="swimsettings">
-		<div id="swimdate"></div>
 		<div class="swimsettingslabel">
 		<label>Type</label><select id="swimtype" class="rightselect" >
 		<option value="warmup">warmup</option>

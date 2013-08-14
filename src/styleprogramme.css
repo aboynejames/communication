@@ -236,6 +236,26 @@ nav {
 	margin: 10px;
 }
 
+#newdate {
+	border:0px solid blue;
+	float:left;
+	margin: 4px;
+	
+}
+
+#existingdates {
+	float:left;
+	padding:10px;
+	
+}
+
+.pastfuturecomm {
+
+	margin:10px;
+	border:0px solid orange;
+	font-size:1.0em;
+}
+
 /** set text context */
 .lifestyle {
 	display:inline;
@@ -330,9 +350,10 @@ nav {
     padding:6px 24px;
     text-decoration:none;
     text-shadow:1px 1px 0px #ffffff;
+	float:right;
 }
 
-#newelement  a{
+#newelements {
 	display:block;
 	text-align:left;
 	margin-top: 30px;
@@ -370,12 +391,10 @@ nav {
 	clear:both;
 }
 
-
-.pastfuturecomm {
-	margin:10px;
-	border:1px solid orange;
-	font-size:1.0em;
-	clear:both;
+#swimdate {
+		font-size:1.4em;
+		padding-top:10px;
+	
 }
 
 /**
@@ -425,6 +444,12 @@ nav {
 	
 }
 
+
+.swimsettings {
+		border:0px solid pink;
+		font-size: 1.0em;
+		clear:both;
+     }
 
 label {
 	float: left;

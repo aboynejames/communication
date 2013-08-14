@@ -27,9 +27,12 @@ var makeProgramme = function() {
 makeProgramme.prototype.makeLogic = function(madeactionin, targetin) {
 //console.log(madeactionin + 'from make class');
  
-	
+
         if (madeactionin == "newelement")
 				{			
+					var livecurrentDate = $( "#datepicker" ).datepicker( "getDate" );
+					$("#swimdate").text(livecurrentDate);
+					
 					// communication counter id
 					cci = new Date().getTime();
 					

@@ -139,9 +139,6 @@ stopwatch jquery code from stopwatch3.js
 								}
 					});
 
-
-
-	$("#swimdate").text(today);
 	$("#siginformarea").hide();
 		
     $("#signinopener").click(function(e) {
