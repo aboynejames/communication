@@ -190,7 +190,8 @@ makeProgramme.prototype.makeLogic = function(madeactionin, targetin) {
 				else if (madeactionin == "savecommunication")
 				{
 					// collect the date
-					var datein = $( "#datepicker" ).datepicker( "getDate" );					
+					var datein = $( "#datepicker" ).datepicker( "getDate" );		
+console.log(datein);					
 					// get a list of the unique ids and loop through to extract information
 					var smi = $(".communicationelement");
 //console.log(smi);
@@ -217,6 +218,8 @@ makeProgramme.prototype.makeLogic = function(madeactionin, targetin) {
 				{
 				$(".commfeedback").empty();
 				$(".liveswimset").empty();
+				sdaterecord = '';
+					
 				/**
 				* save one document
 				* @method singleSave
@@ -224,10 +227,7 @@ makeProgramme.prototype.makeLogic = function(madeactionin, targetin) {
 				function savecommunicationset (datein, commgroupdata, smlength) {	
 	//console.log(Date.parse(datein));
 					var datestringday = Date.parse(datein);
-					var smonth = datein.getUTCMonth() + 1;
-					var sday = datein.getUTCDate();
-					var syear = datein.getUTCFullYear();
-					sdaterecord = sday + '/' + smonth + '/' + syear;
+
 						swimgroupcomm = {};
 						newjsoncomm = {};
 							
@@ -276,7 +276,12 @@ makeProgramme.prototype.makeLogic = function(madeactionin, targetin) {
 						$("#canvasDiv").hide();
 							
 						} // closes function	
-									
+							
+					var smonth = datein.getUTCMonth() + 1;
+					var sday = datein.getDate();
+					var syear = datein.getUTCFullYear();
+					var sdaterecord = sday + '/' + smonth + '/' + syear;
+												
 						var dateid = '<div class="swimcommdate"><a href="" id="fpdate" data-dcommid="' + Date.parse(datein) + '" >' + sdaterecord + '</a></div>';
 						$(dateid).appendTo(".pastfuturecomm");
 
