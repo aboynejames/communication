@@ -461,12 +461,21 @@ label {
 }
 
 .swimsettingslabel label {
+	font-size:1em;
+	padding-top:0.4em;
+	/*font-size:18px;*/
+	width:160px;
+	vertical-align: bottom;
+	}
+	
+.recordswimsettingslabel label {
 	font-size:2em;
 	padding-top:0.4em;
 	/*font-size:18px;*/
 	width:100px;
 	vertical-align: bottom;
 	}
+
 
 .rightselect {
 	font-size: 2em;
