@@ -1,8 +1,17 @@
 CACHE MANIFEST
-# v02 2013-07-21
+# v03 2013-08-14
 # This is another comment
-programmebuilder.js
+dragdrop.css
+stopwatch3.css
 styleprogramme.css
+flotr.min.js
+llHTML.js
+llLogic.js
+makefuture.js
+recordQS.js
+socket.io.js
+stopwatch3.js
+programmebuilder.js
 trainprogramme.html
 pouchdb.alpha.js
 pouchdb.js
