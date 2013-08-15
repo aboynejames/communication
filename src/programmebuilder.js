@@ -21,7 +21,7 @@ $(document).ready(function(){
 	//fire up the classes
 	starttiming = new SwimtimeController();
 	var today = new Date();
-	var month = today.getUTCMonth();
+	var month = today.getUTCMonth() + 1;
 	var day = today.getUTCDate();
 	var year = today.getUTCFullYear();
 	// display date live day month year

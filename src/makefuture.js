@@ -224,7 +224,10 @@ makeProgramme.prototype.makeLogic = function(madeactionin, targetin) {
 				function savecommunicationset (datein, commgroupdata, smlength) {	
 	//console.log(Date.parse(datein));
 					var datestringday = Date.parse(datein);
-					
+					var smonth = datein.getUTCMonth() + 1;
+					var sday = datein.getUTCDate();
+					var syear = datein.getUTCFullYear();
+					sdaterecord = sday + '/' + smonth + '/' + syear;
 						swimgroupcomm = {};
 						newjsoncomm = {};
 							
@@ -274,7 +277,7 @@ makeProgramme.prototype.makeLogic = function(madeactionin, targetin) {
 							
 						} // closes function	
 									
-						var dateid = '<div class="swimcommdate"><a href="" id="fpdate" data-dcommid="' + Date.parse(datein) + '" >' + datein + '</a></div>';
+						var dateid = '<div class="swimcommdate"><a href="" id="fpdate" data-dcommid="' + Date.parse(datein) + '" >' + sdaterecord + '</a></div>';
 						$(dateid).appendTo(".pastfuturecomm");
 
 						// pass the data over for saving

@@ -548,7 +548,14 @@ ttHTML.prototype.livecommunicationset = function(commlive) {
 	presentcommunication = '';
 	commlivehtml = '';
 						commlive.forEach(function(rowcomm){
-//console.log(rowcomm);
+//console.log(rowcomm.value[2]);
+							// format the date
+						/*	var formatdatelive = Date.parse(rowcomm.value[2]);
+console.log(formatdatelive);							
+							var ssmonth = rowcomm.value[2].getUTCMonth() + 1;
+							var ssday = formatdatelive.getUTCDate();
+							var ssyear = formatdatelive.getUTCFullYear();
+							ssdaterecord = ssday + '/' + ssmonth + '/' + ssyear;*/
 								// get the communication data and display programme
 								presentcommunication += 1;
 								commlivehtml += '<div class="swimcommdate"> <a href="" id="fpdate" data-dcommid="' + rowcomm.key + '" >' + rowcomm.value[2] + '</a> </div>';

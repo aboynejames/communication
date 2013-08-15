@@ -448,7 +448,7 @@ nav {
 .swimsettings {
 		border:0px solid pink;
 		font-size: 1.0em;
-		clear:both;
+
      }
 
 label {
@@ -460,17 +460,16 @@ label {
 	font: bold;
 }
 
-	.swimsettingslabel label {
-	float: left;
+.swimsettingslabel label {
+	font-size:2em;
 	padding-top:0.4em;
 	/*font-size:18px;*/
-	width:160px;
-	margin-right:6px;
+	width:100px;
 	vertical-align: bottom;
 	}
 
 .rightselect {
-	font-size: 1em;
+	font-size: 2em;
 	width:60%;
 	
 }
