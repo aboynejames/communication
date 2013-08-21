@@ -1,0 +1,969 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>src&#x2F;programmebuilder.js</title>
+    <link rel="stylesheet" href="http:&#x2F;&#x2F;yui.yahooapis.com&#x2F;3.8.0pr2&#x2F;build&#x2F;cssgrids&#x2F;cssgrids-min.css">
+    <link rel="stylesheet" href="..&#x2F;assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="..&#x2F;assets/css/main.css" id="site_styles">
+    <link rel="shortcut icon" type="image/png" href="..&#x2F;assets/favicon.png">
+    <script src="http:&#x2F;&#x2F;yui.yahooapis.com&#x2F;combo?3.8.0pr2&#x2F;build&#x2F;yui&#x2F;yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+            
+                <h1><img src="..&#x2F;assets/css/logo.png" title=""></h1>
+            
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: </em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+    <h2 class="off-left">APIs</h2>
+    <div id="api-tabview" class="tabview">
+        <ul class="tabs">
+            <li><a href="#api-classes">Classes</a></li>
+            <li><a href="#api-modules">Modules</a></li>
+        </ul>
+
+        <div id="api-tabview-filter">
+            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+        </div>
+
+        <div id="api-tabview-panel">
+            <ul id="api-classes" class="apis classes">
+            
+                <li><a href="..&#x2F;classes/llLogic.html">llLogic</a></li>
+            
+                <li><a href="..&#x2F;classes/makeProgramme.html">makeProgramme</a></li>
+            
+                <li><a href="..&#x2F;classes/MasterWatch.html">MasterWatch</a></li>
+            
+                <li><a href="..&#x2F;classes/PerSwimmer.html">PerSwimmer</a></li>
+            
+                <li><a href="..&#x2F;classes/pouchdbSettings.html">pouchdbSettings</a></li>
+            
+                <li><a href="..&#x2F;classes/recordQS.html">recordQS</a></li>
+            
+                <li><a href="..&#x2F;classes/SwimtimeController.html">SwimtimeController</a></li>
+            
+                <li><a href="..&#x2F;classes/ttHTML.html">ttHTML</a></li>
+            
+            </ul>
+
+            <ul id="api-modules" class="apis modules">
+            
+            </ul>
+        </div>
+    </div>
+</div>
+
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+        Show:
+        <label for="api-show-inherited">
+            <input type="checkbox" id="api-show-inherited" checked>
+            Inherited
+        </label>
+
+        <label for="api-show-protected">
+            <input type="checkbox" id="api-show-protected">
+            Protected
+        </label>
+
+        <label for="api-show-private">
+            <input type="checkbox" id="api-show-private">
+            Private
+        </label>
+        <label for="api-show-deprecated">
+            <input type="checkbox" id="api-show-deprecated">
+            Deprecated
+        </label>
+
+    </div>
+
+
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+                        <h1 class="file-heading">File: src&#x2F;programmebuilder.js</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+&#x2F;**
+*  jQuery listen for clicks and interaction	
+* 
+*&#x2F;	
+$(document).ready(function(){
+	
+	$(&quot;#setsettings&quot;).hide();
+	$(&quot;#canvasDiv&quot;).hide();
+		&#x2F;&#x2F; create pouchdb object
+		livepouch = new pouchdbSettings();	
+&#x2F;&#x2F; delete local pouchdb database		
+	&#x2F;&#x2F;livepouch.deletePouch();
+	livellHTML = new llHTML();
+	liveLogic = new llLogic();
+	liveMake = new makeProgramme();
+	liveRecord = new recordQS();
+	liveHTML = new ttHTML();	
+	elementliverecid = 0;
+	uniqueelementids = [];
+	currentliveelementid = [];
+	&#x2F;&#x2F;fire up the classes
+	starttiming = new SwimtimeController();
+	var today = new Date();
+	var month = today.getUTCMonth() + 1;
+	var day = today.getUTCDate();
+	var year = today.getUTCFullYear();
+	&#x2F;&#x2F; display date live day month year
+	$(&quot;#livetime&quot;).html(day + &#x27;&#x2F;&#x27; + month + &#x27;&#x2F;&#x27; + year);
+	
+	&#x2F;&#x2F; connect to socket.io
+  var socketpi = io.connect(&#x27;http:&#x2F;&#x2F;192.168.1.44:8842&#x27;);		
+&#x2F;&#x2F;console.log(socketpi);
+		socketpi.emit(&#x27;swimmerclient&#x27;, { swimmerdevice: &#x27;localhitchup&#x27; });
+	
+		$(&quot;a,#communication,#recordcommunication,#attention&quot;).click(function(e) {
+		e.preventDefault(e);
+&#x2F;&#x2F;console.log(this);	
+&#x2F;&#x2F;console.log(e.target);
+		var $sotgt = $(e.target);			
+		liveLogic.frameworklogic(this);	
+
+			var resultord = $(&#x27;#sortable1&#x27;).sortable(&#x27;toArray&#x27;);
+			idclick = $(this).attr(&quot;id&quot;);
+			idtitle = $(this).attr(&quot;title&quot;);	
+&#x2F;&#x2F;console.log(&#x27;a link capture&#x27; + idclick + idtitle);		
+			&#x2F;&#x2F; pass on the id of the swimmer  2 pass on the type of click,  start, reset, split, stop	
+			starttiming.identifyswimmer(idtitle, idclick);
+			
+			&#x2F;&#x2F; make programme logic
+			liveMake.makeLogic(idclick, $sotgt);
+
+			&#x2F;&#x2F; record DS data
+			liveRecord.recordLogic(idclick, $sotgt);			
+		});			
+
+	&#x2F;&#x2F; datepicker
+	$( &quot;#datepicker&quot; ).datepicker({
+		changeMonth: true,
+		changeYear: true
+	});
+	
+
+&#x2F;&#x2F; check and see if there is any existing communication dates
+		function localCommcall(commdate, callback) {  
+							livepouch.mapQueryCommdate(commdate, callback);
+						}  
+      
+		localCommcall(&#x27;133&#x27;, function(rtmap) {  
+
+		var livecommcode =liveHTML.livecommunicationset(rtmap[&quot;rows&quot;]);
+			
+		$(&quot;.pastfuturecomm&quot;).html(livecommcode);	
+			
+	});
+
+&#x2F;**
+stopwatch jquery code from stopwatch3.js
+*
+*
+*&#x2F;
+&#x2F;&#x2F;console.log(&#x27;start new timer object&#x27;);	
+
+	$(window).unload( function () { 
+	
+			passwordin = &#x27;&#x27;;
+			$(&quot;#loadlaneselect&quot;).hide();
+			$(&quot;#loadswimmers&quot;).hide();
+			$(&quot;#addnewswimmer&quot;).hide();
+			$(&quot;#syncdata&quot;).hide();
+			$(&quot;#clearpouchdb&quot;).hide();
+			$(&quot;#sortable1&quot;).empty();
+			$(&quot;#signinopener&quot;).show();
+	
+				&#x2F;&#x2F; need to tell the server of the log out too
+			$.get(&quot;&#x2F;signout&#x2F;&quot; + $.cookie(&quot;traintimer&quot;), function(resultout){
+						});
+			$.cookie(&quot;traintimer&quot;, null);
+      &#x2F;&#x2F;alert(&quot;You haved signed out of TrainTimer&quot;);
+
+		});
+	
+	&#x2F;*
+	*  Hide in place html
+	*&#x2F;
+	$(&quot;#loadlaneselect&quot;).hide();
+	$(&quot;#loadswimmers&quot;).hide();
+	$(&quot;#addnewswimmer&quot;).hide();
+	$(&quot;#loadclearswimmers&quot;).hide();
+	$(&quot;.swimsettings&quot;).hide();
+	$(&quot;#syncdata&quot;).hide();
+	$(&quot;#clearpouchdb&quot;).hide();
+	$(&quot;#analysistype&quot;).hide();
+	$(&quot;.peredit&quot;).hide();
+	$(&quot;.historicalplace&quot;).hide();
+	$(&quot;#signupspace&quot;).hide();		
+	$(&quot;#welcomesummary&quot;).show();		
+
+
+&#x2F;&#x2F;console.log(socketpi.emit);
+
+	&#x2F;&#x2F; welcome summary  call pouch get no. active swimmers
+					function welcomeDatacall(callback) {  
+						livepouch.mapQueryswimmers(callback);
+					}  
+      
+						welcomeDatacall(function(wmap) { 
+&#x2F;&#x2F;console.log(&#x27;welcome callback&#x27;);							
+&#x2F;&#x2F;console.log(wmap.rows.length);
+								if(wmap.rows.length &gt; 0)
+								{
+									welcomedata = wmap.rows.length + &quot; active swimmers&quot;;
+									$(&quot;#welcomesummary&quot;).html(welcomedata);
+								}
+								else
+								{
+									welcomedata = &#x27;No swimmmers present.&lt;br &#x2F;&gt;&lt;br &#x2F;&gt;Please press &lt;b&gt;Swimmers&lt;&#x2F;b&gt; button&#x27;;
+									$(&quot;#welcomesummary&quot;).html(welcomedata);
+									
+								}
+					});
+
+	$(&quot;#siginformarea&quot;).hide();
+		
+    $(&quot;#signinopener&quot;).click(function(e) {
+&#x2F;&#x2F;console.log(&#x27;time to distroy the cookie please&#x27;);
+        usernamein = &#x27;&#x27;;
+        passwordin = &#x27;&#x27;;
+        cookieidhash = &#x27;&#x27;;
+        passwordhash= &#x27;&#x27;;
+    &#x2F;&#x2F; sigin modal
+    loginhtml = &#x27;&#x27;;
+    loginhtml += &#x27;&lt;div&gt;Welcome, to Train Timer &lt;&#x2F;div&gt;&#x27;;
+    loginhtml += &#x27;&lt;form method=&quot;post&quot; action=&quot;#&quot; id=&quot;siginform&quot; &gt;&#x27;;
+    loginhtml += &#x27;&lt;div&gt;&lt;label for=&quot;name&quot;&gt;Username&lt;&#x2F;label&gt;&lt;input id=&quot;name&quot; class=&quot;text ui-widget-content ui-corner-all&quot; type=&quot;text&quot; title=&quot;name&quot; size=&quot;16&quot; &gt;&lt;&#x2F;div&gt;&#x27;;
+    loginhtml += &#x27;&lt;div&gt;&lt;label for=&quot;password&quot;&gt;Password&lt;&#x2F;label&gt;&lt;input id=&quot;password&quot; class=&quot;text ui-widget-content ui-corner-all&quot; type=&quot;password&quot; value=&quot;&quot; name=&quot;password&quot; size=&quot;16&quot; &gt;&lt;&#x2F;div&gt;&lt;&#x2F;form&gt;&#x27;;
+    loginhtml += &#x27;&lt;div class=&quot;ui-dialog-buttonpane ui-widget-content ui-helper-clearfix&quot;&gt; &lt;div class=&quot;ui-dialog-buttonset&quot;&gt;&lt;button class=&quot;ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only&quot; type=&quot;button&quot; role=&quot;button&quot; aria-disabled=&quot;false&quot;&gt;&lt;span class=&quot;ui-button-text&quot;&gt;Sign me in&lt;&#x2F;span&gt;&lt;&#x2F;button&gt;&lt;&#x2F;div&gt;&lt;&#x2F;div&gt;&lt;div id=&quot;responsemessage&quot;&gt;&lt;&#x2F;div&gt;&#x27;;
+
+    $(&quot;#siginformarea&quot;).dialog({
+            autoOpen: false,
+            height: 340,
+            width: 260, 
+            title: &#x27;Signin to Train Timer&#x27;,
+            buttons: {
+                                        &quot;Sign me in&quot;: function() {
+                                            &#x2F;&#x2F; need to make couchdb call to accept user details
+                                        usernamein = $(&quot;#name&quot;).val();
+                                        passwordin = $(&quot;#password&quot;).val();                                            
+
+                                            hashCode = function(str){
+                                                var hash = 0;
+                                                if (str.length === 0) return hash;
+                                                for (i = 0; i &lt; str.length; i++) {
+                                                        char = str.charCodeAt(i);
+                                                        hash = ((hash&lt;&lt;5)-hash)+char;
+                                                        hash = hash &amp; hash; &#x2F;&#x2F; Convert to 32bit integer
+                                                }
+                                                return hash;
+                                        };
+                                        passwordhash = hashCode(passwordin);
+                                        cookieidhash = hashCode((usernamein + passwordin));                                    
+                                            
+                                        this.acceptdetails = &#x27;&#x27;;
+        
+                                                                                                &#x2F;&#x2F; Wrap up the PUT request execution.
+        var makePUTRequest = function(){
+
+            &#x2F;&#x2F; Make the PUT request.
+            $.ajax({
+                type: &quot;GET&quot;,
+                url: &quot;http:&#x2F;&#x2F;www.mepath.co.uk:8833&#x2F;signinmepath&#x2F;&quot; + usernamein + &#x27;&#x2F;&#x27; + cookieidhash + &#x27;&#x2F;&#x27; + passwordin,
+                contentType: &quot;application&#x2F;json&quot;,
+                dataType: &quot;text&quot;,
+success: function( resultback ){
+
+					this.acceptdetails = JSON.parse(resultback);
+					
+					if(this.acceptdetails[&#x27;signin&#x27;] == &#x27;passed&#x27;) {		
+												&#x2F;&#x2F;passedsigntest(&quot;one&quot;);
+												$.cookie(&quot;traintimer&quot;, cookieidhash,  { expires: 7 });
+												$(&quot;#ifsignedin&quot;).show();	
+												$(&quot;#ifsignedin&quot;).html(&#x27;&lt;a class=&quot;control-text&quot; text=&quot;SignOut&quot; title=&quot;signout&quot; href=&quot;#&quot;  id=&quot;signincloser&quot; &gt;Sign-out&lt;&#x2F;a&gt; &#x27; + usernamein );
+												$(&quot;#siginformarea&quot;).dialog( &quot;close&quot; );
+												$(&quot;#signinopener&quot;).hide();
+												$(&quot;#sortable1&quot;).empty();
+												$(&quot;#signupstart&quot;).hide();
+												$(&quot;#syncdata&quot;).show();
+												$(&quot;#clearpouchdb&quot;).show();
+										
+																				
+												}
+												else {
+&#x2F;&#x2F;console.log(&#x27;failed&#x27;);
+													$(&quot;#responsemessage&quot;).html(&#x27;Signin Failed, try again&#x27;);
+												}
+
+				},
+				error: function( error ){
+					&#x2F;&#x2F; Log any error.
+					console.log( &quot;ERROR:&quot;, error );
+				},
+				complete: function(){
+
+					&#x2F;&#x2F; When this completes, execute teh
+					&#x2F;&#x2F; DELETE request.
+					&#x2F;&#x2F;makeDELETERequest();
+
+				}
+			});
+
+		};
+
+
+
+		&#x2F;&#x2F; Execute the PUT request.
+		makePUTRequest();
+
+										},
+										Cancel: function() {
+										$( this ).dialog( &quot;close&quot; );
+										}
+
+			},
+			close: function() {
+			$(&quot;#name&quot;).val( &quot;&quot; );
+			$(&quot;#password&quot;).val( &quot;&quot; );
+			cookieidhash = &#x27;&#x27;;
+			passwordhash= &#x27;&#x27;;
+				
+			}
+
+		});
+	$(&quot;#siginformarea&quot;).show();
+	$(&quot;#siginformarea&quot;).dialog(&#x27;open&#x27;);
+
+		&#x2F;&#x2F; prevent the default action, e.g., following a link
+		return false;
+
+	});
+	
+		&#x2F;*
+	* Clear pouchDB
+	*
+	*&#x2F;
+	$(&quot;#clearpouchdb&quot;).click(function(e) {
+		
+		livepouch.deletePouch();
+		
+	});
+	
+	&#x2F;*
+	* Sync data back to couchdb online
+	*
+	*&#x2F;
+	$(&quot;#syncdata&quot;).click(function(e) {
+		
+		designdoc = 0;
+		&#x2F;&#x2F; need to set a design document (but only needed once)
+		if(designdoc != 1 ) {
+			
+			designdocjson = {&quot;_id&quot;: &quot;_design&#x2F;swimmers&quot;,  &quot;filters&quot; : {&quot;justname&quot; : &quot;function(traintimer) {if(traintimer.name == &#x27;_design&#x2F;swimmers&#x27; ) { emit (traintimer.changes, traintimer.changes)} }&quot; }};
+	livepouch.putDoc(designdocjson);
+		}
+		&#x2F;&#x2F; get all current doc from pouchdb and pass them on to nodejs to couchdb and delete local data (ideally leave 1 month or user directed future todo )
+&#x2F;&#x2F;console.log(&#x27;list to sync&#x27;);	
+		&#x2F;&#x2F;
+		localsplitstodelete = [];
+		
+		function localDatalog(callback) {  
+			livepouch.filterchangeLog(callback);
+			&#x2F;&#x2F;livepouch.mapQueryname(selectedlanenow, callback);
+			
+		}  
+
+		localDatalog( function(trainlog) {
+
+				trainlog[&#x27;results&#x27;].forEach(function(rowsswimsplit){
+		
+					if (rowsswimsplit.doc[&#x27;session&#x27;] &amp;&amp; (rowsswimsplit.deleted != 1))
+					{
+						&#x2F;&#x2F; form JSON to sync back to couch
+						buildsyncsplits = {};
+						buildsyncsplits[&#x27;session&#x27;] = rowsswimsplit.doc[&#x27;session&#x27;];
+						buildsyncsplits[&#x27;swimmerid&#x27;] =rowsswimsplit.doc[&#x27;swimmerid&#x27;];
+						syncdataforsave =  JSON.stringify(buildsyncsplits);
+						$.post(&quot;&#x2F;sync&#x2F;&quot;, syncdataforsave ,function(result){
+					&#x2F;&#x2F; put a message back to UI to tell of a successful sync
+						livepouch.deleteDoc(rowsswimsplit.doc[&#x27;_id&#x27;]);	
+			
+						});
+					}
+				});
+			
+	
+		&#x2F;*
+		&#x2F;&#x2F; same for swimmer names expect do not del but mark last seq no. 
+		trainlog[&#x27;results&#x27;].forEach(function(rowsswimname){
+					
+					if (rowsswimname.doc[&#x27;name&#x27;] )
+					{
+console.log(&#x27;new names back to couch&#x27;);						
+console.log(rowsswimname);
+						&#x2F;&#x2F; form JSON to sync back to couch
+						buildsyncswimmer = {};
+						buildsyncswimmer[&#x27;lanetrain&#x27;] = rowsswimname.doc[&#x27;lanetrain&#x27;];
+						buildsyncswimmer[&#x27;name&#x27;] = rowsswimname.doc[&#x27;name&#x27;];
+						buildsyncswimmer[&#x27;swimmerid&#x27;] = rowsswimname.doc[&#x27;swimmerid&#x27;];
+							syncdataforsave =  JSON.stringify(buildsyncswimmer);
+				$.post(&quot;&#x2F;sync&#x2F;&quot;, syncdataforsave ,function(result){
+					&#x2F;&#x2F; put a message back to UI to tell of a successful sync
+console.log(&#x27;callback from sync to couchdb via node is complete&#x27;);	
+			
+				});
+					}
+				});
+		*&#x2F;
+		});
+});
+
+	$(&quot;#ifsignedin&quot;).click(function(e) {
+&#x2F;&#x2F;console.log(&#x27;time to distroy the cookie please&#x27;);
+			e.preventDefault(e);
+			var $sotgt = $(e.target);
+&#x2F;&#x2F;console.log(&#x27;what tgt look like?&#x27;);			
+        if ($sotgt.is(&quot;#signincloser&quot;)) {
+					
+					&#x2F;&#x2F;starttiming = &#x27;&#x27;;
+					&#x2F;&#x2F;starttiming.activetimeclock = &#x27;&#x27;;
+
+					$(&quot;#ifsignedin&quot;).fadeOut(&quot;slow&quot;);
+						&#x2F;&#x2F;$(&quot;#ifsignedin&quot;).hide();	
+					$(&quot;#loadlaneselect&quot;).hide();
+					$(&quot;#syncdata&quot;).hide();
+					$(&quot;#clearpouchdb&quot;).hide();
+					$(&quot;#sortable1&quot;).empty();
+					$(&quot;#signinopener&quot;).show();
+					$(&quot;#signupstart&quot;).show();
+	
+					&#x2F;&#x2F; need to tell the server of the log out too
+						$.get(&quot;&#x2F;signout&#x2F;&quot; + $.cookie(&quot;traintimer&quot;), function(resultout){
+							
+						});
+					$.cookie(&quot;traintimer&quot;, null);
+
+				}
+					
+	});
+		
+&#x2F;*
+* add swimmer form produced after default layout therefore need to delegate to existing DOM element	
+*&#x2F;	
+	$(&quot;#newmaster&quot;).click(function (e) {
+				
+					e.preventDefault(e);
+					&#x2F;&#x2F; has the user signed in?
+					setsaveallowed = &#x27;&#x27;;
+					setsaveallowed = $.cookie(&quot;traintimer&quot;);
+&#x2F;&#x2F;console.log(&#x27;has cookie been set?&#x27; + setsaveallowed);		
+				
+				var $tgt = $(e.target);
+&#x2F;&#x2F;console.log(&#x27;what tgt look like?&#x27;);
+&#x2F;&#x2F;console.log($tgt.attr(&quot;name&quot;));				
+        if ($tgt.is(&quot;#newmasteradd&quot;)) {
+					
+					&#x2F;&#x2F; need to be both a name and a lane number validation
+					newmastnameis = $(&quot;#newmasteradd input#newmastid &quot;).val();
+					newlane = $(&quot;#thelaneoptionsnew&quot;).val();
+&#x2F;&#x2F;console.log(&#x27;what are we validatig on&#x27; + newmastnameis + &#x27;lane&#x27; + newlane );					
+					if(newmastnameis.length &gt; 0 &amp;&amp; (newlane.length &gt; 0 &amp;&amp; newlane != -1) )
+					{
+&#x2F;&#x2F;console.log(&#x27;form validation passed&#x27;);
+					&#x2F;&#x2F;newmastidis = $(&quot;#newmasteradd input#newmidid &quot;).val();
+												hashCode = function(str){
+												var hash = 0;
+												if (str.length === 0) return hash;
+												for (i = 0; i &lt; str.length; i++) {
+														char = str.charCodeAt(i);
+														hash = ((hash&lt;&lt;5)-hash)+char;
+														hash = hash &amp; hash; &#x2F;&#x2F; Convert to 32bit integer
+												}
+&#x2F;&#x2F;console.log(hash + &#x27;new hasnumber&#x27;);
+												return hash;
+												};
+												var newidnumberstart = new Date();
+												newswimmerguid = Date.parse(newidnumberstart);
+&#x2F;&#x2F;console.log(&#x27;date string&#x27; + newswimmerguid)	;									
+						newmastidish = hashCode(newmastnameis);
+						newmastidisrand = Math.floor((Math.random()*10000000)+1);
+&#x2F;&#x2F;console.log(newmastidisrand + &#x27;randon number&#x27;);												
+						newmastidis = newmastidisrand + &#x27;-&#x27; + newmastidish;												
+&#x2F;&#x2F;console.log(&#x27;new GUID&#x27; + newmastidis);				
+					
+&#x2F;&#x2F; need to save new master to couch, name and masters id,  validate unique ID number
+					firstsavenewmaster = {};
+					firstsavenewmaster[&#x27;name&#x27;] = newmastnameis;
+					firstsavenewmaster[&#x27;swimmerid&#x27;] = newmastidis;
+					firstsavenewmaster[&#x27;lanetrain&#x27;] = newlane;
+					jsonfirstsavenewmaster =  JSON.stringify(firstsavenewmaster);
+
+						&#x2F;&#x2F;  make save to poudbfirst
+						livepouch.singleSave(firstsavenewmaster);
+						
+						&#x2F;&#x2F;$.post(&quot;&#x2F;save&#x2F;&quot; + setsaveallowed, jsonfirstsavenewmaster ,function(result){
+							&#x2F;&#x2F; put a message back to UI to tell of a successful save TODO
+						&#x2F;&#x2F;	});					
+				
+				$(&quot;#newmaster&quot;).hide();
+&#x2F;&#x2F; add html code for new swimmer added
+					newswimcode = &#x27;&#x27;;		
+					newswimcode = liveHTML.fromswimmers(newmastnameis, newmastidis);			
+							
+				$(&quot;#sortable1&quot;).append(newswimcode);
+				$(&quot;#saveconfirmswimmer&quot;).text(&#x27;new master added&#x27;);
+				$(&quot;#saveconfirmswimmer&quot;).show();
+				$(&quot;#saveconfirmswimmer&quot;).fadeOut(&quot;slow&quot;);
+				$(&quot;#addswimmer&quot;).attr(&quot;title&quot;, &quot;on&quot;);
+				$(&quot;.peredit&quot;).hide();
+				$(&quot;.peranalysis&quot;).hide();		
+				
+				$(&quot;#controloptions&quot;).hide();
+				$(&quot;.peredit&quot;).hide();
+				$(&quot;.historicalchart&quot;).hide();
+				$(&quot;.historicalsummary&quot;).hide();
+				$(&quot;.historicalbio&quot;).hide();
+				$(&quot;#viewdata&quot;).attr(&quot;title&quot;, &quot;on&quot;);
+				$(&quot;#startsort&quot;).attr(&quot;title&quot;, &quot;on&quot;);
+				$(&quot;#loadlane&quot;).attr(&quot;title&quot;, &quot;on&quot;);
+				$(&quot;#loadlane&quot;).attr(&quot;class&quot;, &quot;control-text&quot;);
+
+				}
+				else
+				{
+					&#x2F;&#x2F; need to prompt to add name or select lane number
+					adderrormessage = &#x27;Please &#x27;;
+					if(newmastnameis.length === 0 )
+					{ 
+						adderrormessage += &#x27;add a name &#x27;;
+					}
+					if(newlane == -1 )
+					{
+							adderrormessage += &#x27;select a lane &#x27;;
+					}
+					$(&quot;#newswimerror&quot;).html(adderrormessage);
+				}
+			}
+			
+	});
+		
+&#x2F;*
+*  load swimmer by lane number
+*&#x2F;
+$(&quot;select#thelaneoptions&quot;).change(function () {
+	&#x2F;&#x2F;livepouch.deletePouch();
+				$(&quot;#viewdatalive&quot;).empty();
+				$(&quot;#visualisedata&quot;).empty();
+				$(&quot;#splittimeshistorical&quot;).empty();
+				$(&quot;#loadlane&quot;).attr(&quot;title&quot;, &quot;on&quot;);
+				selectedlanenow = $(&quot;select#thelaneoptions&quot;).val();
+	
+			&#x2F;&#x2F;$(&quot;#changeplace&quot;).text(selectedlanenow);
+	
+&#x2F;&#x2F;console.log(&#x27;yes lane&#x27; + selectedlanenow );
+				&#x2F;&#x2F;first check local
+					function localDatacall(selectedlanenow, callback) {  
+						livepouch.mapQueryname(selectedlanenow, callback);
+					}  
+      
+			localDatacall(selectedlanenow, function(rtmap) {  
+
+						presentswimmer = &#x27;&#x27;;
+	
+					rtmap[&quot;rows&quot;].forEach(function(rowswimrs){
+
+							if(rowswimrs[&#x27;key&#x27;] == selectedlanenow )
+							{
+								&#x2F;&#x2F;pass the lane data to get html ready
+								presentswimmer += liveHTML.fromswimmers(rowswimrs[&#x27;value&#x27;][1], rowswimrs[&#x27;value&#x27;][0]);
+							
+								}
+						});
+
+				$(&quot;#sortable1&quot;).html(presentswimmer);	
+				$(&quot;.peredit&quot;).hide();
+				$(&quot;.peranalysis&quot;).hide();
+				$(&quot;.historicalplace&quot;).hide();
+				$(&quot;.historicalchart&quot;).hide();
+				$(&quot;.historicalsummary&quot;).hide();
+				$(&quot;.historicalbio&quot;).hide();						
+				$(&quot;#analysistype&quot;).hide();
+				$(&quot;#viewdata&quot;).attr(&quot;title&quot;, &quot;on&quot;);
+				$(&quot;#loadlane&quot;).attr(&#x27;class&#x27;, &#x27;control-text&#x27;);
+						
+				&#x2F;&#x2F; test splits data recall						
+				function localDataSPcall(dataspin, callback) {  
+						livepouch.mapQuerySplits(dataspin, callback);
+
+					}  
+      
+					localDataSPcall(&#x27;1&#x27;, function(spmap) {  
+&#x2F;&#x2F;console.log(&#x27;how splits data look after save&#x27;);
+&#x2F;&#x2F;console.log(spmap);						
+					});						
+						
+			});  
+							
+				&#x2F;&#x2F; make post request to get swimmer for this lane and dispaly
+				&#x2F;&#x2F;$(&quot;#sortable1&quot;).load(&quot;&#x2F;buildswimmers&#x2F;lane&#x2F;&quot; + selectedlanenow + &#x27;&#x2F;&#x27; + setsaveallowed);
+				&#x2F;&#x2F;$(&quot;#loadlaneselect&quot;).hide();
+				&#x2F;&#x2F;$(&quot;#loadswimmers&quot;).hide();
+				&#x2F;&#x2F;$(&quot;#loadclearswimmers&quot;).hide();
+				$(&quot;#controloptions&quot;).hide();
+
+			})
+			.change();	
+
+&#x2F;*
+	$(&quot;select#thelaneoptions&quot;).change(function () {
+	&#x2F;&#x2F;livepouch.deletePouch();
+	
+		valuesel = $(&quot;select#thelaneoptions&quot;).val();
+console.log(valuesel);		
+		
+		$(&quot;#changeplace&quot;).text(valuesel);
+		$(&quot;#sortable1&quot;).text(valuesel);
+		})
+.change();
+*&#x2F;		
+&#x2F;*
+* first time start
+*&#x2F;
+	$(&quot;#welcomesummary&quot;).on(&quot;click&quot;, function (e) {
+  &#x2F;&#x2F;  $(&quot;a&quot;).click(function(e){
+		e.preventDefault(e);
+		var $swtgt = $(e.target);
+		if ($swtgt.is(&quot;a&quot;)) {
+			idclick = $swtgt.attr(&quot;id&quot;);
+			idname =$swtgt.attr(&quot;title&quot;);
+&#x2F;&#x2F;console.log(&#x27;first time start&#x27; + idclick + idname);			 
+&#x2F;&#x2F; pass on the id of the swimmer  2 pass on the type of click,  start, reset, split, stop	
+			starttiming.identifyswimmer(idname, idclick);
+		}
+	});
+
+			
+&#x2F;*
+*
+* List swimmer alphabetically
+*&#x2F;
+	$(&quot;#theswimmeroptions&quot;).change(function () {
+
+				$(&quot;#viewdatalive&quot;).empty();
+				$(&quot;#visualisedata&quot;).empty();
+				$(&quot;#splittimeshistorical&quot;).empty();
+		
+				$(&quot;#loadlane&quot;).attr(&quot;title&quot;, &quot;on&quot;);
+				selectedswimmernow = $(&quot;#theswimmeroptions&quot;).val();
+&#x2F;&#x2F;console.log(&#x27;letter in &#x27; + selectedswimmernow );
+				&#x2F;&#x2F;first check local
+					function localDatacall(selectedswimmernow, callback) {  
+						livepouch.mapQueryname(selectedswimmernow, callback);
+					}  
+      
+					localDatacall(selectedswimmernow, function(rtmap) {  
+
+						presentswimmer = &#x27;&#x27;;
+						presentswimmer = &#x27;&lt;form id=&quot;alphaswimmeradd&quot; class=&quot;menu-text&quot; action=&quot;#&quot; method=&quot;post&quot;&gt;&#x27;;
+&#x2F;&#x2F;console.log(rtmap);								
+					rtmap[&quot;rows&quot;].forEach(function(rowswimrs){
+						getfirstletter = rowswimrs[&#x27;value&#x27;][1].charAt(0);
+						makelettersmall = getfirstletter.toLowerCase();
+						
+							if(makelettersmall == selectedswimmernow )
+							{
+								&#x2F;&#x2F; prepare list box  select and append HTML
+								presentswimmer += liveHTML.checkboxswimmers(rowswimrs[&#x27;value&#x27;][1], rowswimrs[&#x27;value&#x27;][0]);
+								&#x2F;&#x2F;pass the lane data to get html ready
+								&#x2F;&#x2F;presentswimmer += liveHTML.fromswimmers(rowswimrs[&#x27;value&#x27;][1], rowswimrs[&#x27;value&#x27;][0]);
+							
+								}
+								
+					});
+				presentswimmer += &#x27;&lt;&#x2F;form&gt;&#x27;;
+					&#x2F;&#x2F;presentswimmer += &#x27;&lt;a href=&quot;&quot; id=&quot;aaselectswimmer&quot; &gt;add alpha&lt;&#x2F;a&gt;&#x27;;
+&#x2F;&#x2F;console.log(&#x27;list checkboxes&#x27;);
+&#x2F;&#x2F;console.log(presentswimmer);					
+				$(&quot;#addalpha&quot;).html(presentswimmer);					
+				
+					presentclose = &#x27;&lt;br &#x2F;&gt;&lt;br &#x2F;&gt;&lt;a href=&quot;&quot; id=&quot;closealphalist&quot; class=&quot;control-text&quot; &gt;Close&lt;&#x2F;a&gt;&#x27;;
+					$(&quot;#addalphatwo&quot;).html(presentclose);
+
+    });  
+							
+				&#x2F;&#x2F; make post request to get swimmer for this lane and dispaly
+				&#x2F;&#x2F;$(&quot;#sortable1&quot;).load(&quot;&#x2F;buildswimmers&#x2F;lane&#x2F;&quot; + selectedlanenow + &#x27;&#x2F;&#x27; + setsaveallowed);
+				$(&quot;#loadlaneselect&quot;).hide();
+				$(&quot;#loadswimmers&quot;).hide();
+				$(&quot;#loadclearswimmers&quot;).hide();
+				$(&quot;#addnewswimmer&quot;).hide();
+				$(&quot;#loadlane&quot;).attr(&#x27;class&#x27;, &#x27;control-text&#x27;);
+
+
+
+			}).change();	
+
+&#x2F;*
+*
+* Add swimmer to active live list
+*&#x2F;
+	$(&quot;#addalpha&quot;).change(function (e) {
+		
+			var $tgt = $(e.target);
+&#x2F;&#x2F;console.log(&#x27;what tgt look like?&#x27;);
+&#x2F;&#x2F;console.log($tgt.is);	
+&#x2F;&#x2F;console.log($tgt.attr(&quot;value&quot;));	
+		&#x2F;&#x2F; which name checked?
+		swimnamealpha = $tgt.attr(&quot;value&quot;);
+		swimidalpha = $tgt.attr(&quot;id&quot;);
+		&#x2F;&#x2F; prepare list box  select and append HTML
+		presentswimmeralpha = liveHTML.fromswimmers(swimnamealpha, swimidalpha);
+
+		$(&quot;#sortable1&quot;).append(presentswimmeralpha);
+	
+		$(&quot;.peredit&quot;).hide();
+		$(&quot;.peranalysis&quot;).hide();
+		$(&quot;.historicalchart&quot;).hide();
+		$(&quot;.historicalsummary&quot;).hide();
+		$(&quot;.historicalbio&quot;).hide();
+		$(&quot;#viewdata&quot;).attr(&quot;title&quot;, &quot;on&quot;);
+		$(&quot;#startsort&quot;).attr(&quot;title&quot;, &quot;on&quot;);
+		
+	});
+			
+&#x2F;*
+* Close alphalist
+*&#x2F;
+	$(&quot;#addalphatwo&quot;).click(function (e) {
+		e.preventDefault(e);
+		$(&quot;#addalpha&quot;).empty();
+		$(&quot;#addalphatwo&quot;).empty();
+		
+	});
+
+&#x2F;*
+* Clear all swimmer from sort div
+*&#x2F;
+	$(&quot;#clearallswimmers&quot;).click(function (e) {
+		e.preventDefault(e);
+&#x2F;&#x2F;console.log(&#x27;clearswimmer click call&#x27;);		
+
+			$(&quot;#sortable1&quot;).empty();
+			$(&quot;#loadlaneselect&quot;).hide();
+			$(&quot;#loadswimmers&quot;).hide();
+			$(&quot;#addnewswimmer&quot;).hide();
+			$(&quot;#loadclearswimmers&quot;).hide();
+			$(&quot;#loadlane&quot;).attr(&quot;title&quot;, &quot;on&quot;);
+			$(&quot;#loadlane&quot;).attr(&#x27;class&#x27;, &#x27;control-text&#x27;);
+
+	});	
+	
+&#x2F;*
+* delgation of add alpha swimmer
+*&#x2F;
+	$(&quot;#aselectswimmer&quot;).click(function (e) {
+		e.preventDefault(e);
+&#x2F;&#x2F;console.log(&#x27;alpha add start&#x27;);			
+			var $tgt = $(e.target);
+&#x2F;&#x2F;console.log(&#x27;what tgt look like?&#x27;);
+&#x2F;&#x2F;console.log($tgt.attr(&quot;name&quot;));				
+			if ($tgt.is(&quot;#aselectswimmer&quot;)) {
+				aselectswimmerlist = $(&quot;.demo input#aselectswimmer &quot;).val();			
+&#x2F;&#x2F;console.log(&#x27;alpha add swimmers&#x27;);
+&#x2F;&#x2F;console.log(aselectswimmerlist);
+				}
+	});					
+
+&#x2F;&#x2F; drag and drop
+		$(&quot;ul.droptrue&quot;).sortable({
+			connectWith: &#x27;ul&#x27;,
+			opacity: 0.6,
+			update : updatePostOrder
+		});
+
+		
+&#x2F;&#x2F;		$(&quot;#sortable1, #sortable2&quot;).disableSelection();
+		$(&quot;#sortable1, #sortable2&quot;).css(&#x27;minHeight&#x27;,$(&quot;#sortable1&quot;).height()+&quot;px&quot;);
+	
+			function updatePostOrder() { 
+			var arrorder = [];
+				$(&quot;#sortable1 .ui-state-default&quot;).each(function(){
+				arrorder.push($(this).attr(&#x27;id&#x27;));
+				});
+				$(&#x27;#postOrder&#x27;).val(arrorder.join(&#x27;,&#x27;));
+			}
+			
+	&#x2F;&#x2F; need to identify which swimmers css markup has been clicked
+	$(&quot;#contactin&quot;).click(function(e){
+			e.preventDefault(e);
+
+			idclick = $(this).attr(&quot;id&quot;);
+			idtitle = $(this).attr(&quot;title&quot;);	
+&#x2F;&#x2F;console.log(&#x27;a link capture&#x27; + idclick + idtitle);		
+			&#x2F;&#x2F; pass on the id of the swimmer  2 pass on the type of click,  start, reset, split, stop	
+			starttiming.identifyswimmer(idtitle, idclick);
+		
+	});	
+	
+	
+	
+	$(&quot;#sortable1&quot;).on(&quot;click&quot;, function (e) {
+  &#x2F;&#x2F;  $(&quot;a&quot;).click(function(e){
+		e.preventDefault(e);
+		var $swtgt = $(e.target);
+		if ($swtgt.is(&quot;a&quot;)) {
+			idclick = $swtgt.attr(&quot;id&quot;);
+			idname =$swtgt.attr(&quot;title&quot;);	
+&#x2F;&#x2F; pass on the id of the swimmer  2 pass on the type of click,  start, reset, split, stop	
+			starttiming.identifyswimmer(idname, idclick);
+		}
+	});
+	
+&#x2F;*
+* Touchpad listening socket
+	*&#x2F;
+ &#x2F;&#x2F; when you get a serialdata event, do this:
+socketpi.on(&#x27;serialEvent&#x27;, function (data) {
+
+&#x2F;&#x2F; whatever the &#x27;value&#x27; property of the received data is:
+	if(data.value == 1)
+	{		
+&#x2F;&#x2F;console.log(starttiming.activetimeclock.startclock.itp);
+&#x2F;&#x2F;console.log(&#x27;touchpad ingredients&#x27;);		
+&#x2F;&#x2F;console.log(starttiming.activetimeclock.startclock.totalsplitarray);		
+
+		&#x2F;&#x2F;buttonidserial = &#x27;8959315--1256701539&#x27;;  &#x2F;&#x2F; test data
+		&#x2F;&#x2F; call the split function
+		starttiming.activetimeclock.splitswimmerid(starttiming.activetimeclock.startclock.totalsplitarray[starttiming.activetimeclock.startclock.itp]);
+		starttiming.activetimeclock.split(starttiming.activetimeclock.startclock.totalsplitarray[starttiming.activetimeclock.startclock.itp]);
+		starttiming.activetimeclock.startclock.itp++; 
+
+	}
+	
+&#x2F;&#x2F;console.log(&#x27;after split class called&#x27;);
+	
+});	
+
+
+&#x2F;&#x2F; listen to server for DUP call over local network data.
+socketpi.on(&#x27;DUPinfo&#x27;, function (dataDUP) {
+console.log(dataDUP);
+&#x2F;&#x2F; whatever the &#x27;value&#x27; property of the received data is:
+	if(dataDUP == &#x27;stop&#x27;)
+	{		
+console.log(&#x27;stop emit from dup&#x27;);		
+		&#x2F;&#x2F; call the split function
+console.log(&#x27;start emit from dup&#x27;);		
+		starttiming.activetimeclock.splitswimmerid(starttiming.activetimeclock.startclock.totalsplitarray[starttiming.activetimeclock.startclock.itp]);
+		starttiming.activetimeclock.split(starttiming.activetimeclock.startclock.totalsplitarray[starttiming.activetimeclock.startclock.itp]);
+		starttiming.activetimeclock.startclock.itp++; 
+		
+	}
+	else if(dataDUP == &#x27;start&#x27;)
+	{
+		&#x2F;&#x2F; start button pressed
+		starttiming.activetimeclock.startclock.startStop();
+
+	}
+
+	else if(dataDUP == &#x27;reset&#x27;)
+	{
+		&#x2F;&#x2F; reset button pressed
+		starttiming.activetimeclock.startclock.reset();
+
+	}
+&#x2F;&#x2F;console.log(&#x27;after split class called&#x27;);
+	
+});	
+
+	
+	socketpi.emit(&#x27;swimmerclientstart&#x27;, { swimmerdevice: &#x27;localhitchupstart&#x27; });
+
+	
+
+
+socketpi.on(&#x27;startnews&#x27;, function (startnews) {
+&#x2F;&#x2F;console.log(&#x27;what is local status?&#x27;);
+&#x2F;&#x2F;console.log(startnews);
+	&#x2F;&#x2F; whatis status of local connection
+		if( startnews == &#x27;localpi&#x27;)
+		{		
+console.log(&#x27;local server is live&#x27;);
+			$(&quot;#localpi&quot;).text(&#x27;CONNECTED&#x27;);
+		setInterval(function() {socketpi.emit(&#x27;swimmerclient&#x27;, { swimmerdevice: &#x27;localhitchup&#x27; })}, 10000);
+		}
+		else
+		{
+		&#x2F;&#x2F; off local pi network
+console.log(&#x27;local server is offline&#x27;);
+		$(&quot;#localpi&quot;).text(&#x27;DIS--CONNECTED&#x27;);
+			
+		}
+	
+	})
+
+
+	socketpi.on(&#x27;repeatnews&#x27;, function (startnews) {
+console.log(&#x27;what is local repeat status?&#x27;);
+console.log(startnews);
+	&#x2F;&#x2F; whatis status of local connection
+		if( startnews == &#x27;localpilive&#x27;)
+		{		
+console.log(&#x27;local server is repeat&#x27;);		
+		
+		}
+		else
+		{
+		&#x2F;&#x2F; off local pi network
+console.log(&#x27;local server is offline&#x27;);				
+		}
+		
+	});	
+
+
+currentsetset = &#x27;int-&#x27; + $(&quot;#swiminterval&quot;).val() + &#x27;sec &#x27; + $(&quot;#swimstyle&quot;).val() + &#x27; &#x27; + $(&quot;#swimstroke&quot;).val() + &#x27; &#x27; + $(&quot;#swimtechnique&quot;).val() + &#x27; &#x27; + $(&quot;#swimdistance&quot;).val() + &#x27; &#x27; + $(&quot;#swimsplit&quot;).val();
+$(&quot;#liveswimset&quot;).text(&#x27;live: &#x27; + currentsetset);
+
+&#x2F;&#x2F;console.log(&#x27;start whole app&#x27;);		
+&#x2F;&#x2F;console.log(starttiming);						
+
+});
+    </pre>
+</div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="..&#x2F;assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="..&#x2F;assets/js/yui-prettify.js"></script>
+<script src="..&#x2F;assets/../api.js"></script>
+<script src="..&#x2F;assets/js/api-filter.js"></script>
+<script src="..&#x2F;assets/js/api-list.js"></script>
+<script src="..&#x2F;assets/js/api-search.js"></script>
+<script src="..&#x2F;assets/js/apidocs.js"></script>
+</body>
+</html>

@@ -1,0 +1,1163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>src&#x2F;stopwatch3.js</title>
+    <link rel="stylesheet" href="http:&#x2F;&#x2F;yui.yahooapis.com&#x2F;3.8.0pr2&#x2F;build&#x2F;cssgrids&#x2F;cssgrids-min.css">
+    <link rel="stylesheet" href="..&#x2F;assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="..&#x2F;assets/css/main.css" id="site_styles">
+    <link rel="shortcut icon" type="image/png" href="..&#x2F;assets/favicon.png">
+    <script src="http:&#x2F;&#x2F;yui.yahooapis.com&#x2F;combo?3.8.0pr2&#x2F;build&#x2F;yui&#x2F;yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+            
+                <h1><img src="..&#x2F;assets/css/logo.png" title=""></h1>
+            
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: </em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+    <h2 class="off-left">APIs</h2>
+    <div id="api-tabview" class="tabview">
+        <ul class="tabs">
+            <li><a href="#api-classes">Classes</a></li>
+            <li><a href="#api-modules">Modules</a></li>
+        </ul>
+
+        <div id="api-tabview-filter">
+            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+        </div>
+
+        <div id="api-tabview-panel">
+            <ul id="api-classes" class="apis classes">
+            
+                <li><a href="..&#x2F;classes/llLogic.html">llLogic</a></li>
+            
+                <li><a href="..&#x2F;classes/makeProgramme.html">makeProgramme</a></li>
+            
+                <li><a href="..&#x2F;classes/MasterWatch.html">MasterWatch</a></li>
+            
+                <li><a href="..&#x2F;classes/PerSwimmer.html">PerSwimmer</a></li>
+            
+                <li><a href="..&#x2F;classes/pouchdbSettings.html">pouchdbSettings</a></li>
+            
+                <li><a href="..&#x2F;classes/recordQS.html">recordQS</a></li>
+            
+                <li><a href="..&#x2F;classes/SwimtimeController.html">SwimtimeController</a></li>
+            
+                <li><a href="..&#x2F;classes/ttHTML.html">ttHTML</a></li>
+            
+            </ul>
+
+            <ul id="api-modules" class="apis modules">
+            
+            </ul>
+        </div>
+    </div>
+</div>
+
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+        Show:
+        <label for="api-show-inherited">
+            <input type="checkbox" id="api-show-inherited" checked>
+            Inherited
+        </label>
+
+        <label for="api-show-protected">
+            <input type="checkbox" id="api-show-protected">
+            Protected
+        </label>
+
+        <label for="api-show-private">
+            <input type="checkbox" id="api-show-private">
+            Private
+        </label>
+        <label for="api-show-deprecated">
+            <input type="checkbox" id="api-show-deprecated">
+            Deprecated
+        </label>
+
+    </div>
+
+
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+                        <h1 class="file-heading">File: src&#x2F;stopwatch3.js</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+&#x2F;**
+* Train TImer
+*
+* Start node.js  Train Timer
+*
+*
+* @package    Train Timer part of open sport project
+* @copyright  Copyright (c) 2012 James Littlejohn
+* @license    http:&#x2F;&#x2F;www.gnu.org&#x2F;licenses&#x2F;old-licenses&#x2F;gpl-2.0.html
+* @version    0.1.0
+*&#x2F;
+
+
+&#x2F;**
+* Record swimmer controller class
+* @class SwimtimeController
+*&#x2F;
+ function SwimtimeController () {
+&#x2F;&#x2F;console.log(&#x27;the swimmer controller&#x27;);	 
+	this.activetimeclock = new PerSwimmer();
+	 
+&#x2F;&#x2F; need to set id of the swimmer thats split or stop has been click on the UI
+	this.identifyswimmer = function(swimtitle, clickid) {
+			
+		this.identifer = swimtitle;
+		this.clicktype = clickid;
+&#x2F;&#x2F;console.log(&#x27;clickid= &#x27; + this.clicktype);
+&#x2F;&#x2F;console.log(&#x27;title = &#x27; + this.identifer);		
+		this.activetimeclock.startclock.load();	
+			
+		&#x2F;&#x2F;if(clickid != &quot;start&quot; || clickid != &quot;reset&quot; || clickid != &quot;save&quot; ){
+		if(clickid == &quot;split&quot; || clickid == &quot;stop&quot; || clickid == &quot;peranalysisid&quot; || clickid ==&quot;pereditidremove&quot; ){
+		this.activetimeclock.splitswimmerid(this.identifer);
+	}
+						
+			switch(this.clicktype){
+
+			case &quot;start&quot;: 
+			this.activetimeclock.startclock.startStop();
+			break;
+			
+			case &quot;split&quot;:
+			this.activetimeclock.split(this.identifer);
+			break;
+
+			case &quot;stop&quot;:	
+			this.activetimeclock.stop(this.identifer);
+			break;
+				
+			case &quot;reset&quot;: 
+			this.activetimeclock.startclock.reset();
+			break;
+				
+			case &quot;save&quot;:	
+					setsaveallowed = $.cookie(&quot;traintimer&quot;);
+									$(&quot;#confirmsave&quot;).show();
+									$(&quot;#confirmsave&quot;).text(&#x27;Saved&#x27;);
+									$(&quot;#confirmsave&quot;).fadeOut(1000);
+									&#x2F;&#x2F; prepare the data TODO abstract out to a function
+									var sptoday = new Date();
+									datesplitnumber = Date.parse(sptoday);&#x2F;&#x2F;Date.parse(cleandata[&quot;swimstatus&quot;][&#x27;swimdate&#x27;]);
+									
+									swimstyle = $(&quot;#swimstyle&quot;).val();
+									swimstroke = $(&quot;#swimstroke&quot;).val();
+									swimtechnique = $(&quot;#swimtechnique&quot;).val();
+									swimdistance = $(&quot;#swimdistance&quot;).val();
+									swimsplit = $(&quot;#swimsplit&quot;).val();
+									&#x2F;&#x2F; form swim data
+									swimdatastatus = {};
+									swimdatastatus[&#x27;swimdate&#x27;] = sptoday;
+									swimdatastatus[&#x27;swimstyle&#x27;] = swimstyle;
+									swimdatastatus[&#x27;swimstroke&#x27;] = swimstroke;
+									swimdatastatus[&#x27;swimtechnique&#x27;] = swimtechnique;
+									swimdatastatus[&#x27;swimdistance&#x27;] = swimdistance;
+									swimdatastatus[&#x27;swimsplit&#x27;] = swimsplit;
+
+								&#x2F;&#x2F; route to server side URL
+								stxt = {};
+								stxt[&#x27;swimstatus&#x27;] = swimdatastatus;
+								stxt[&#x27;splitdata&#x27;] = this.activetimeclock.sparray;		
+								stxtstring =  JSON.stringify(stxt);											
+								&#x2F;&#x2F; make socket send to get real time display anywhere
+								&#x2F;&#x2F;var socket = io.connect();
+								&#x2F;&#x2F;socket.emit(&#x27;splitsdatalive&#x27;, stxtstring);	
+									
+								&#x2F;&#x2F; save to localpouchdb need to prepare buld array json structure 
+									cleandatakey = {};
+									bulksplits = [];
+									i = 0;
+								cleandatakey= Object.keys(stxt[&#x27;splitdata&#x27;]);
+								cleandatakey.forEach(function(bulkkey){
+									newjsonswim = {};
+
+								if(stxt[&#x27;splitdata&#x27;][bulkkey].length &gt; 0 ) 
+								{									
+
+									newjsonswim[&quot;swimmerid&quot;] = &#x27;&#x27;;
+									newjsonswim[&quot;session&quot;] = {};
+									activesplitsb  = [];	
+									activesplitsb = stxt[&#x27;splitdata&#x27;][bulkkey];
+									newjsonswim[&quot;swimmerid&quot;] = bulkkey;
+									newjsonswim[&quot;session&quot;][&quot;sessionid&quot;] = datesplitnumber;	
+									newjsonswim[&quot;session&quot;][&quot;swiminfo&quot;] = stxt[&#x27;swimstatus&#x27;];	
+									newjsonswim[&quot;session&quot;][&quot;splittimes&quot;]	= activesplitsb;
+									
+									&#x2F;&#x2F;livepouch.singleSave(newjsonswim);
+									bulksplits[i] = newjsonswim;
+									i++;
+									}		
+									&#x2F;&#x2F; collect array and then do bulk save as single saving timing out.
+
+								});
+
+									livepouch.bulkSave(bulksplits);
+							
+								setsaveallowed = 
+								$.post(&quot;&#x2F;save&#x2F;&quot; + setsaveallowed, stxtstring ,function(result){
+								&#x2F;&#x2F; put a message back to UI to tell of a successful save TODO
+								
+								});
+			break;
+				
+				case &quot;addswimmer&quot;:
+								
+					addswimmerstatus = $(&quot;#addswimmer&quot;).attr(&quot;title&quot;);
+&#x2F;&#x2F;console.log(addswimmerstatus);
+					if(addswimmerstatus == &#x27;on&#x27;) {
+										
+						lanelist = &#x27;&lt;select id=&quot;thelaneoptionsnew&quot; class=&quot;lanewidthnew&quot; name=&quot;lanegroupnew&quot; &gt;&#x27;;
+						lanelist +=	&#x27;&lt;option  selected=&quot;-&quot; value=&quot;-1&quot;&gt;-&lt;&#x2F;option&gt;&#x27;;
+						lanelist +=	&#x27;&lt;option value=&quot;1&quot;&gt;1&lt;&#x2F;option&gt;&#x27;;
+						lanelist +=	&#x27;&lt;option value=&quot;2&quot;&gt;2&lt;&#x2F;option&gt;&#x27;;
+						lanelist +=	&#x27;&lt;option value=&quot;3&quot;&gt;3&lt;&#x2F;option&gt;&#x27;;
+						lanelist +=	&#x27;&lt;option value=&quot;4&quot;&gt;4&lt;&#x2F;option&gt;&#x27;;
+						lanelist +=	&#x27;&lt;option value=&quot;5&quot;&gt;5&lt;&#x2F;option&gt;&#x27;;
+						lanelist +=	&#x27;&lt;option value=&quot;6&quot;&gt;6&lt;&#x2F;option&gt;&#x27;;
+						lanelist +=	&#x27;&lt;option value=&quot;7&quot;&gt;7&lt;&#x2F;option&gt;&#x27;;
+						lanelist +=	&#x27;&lt;option value=&quot;8&quot;&gt;8&lt;&#x2F;option&gt;&#x27;;
+						lanelist +=	&#x27;&lt;option value=&quot;9&quot;&gt;9&lt;&#x2F;option&gt;&#x27;;
+						lanelist +=	&#x27;&lt;option value=&quot;10&quot;&gt;10&lt;&#x2F;option&gt;&#x27;;
+						lanelist +=	&#x27;&lt;&#x2F;select&gt;&#x27;;
+							
+						addswimform = &#x27;&lt;form class=&quot;addswimmer-form&quot; method=&quot;post&quot; action=&quot;#&quot; id=&quot;newmasteradd&quot; &gt;&#x27;;
+						addswimform += &#x27;&lt;ul&gt;&lt;li&gt;Enter name and allocate to a lane&lt;&#x2F;li&gt;&#x27;;
+						addswimform += &#x27;&lt;li&gt;&lt;label for=&quot;name&quot;&gt;Name:&lt;&#x2F;label&gt;&lt;input type=&quot;text&quot;  id=&quot;newmastid&quot; title=&quot;swimmername&quot;  name=&quot;newmastid&quot;  &#x2F;&gt;&lt;span class=&quot;form_hint&quot;&gt;Please enter a name&lt;&#x2F;span&gt;&lt;&#x2F;li&gt;&#x27;;
+
+						addswimform += &#x27;&lt;li&gt;&lt;label for=&quot;lane&quot;&gt;Lane:&lt;&#x2F;label&gt;&#x27; + lanelist + &#x27;&lt;span class=&quot;form_hint&quot;&gt;Set a lane number&lt;&#x2F;span&gt;&lt;&#x2F;li&gt;&#x27;;
+						addswimform += &#x27;&lt;li&gt;&lt;button class=&quot;submit&quot; type=&quot;submit&quot;  id=&quot;newmasteradd&quot; &gt;Add swimmer&lt;&#x2F;button&gt;&lt;&#x2F;li&gt;&lt;&#x2F;ul&gt;&lt;&#x2F;form&gt;&#x27;;
+						addswimform += &#x27;&lt;div id=&quot;newswimerror&quot;&gt;&lt;&#x2F;div&gt;&#x27;;						
+						$(&quot;#newmaster&quot;).html(addswimform);
+						$(&quot;#newmaster&quot;).show();						
+						$(&quot;#addswimmer&quot;).attr(&quot;title&quot;, &quot;off&quot;);
+					}
+					else
+					{
+						$(&quot;#newmaster&quot;).hide();
+						$(&quot;#addswimmer&quot;).attr(&quot;title&quot;, &quot;on&quot;);
+					}			
+				break;
+				
+				case &quot;loadlane&quot;:
+				
+					setsavedallowed = &#x27;&#x27;;
+					loadname = &#x27;&#x27;;
+					&#x2F;&#x2F;setsaveallowed = $.cookie(&quot;traintimer&quot;);
+&#x2F;&#x2F;console.log(&#x27;has cookie been set?&#x27; + setsaveallowed);
+					loadname = $(&quot;#loadlane&quot;).attr(&quot;title&quot;);
+&#x2F;&#x2F;console.log(&#x27;loadlane on off::::&#x27; + loadname );
+					if(loadname == &#x27;on&#x27;) {
+						$(&quot;#loadlane&quot;).attr(&quot;title&quot;, &quot;off&quot;);
+						$(&quot;#thelaneoptions&quot;).val(-1);
+						$(&quot;#theswimmeroptions&quot;).val(-1);
+						$(&quot;#welcomesummary&quot;).hide();
+						$(&quot;#loadlaneselect&quot;).show();
+						$(&quot;#loadswimmers&quot;).show();
+						$(&quot;#addnewswimmer&quot;).show();
+						$(&quot;#loadclearswimmers&quot;).show();
+						$(&quot;#controloptions&quot;).show();
+						$(&quot;.ui-state-default&quot;).css(&quot;width&quot;, &quot;100%&quot;);
+						$(&quot;#loadlane&quot;).attr(&#x27;class&#x27;, &#x27;control-textpressed&#x27;);
+						
+						$(&quot;#startsort&quot;).attr(&quot;title&quot;, &quot;on&quot;);
+						$(&quot;#viewdata&quot;).attr(&quot;title&quot;, &quot;on&quot;);
+						$(&quot;#viewdata&quot;).attr(&#x27;class&#x27;, &#x27;control-text&#x27;);
+						$(&quot;#startsort&quot;).attr(&#x27;class&#x27;, &#x27;control-text&#x27;);
+
+					}
+					else
+					{
+					&#x2F;&#x2F; close the load	
+						$(&quot;#loadlaneselect&quot;).hide();
+						$(&quot;#loadswimmers&quot;).hide();
+						$(&quot;#addnewswimmer&quot;).hide();
+						$(&quot;#loadclearswimmers&quot;).hide();
+						$(&quot;#controloptions&quot;).hide();
+						$(&quot;#addalpha&quot;).hide();
+						$(&quot;#addalpha2&quot;).hide();
+						$(&quot;#loadlane&quot;).attr(&quot;title&quot;, &quot;on&quot;);
+						$(&quot;#loadlane&quot;).attr(&#x27;class&#x27;, &#x27;control-text&#x27;);
+					}
+				break;
+				
+				case &quot;startsort&quot;:
+				
+					$(&quot;#sortable1&quot;).sortable( &quot;option&quot;, &quot;disabled&quot;, false );	
+					editname = $(&quot;#startsort&quot;).attr(&quot;title&quot;);
+&#x2F;&#x2F;console.log(&#x27;edit on off::::&#x27; + editname );
+					if(editname == &#x27;on&#x27;) {
+						&#x2F;&#x2F; need to make live all the edit 
+						$(&quot;.peredit&quot;).show();
+						$(&quot;.peranalysis&quot;).hide();
+						$(&quot;#startsort&quot;).attr(&quot;title&quot;, &quot;off&quot;);
+						$(&quot;#viewdata&quot;).attr(&quot;title&quot;, &quot;on&quot;);
+											
+						$(&quot;#analysistype&quot;).hide();
+						$(&quot;.historicalplace&quot;).hide();
+						$(&quot;.historicalchart&quot;).hide();						
+						$(&quot;.historicalsummary&quot;).hide();
+						$(&quot;.historicalbio&quot;).hide();
+						$(&quot;#viewdatalive&quot;).empty();
+						$(&quot;#visualisedata&quot;).empty();
+						$(&quot;.splitviewrep&quot;).remove();
+						$(&quot;.splitview&quot;).remove();
+						$(&quot;.splitviewcompare&quot;).remove();
+							$(&quot;[class^=&#x27;peranalysisid&#x27;]&quot;).attr(&quot;data-statusanalysis&quot;, &quot;on&quot;);
+							$(&quot;[class^=&#x27;peranalysisid&#x27;]&quot;).css(&quot;color&quot;, &quot;#1c94c4&quot;);
+							$(&quot;[class^=&#x27;pereditidremove&#x27;]&quot;).attr(&quot;data-statusanalysis&quot;, &quot;on&quot;);
+							$(&quot;[class^=&#x27;perchartid&#x27;]&quot;).attr(&quot;data-statusanalysis&quot;, &quot;on&quot;);
+							$(&quot;[class^=&#x27;perchartid&#x27;]&quot;).css(&quot;color&quot;, &quot;#1c94c4&quot;);
+							$(&quot;[class^=&#x27;persummaryid&#x27;]&quot;).attr(&quot;data-statusanalysis&quot;, &quot;on&quot;);
+							$(&quot;[class^=&#x27;persummaryid&#x27;]&quot;).css(&quot;color&quot;, &quot;#1c94c4&quot;);
+							$(&quot;[class^=&#x27;perbioid&#x27;]&quot;).attr(&quot;data-statusanalysis&quot;, &quot;on&quot;);
+							$(&quot;[class^=&#x27;perbioid&#x27;]&quot;).css(&quot;color&quot;, &quot;#1c94c4&quot;);
+						$(&quot;.ui-state-default&quot;).css(&quot;width&quot;, &quot;50%&quot;);
+						$(&quot;#startsort&quot;).attr(&#x27;class&#x27;, &#x27;control-textpressed&#x27;);
+						$(&quot;#viewdata&quot;).attr(&#x27;class&#x27;, &#x27;control-text&#x27;);
+					}
+					else
+					{
+						$(&quot;.peredit&quot;).hide();
+							$(&quot;.peranalysis&quot;).hide();
+							$(&quot;.analysislabel&quot;).hide();
+							$(&quot;.historicalplace&quot;).hide();
+							$(&quot;.historicalchart&quot;).hide();						
+							$(&quot;.historicalsummary&quot;).hide();
+							$(&quot;.historicalbio&quot;).hide();
+
+						
+						$(&quot;#startsort&quot;).attr(&quot;title&quot;, &quot;on&quot;);
+							$(&quot;[class^=&#x27;peranalysisid&#x27;]&quot;).attr(&quot;data-statusanalysis&quot;, &quot;on&quot;);
+							$(&quot;[class^=&#x27;peranalysisid&#x27;]&quot;).css(&quot;color&quot;, &quot;#1c94c4&quot;);
+							$(&quot;[class^=&#x27;pereditidremove&#x27;]&quot;).attr(&quot;data-statusanalysis&quot;, &quot;on&quot;);
+							$(&quot;[class^=&#x27;perchartid&#x27;]&quot;).attr(&quot;data-statusanalysis&quot;, &quot;on&quot;);
+							$(&quot;[class^=&#x27;perchartid&#x27;]&quot;).css(&quot;color&quot;, &quot;#1c94c4&quot;);
+							$(&quot;[class^=&#x27;persummaryid&#x27;]&quot;).attr(&quot;data-statusanalysis&quot;, &quot;on&quot;);
+							$(&quot;[class^=&#x27;persummaryid&#x27;]&quot;).css(&quot;color&quot;, &quot;#1c94c4&quot;);
+							$(&quot;[class^=&#x27;perbioid&#x27;]&quot;).attr(&quot;data-statusanalysis&quot;, &quot;on&quot;);
+							$(&quot;[class^=&#x27;perbioid&#x27;]&quot;).css(&quot;color&quot;, &quot;#1c94c4&quot;);
+						$(&quot;#sortable1&quot;).sortable( &quot;option&quot;, &quot;disabled&quot;, true );
+						$(&quot;.ui-state-default&quot;).css(&quot;width&quot;, &quot;100%&quot;);						
+						$(&quot;#startsort&quot;).attr(&#x27;class&#x27;, &#x27;control-text&#x27;);
+					}
+				
+				break;
+					
+				case &quot;viewdata&quot;:
+			&#x2F;&#x2F; needs swimmerids and names
+				$(&quot;#analysistype&quot;).show();
+				
+				analysisname = $(&quot;#viewdata&quot;).attr(&quot;title&quot;);
+&#x2F;&#x2F;console.log(&#x27;analysislane on off::::&#x27; + analysisname );
+					if(analysisname == &#x27;on&#x27;) {
+						&#x2F;&#x2F; need to make live all the edit &#x2F; analysis feature options
+						$(&quot;.peredit&quot;).hide();
+						$(&quot;.peranalysis&quot;).show();
+						$(&quot;.peranalysis&quot;).show();
+						$(&quot;#perrealtime&quot;).show();
+						$(&quot;.historicalplace&quot;).show();
+						$(&quot;#viewdata&quot;).attr(&quot;title&quot;, &quot;off&quot;);
+						$(&quot;#startsort&quot;).attr(&quot;title&quot;, &quot;on&quot;);
+						$(&quot;.ui-state-default&quot;).css(&quot;width&quot;, &quot;100%&quot;);
+						$(&quot;#viewdata&quot;).attr(&#x27;class&#x27;, &#x27;control-textpressed&#x27;);
+						$(&quot;#startsort&quot;).attr(&#x27;class&#x27;, &#x27;control-text&#x27;);
+					}
+					else
+					{
+							$(&quot;.peredit&quot;).hide();
+							$(&quot;.peranalysis&quot;).hide();
+							$(&quot;.analysislabel&quot;).hide();
+							$(&quot;.historicalplace&quot;).hide();
+							$(&quot;.historicalchart&quot;).hide();						
+							$(&quot;.historicalsummary&quot;).hide();
+							$(&quot;.historicalbio&quot;).hide();
+							$(&quot;#viewdatalive&quot;).empty();
+							$(&quot;#visualisedata&quot;).empty();
+							$(&quot;.splitviewrep&quot;).remove();
+							$(&quot;.splitview&quot;).remove();
+							$(&quot;.splitviewcompare&quot;).remove();
+						
+							$(&quot;#viewdata&quot;).attr(&quot;title&quot;, &quot;on&quot;);
+							$(&quot;[class^=&#x27;peranalysisid&#x27;]&quot;).attr(&quot;data-statusanalysis&quot;, &quot;on&quot;);
+							$(&quot;[class^=&#x27;peranalysisid&#x27;]&quot;).css(&quot;color&quot;, &quot;#1c94c4&quot;);
+							$(&quot;[class^=&#x27;pereditidremove&#x27;]&quot;).attr(&quot;data-statusanalysis&quot;, &quot;on&quot;);
+							$(&quot;[class^=&#x27;perchartid&#x27;]&quot;).attr(&quot;data-statusanalysis&quot;, &quot;on&quot;);
+							$(&quot;[class^=&#x27;perchartid&#x27;]&quot;).css(&quot;color&quot;, &quot;#1c94c4&quot;);
+							$(&quot;[class^=&#x27;persummaryid&#x27;]&quot;).attr(&quot;data-statusanalysis&quot;, &quot;on&quot;);
+							$(&quot;[class^=&#x27;persummaryid&#x27;]&quot;).css(&quot;color&quot;, &quot;#1c94c4&quot;);
+							$(&quot;[class^=&#x27;perbioid&#x27;]&quot;).attr(&quot;data-statusanalysis&quot;, &quot;on&quot;);
+							$(&quot;[class^=&#x27;perbioid&#x27;]&quot;).css(&quot;color&quot;, &quot;#1c94c4&quot;);
+							$(&quot;#viewdata&quot;).attr(&#x27;class&#x27;, &#x27;control-text&#x27;);
+					}
+
+			break;
+					
+			case &quot;peranalysisid&quot;:
+				&#x2F;&#x2F; get the swimmer id and then load up historical data
+				historicalanalysisid = this.identifer; &#x2F;&#x2F;$(&quot;#pereditid&quot;).attr(&quot;title&quot;);
+&#x2F;&#x2F;console.log(&#x27;ananlysis id caught&#x27; + historicalanalysisid);		
+				analysisstatus = $(&quot;.peranalysisid&quot;+ historicalanalysisid).attr(&quot;data-statusanalysis&quot;);
+&#x2F;&#x2F;console.log(&#x27;ananlysis status caught&#x27; + analysisstatus);		
+					
+					if(analysisstatus == &#x27;on&#x27;)
+					{
+						datacall = livepouch.returndatacallback(idname, &quot;splitdatain&quot;);
+						$(&quot;.peranalysisid&quot; + historicalanalysisid ).attr(&quot;data-statusanalysis&quot;, &quot;off&quot;);
+						$(&quot;.peranalysisid&quot; + historicalanalysisid ).css(&quot;color&quot;, &quot;#090&quot;);
+						
+					}
+					else
+					{
+						$(&quot;#historicalanalysis&quot; + historicalanalysisid).empty();
+						$(&quot;.peranalysisid&quot; + historicalanalysisid).attr(&quot;data-statusanalysis&quot;, &quot;on&quot;);
+						$(&quot;.peranalysisid&quot; + historicalanalysisid ).css(&quot;color&quot;, &quot;#1C94C4&quot;);
+
+					}
+					
+			break;
+					
+			case &quot;perchartid&quot;:
+				&#x2F;&#x2F; gather data per swimmer to build chart from
+				container = &#x27;historicalchart&#x27; + this.identifer;
+				chartstatus = $(&quot;.perchartid&quot;+ this.identifer).attr(&quot;data-statusanalysis&quot;);
+&#x2F;&#x2F;console.log(&#x27;ananlysis status caught&#x27; + analysisstatus);		
+					
+					if(chartstatus == &#x27;on&#x27;)
+					{
+						
+						livepouch.returndatacallback(this.identifer, &quot;chartdatain&quot;);
+						$(&quot;#historicalchart&quot; + this.identifer).show();			
+						$(&quot;.perchartid&quot; + this.identifer ).attr(&quot;data-statusanalysis&quot;, &quot;off&quot;);
+						$(&quot;.perchartid&quot; + this.identifer ).css(&quot;color&quot;, &quot;#090&quot;);
+					
+					}
+					else
+					{
+						$(&quot;#historicalchart&quot; + this.identifer).hide();
+						$(&quot;.perchartid&quot; + this.identifer).attr(&quot;data-statusanalysis&quot;, &quot;on&quot;);
+						$(&quot;.perchartid&quot; + this.identifer).css(&quot;color&quot;, &quot;#1C94C4&quot;);
+					}
+
+			break;
+
+			case &quot;persummaryid&quot;:
+				&#x2F;&#x2F; gather data per swimmer to build chart from
+				container = &#x27;historicalsummary&#x27; + this.identifer;
+				chartstatus = $(&quot;.persummaryid&quot;+ this.identifer).attr(&quot;data-statusanalysis&quot;);
+&#x2F;&#x2F;console.log(&#x27;ananlysis status caught&#x27; + analysisstatus);		
+					
+					if(chartstatus == &#x27;on&#x27;)
+					{
+						
+						livepouch.returndatacallback(this.identifer, &quot;persummaryid&quot;);
+						$(&quot;#historicalsummary&quot; + this.identifer).show();			
+						$(&quot;.persummaryid&quot; + this.identifer ).attr(&quot;data-statusanalysis&quot;, &quot;off&quot;);
+						$(&quot;.persummaryid&quot; + this.identifer ).css(&quot;color&quot;, &quot;#090&quot;);
+	
+					}
+					else
+					{
+						$(&quot;#historicalsummary&quot; + this.identifer).hide();
+						$(&quot;.persummaryid&quot; + this.identifer).attr(&quot;data-statusanalysis&quot;, &quot;on&quot;);
+						$(&quot;.persummaryid&quot; + this.identifer).css(&quot;color&quot;, &quot;#1C94C4&quot;);
+					}
+
+			break;					
+
+			case &quot;perbioid&quot;:
+				&#x2F;&#x2F; gather data per swimmer to build chart from
+				container = &#x27;historicalbio&#x27; + this.identifer;
+				chartstatus = $(&quot;.perbioid&quot;+ this.identifer).attr(&quot;data-statusanalysis&quot;);
+&#x2F;&#x2F;console.log(&#x27;ananlysis status caught&#x27; + analysisstatus);		
+					
+					if(chartstatus == &#x27;on&#x27;)
+					{
+						
+						&#x2F;&#x2F;livepouch.returndatacallback(this.identifer, &quot;chartdatain&quot;);
+						$(&quot;#historicalbio&quot; + this.identifer).show();			
+						$(&quot;.perbioid&quot; + this.identifer ).attr(&quot;data-statusanalysis&quot;, &quot;off&quot;);
+						$(&quot;.perbioid&quot; + this.identifer ).css(&quot;color&quot;, &quot;#090&quot;);
+						$(&quot;#historicalbio&quot; + this.identifer).html(&#x27;Age Height Weight Genome&#x27;);
+					
+					}
+					else
+					{
+						$(&quot;#historicalbio&quot; + this.identifer).hide();
+						$(&quot;.perbioid&quot; + this.identifer).attr(&quot;data-statusanalysis&quot;, &quot;on&quot;);
+						$(&quot;.perbioid&quot; + this.identifer).css(&quot;color&quot;, &quot;#1C94C4&quot;);
+					}
+
+			break;										
+					
+			case &quot;pereditidremove&quot;:
+					&#x2F;&#x2F; remove swimmer from active list
+&#x2F;&#x2F;console.log(&#x27;remove is being called&#x27;);
+					removeid = this.identifer;
+					$(&quot;#sortable1 li#&quot; + removeid + &quot;.ui-state-default&quot;).remove();
+					
+			break;
+					
+			case &quot;setshow&quot;:
+			&#x2F;&#x2F; hide or show the set settings
+					setshowstatus = $(&quot;#setshow&quot;).attr(&quot;title&quot;);
+&#x2F;&#x2F;console.log(setshowstatus);
+					if(setshowstatus == &#x27;on&#x27;) {
+						$(&quot;.swimsettings&quot;).show();
+						$(&quot;#setshow&quot;).attr(&quot;title&quot;, &quot;off&quot;);
+						$(&quot;#setshow&quot;).attr(&#x27;class&#x27;, &#x27;control-textpressed&#x27;);
+					}
+					else
+					{
+						$(&quot;.swimsettings&quot;).hide();
+						$(&quot;#setshow&quot;).attr(&quot;title&quot;, &quot;on&quot;);
+						currentsetset = &#x27;int-&#x27; + $(&quot;#swiminterval&quot;).val() + &#x27;sec &#x27; + $(&quot;#swimstyle&quot;).val() + &#x27; &#x27; + $(&quot;#swimstroke&quot;).val() + &#x27; &#x27; + $(&quot;#swimtechnique&quot;).val() + &#x27; &#x27; + $(&quot;#swimdistance&quot;).val() + &#x27; &#x27; + $(&quot;#swimsplit&quot;).val();
+$(&quot;#liveswimset&quot;).text(&#x27;live: &#x27; + currentsetset);
+						$(&quot;#setshow&quot;).attr(&#x27;class&#x27;, &#x27;control-text&#x27;);
+					}
+						
+	
+			break;
+
+			case &quot;signupstart&quot;:
+				&#x2F;&#x2F; signup to data services
+					signupstatus = $(&quot;#signupstart&quot;).attr(&quot;title&quot;);
+&#x2F;&#x2F;console.log(signupstatus);
+					if(signupstatus == &#x27;on&#x27;) {
+						$(&quot;#signupspace&quot;).show();
+						$(&quot;#signupstart&quot;).attr(&quot;title&quot;, &quot;off&quot;);
+						$(&quot;#signupstart&quot;).css(&#x27;color&#x27;, &#x27;#090&#x27;);
+					}
+					else
+					{
+						$(&quot;#signupspace&quot;).hide();
+						$(&quot;#signupstart&quot;).attr(&quot;title&quot;, &quot;on&quot;);
+						$(&quot;#signupstart&quot;).css(&#x27;color&#x27;, &#x27;#1C94C4&#x27;);
+					}
+
+			break;
+					
+			case &quot;contactin&quot;:
+&#x2F;&#x2F;console.log(&quot;internal click contactin&quot;);
+				&#x2F;&#x2F; collect the form data
+				incontact = {};
+				incontact[&#x27;name&#x27;] = $(&quot;#namein&quot;).val();
+				incontact[&#x27;email&#x27;] = $(&quot;#emailin&quot;).val();
+				incontact[&#x27;website&#x27;] = $(&quot;#websitein&quot;).val();
+				incontact[&#x27;inpassword&#x27;] = $(&quot;#inpassword&quot;).val();
+				incontact[&#x27;message&#x27;] = $(&quot;#messagein&quot;).val();
+&#x2F;&#x2F;console.log(incontact);
+&#x2F;&#x2F;console.log(&#x27;post inconact&#x27;);
+				&#x2F;&#x2F; validate there is name, email message
+				if(incontact[&#x27;name&#x27;].length &gt; 0  &amp;&amp; incontact[&#x27;email&#x27;].length &gt; 0 &amp;&amp; incontact[&#x27;message&#x27;].length &gt; 0)
+				{ 
+						
+				&#x2F;&#x2F;formdata = {};
+					formdata =  JSON.stringify(incontact);
+
+				&#x2F;&#x2F; make a POST call to node.js url
+					$.post(&quot;&#x2F;signupstart&#x2F;&quot;, formdata ,function(resultb){
+						&#x2F;&#x2F; put a message back to UI to tell of a successful save TODO
+console.log(resultb);
+						
+						$(&quot;#signupspace&quot;).hide();
+						$(&quot;#namein&quot;).val(&quot;&quot;);
+						$(&quot;#emailin&quot;).val(&quot;&quot;);
+						$(&quot;#websitein&quot;).val(&quot;&quot;);
+						$(&quot;#messagein&quot;).val(&quot;&quot;);
+						$(&quot;#signupspacereply&quot;).text(resultb[&quot;startbackupreply&quot;]);
+						$(&quot;#formfeedback&quot;).empty();
+						$(&quot;#signupstart&quot;).remove();
+					
+					}, &quot;json&quot;);
+				
+
+				}
+				else
+				{
+					formfeedback = &quot;Please enter &quot;;
+					if(incontact[&#x27;name&#x27;].length === 0)
+					{
+						formfeedback += &quot; a Name &quot;;
+					}
+					if(incontact[&#x27;email&#x27;].length === 0)
+					{
+							formfeedback += &quot; Email &quot;;
+					}
+					if(incontact[&#x27;message&#x27;].length === 0)
+					{
+						formfeedback += &quot; Swim Club&quot;;
+					}
+						$(&quot;#formfeedback&quot;).html(formfeedback);
+					
+				}
+
+			break;
+					
+			case &quot;touchpadmode&quot;:
+			&#x2F;&#x2F; show the touchpad status as on or OFF
+					currenttpstatus = $(&quot;#touchpadmode&quot;).attr(&quot;title&quot;);
+&#x2F;&#x2F;console.log(setshowstatus);
+					if(currenttpstatus == &#x27;on&#x27;) {
+						$(&quot;#touchpadstatus&quot;).text(&#x27;On&#x27;);
+						$(&quot;#touchpadmode&quot;).attr(&quot;title&quot;, &quot;off&quot;);
+					}
+					else
+					{
+						$(&quot;#touchpadstatus&quot;).text(&#x27;Off&#x27;);
+						$(&quot;#touchpadmode&quot;).attr(&quot;title&quot;, &quot;on&quot;);
+					}
+					
+			break;			
+
+						
+			} &#x2F;&#x2F; closes switch		
+			
+ }; &#x2F;&#x2F; closes id function
+			
+}  &#x2F;&#x2F; closes controller class
+
+
+&#x2F;**
+* Master Stop Watch Class
+* @class MasterWatch
+*&#x2F;
+var MasterWatch = function() {
+&#x2F;&#x2F;console.log(&#x27;master class called&#x27;);
+	&#x2F;&#x2F; one universal start and reset button
+	this.$start = $(&#x27;#start&#x27;);
+	this.$reset = $(&#x27;#reset&#x27;);
+	this.$timer = $(&#x27;#timer&#x27;);
+	this.startText = this.$start.text();
+	this.stopText = this.$start.attr(&#x27;alternate&#x27;);
+
+	&#x2F;*
+	 * I found this code on a few sites and am unsure of the original author.
+	 * If you know please inform me so I can credit them here.
+	 *
+	 * 0 = start time
+	 * 1 = end time
+	 * 2 = state (stopped or counting)
+	 * 3 = total elapsed time in ms
+	 * 4 = timer (interval object)
+	 * 5 = epoch (January 1, 1970)
+	 * 6 = element (not used here, normally stores the DOM element to update with the time)
+	 * 7 = split count
+	 *&#x2F;
+	this.t = [0, 0, 0, 0, 0, 0, 0, 0];
+
+&#x2F;**
+* format a digital number string to time format presentation
+* @method format
+*&#x2F;
+	this.format = function(ms) {
+		var d = new Date(ms + this.t[5]).toString().replace(&#x2F;.*(\d{2}:\d{2}:\d{2}).*&#x2F;, &#x27;$1&#x27;);
+		var x = String(ms % 1000);
+
+		while (x.length &lt; 3) {
+			x = &#x27;0&#x27; + x;
+		}
+		d += &#x27;.&#x27; + x;
+		return d.substr(0, d.length - 1);
+	},
+	
+	this.zero = function(num) {
+		if (parseInt(num) &lt; 0) var neg = true;
+		if (Math.abs(parseInt(num)) &lt; 10) {
+			num = &#x27;0&#x27; + Math.abs(num);
+		}
+		if (neg) num = &#x27;-&#x27; + num;
+		return num;
+	},
+	
+	&#x2F;**
+	* reset the master stopwatch to ZERO
+	* @method reset
+	*&#x2F;
+	this.reset = function() {
+		&#x2F;&#x2F; re enable the drag and drop sorting
+$(&quot;#sortable1&quot;).sortable( &quot;option&quot;, &quot;revert&quot;, true );&#x2F;&#x2F;sortable( &quot;option&quot;, &quot;disabled&quot;, false );	
+		
+		&#x2F;&#x2F; this needs updated to clear all splits for multiple active swimmers
+		
+		if (this.t[2]) {
+			this.startStop();
+		}
+		
+		this.t[4] = this.t[3] = this.t[2] = this.t[1] = this.t[0] = 0;
+		
+		this.display();
+		
+		this.$start.text(this.startText);
+		
+		&#x2F;&#x2F; resets all the split arrays  (NB if NIL will break TODO)
+		starttiming.activetimeclock.activesplitter.forEach(function(restswimid)
+			{
+				starttiming.activetimeclock.spid[restswimid][0] = 1;
+				starttiming.activetimeclock.spid[restswimid][1] = 0;
+				starttiming.activetimeclock.spid[restswimid][2] = 0;
+				starttiming.activetimeclock.sparray[restswimid] = [];
+				starttiming.activetimeclock.spdiffarray[restswimid] = [];
+				starttiming.activetimeclock.activesplitter[restswimid] = [];
+		
+				$splivereset = $(&#x27;#splits&#x27;+restswimid);
+				$splivereset.empty();
+				$splivereset.append(&quot;&lt;li&gt;&lt;&#x2F;li&gt;&quot;);
+				$diffreset = $(&#x27;#analysis&#x27;+restswimid);
+				$diffreset.empty();
+				$diffreset.append(&quot;&lt;li&gt;&lt;&#x2F;li&gt;&quot;);
+
+		});
+		&#x2F;&#x2F; and this needs move to per swimmer basis
+		this.t[7] = 0;
+
+		starttiming.activetimeclock.splitswimmerid(0);
+		
+		return false;
+	},
+	
+	this.display = function() {
+		if (this.t[2]) {
+&#x2F;&#x2F;console.log(&#x27;display function called and if t2&#x27;);
+			this.t[1] = (new Date()).valueOf();
+		}
+&#x2F;&#x2F;console.log(&#x27;display function set timer after formatting time.&#x27;);		
+		this.$timer.text(this.format(this.t[3] + this.t[1] - this.t[0]));
+	},
+	
+	
+	this.displaymaster = function() {
+		
+		this.delaymaster = starttiming.activetimeclock.startclock.t;
+		
+		if (this.delaymaster[2]) {
+&#x2F;&#x2F;console.log(&#x27;display function called and if t2&#x27;);
+			this.delaymaster[1] = (new Date()).valueOf();
+		}
+		
+		starttiming.activetimeclock.startclock.$timer.text(starttiming.activetimeclock.startclock.format(this.delaymaster[3] + this.delaymaster[1] - this.delaymaster[0]));
+	},
+	
+	this.load = function() {
+		this.t[5] = new Date(1970, 1, 1, 0, 0, 0, 0).valueOf();
+
+		this.display();
+	},
+	
+	&#x2F;**
+	*  Master stopwatch START
+	* @method startStop
+	*&#x2F;
+	this.startStop = function() {
+
+		this.itp = 0;  &#x2F;&#x2F; clear touchpad counter
+
+	&#x2F;&#x2F; set starting time
+			this.t[this.t[2]] = (+new Date()).valueOf();
+&#x2F;&#x2F;console.log(this.t);
+
+		this.t[2] = 1 - this.t[2];
+&#x2F;&#x2F;console.log(this.t);
+			if (this.t[2] === 0)
+			{
+	&#x2F;&#x2F; a split time being set
+				clearInterval(this.t[4]);
+				this.t[3] += this.t[1] - this.t[0];
+
+				this.$start.text(this.startText);
+				this.t[7]++;
+				this.display();
+			}
+			else
+			{
+				this.$start.text(this.stopText);
+				this.t[4] =  setInterval(this.displaymaster, 43);
+
+			}
+
+		&#x2F;&#x2F; disable drag and drop when start press, then reset when stopped.
+		$(&quot;#sortable1&quot;).sortable( &quot;option&quot;, &quot;disabled&quot;, true );		
+
+		&#x2F;&#x2F; need to pickup set element from the liveswimset div area
+		&#x2F;&#x2F;first identify liverecord set element
+		this.liverecordelement = $(&quot;.recordcount&quot;).parent().data(&#x27;recordid&#x27;);
+console.log(this.liverecordelement);			
+		this.swiminterval = &#x27;&#x27;;
+		this.swiminterval = $(&quot;#swiminterval&quot;).val();
+		&#x2F;&#x2F;this.swiminterval = $(&quot;#swiminterval&quot;).val();
+console.log(this.swiminterval  + &#x27;interval  set&#x27;);			
+		this.swimdistance = &#x27;&#x27;;
+			&#x2F;&#x2F;#livedate1374329671919.liveswimelement #swimdistance
+			formidentifer = &#x27;#livedate&#x27; + this.liverecordelement;
+console.log($(formidentifer).children(&quot;#swimdistance&quot;).text());
+			this.swimdistance = $(formidentifer).children(&quot;#swimdistance&quot;).text()
+console.log(this.swimdistance + &#x27;distance from live record&#x27;);			
+		&#x2F;&#x2F;this.swimdistance = $(&quot;#swimdistance&quot;).val();
+		this.swimsplit = &#x27;&#x27;;
+		this.swimsplit = $(&quot;#swimsplit&quot;).val();
+console.log(this.swimsplit + &#x27;split distance set&#x27;);		
+		&#x2F;&#x2F;this.swimsplit = $(&quot;#swimsplit&quot;).val();
+&#x2F;&#x2F;console.log(&#x27;dist&#x27; + this.swimdistance + &#x27;and split&#x27; + this.swimsplit);
+		this.stopsplitstatus = (this.swimdistance&#x2F;this.swimsplit);
+		&#x2F;&#x2F; if the swim distance is 50m and split is 50m  change split button to also say stop
+		if(this.stopsplitstatus == 1)
+		{
+			$(&quot;[class^=&#x27;splitbutton&#x27;]&quot;).text(&quot;STOP&quot;);
+		}
+		else
+		{
+			$(&quot;[class^=&#x27;splitbutton&#x27;]&quot;).text(&quot;Split&quot;);
+		}
+		&#x2F;&#x2F; need to identify active swimmers from UI
+		&#x2F;&#x2F; what order did the swimmers go off 
+		this.activeswimmers = [];
+		&#x2F;&#x2F;var noswimmerlive = $(&quot;a#stop&quot;).length;
+
+		var listactives = [];
+
+		listactives = $(&#x27;#sortable1&#x27;).sortable(&#x27;toArray&#x27;);
+&#x2F;&#x2F;console.log(listactives);
+		countswimmers = listactives.length;
+&#x2F;&#x2F;console.log(countswimmers + &#x27;the count of swiimm&#x27;);	
+		
+		this.activeswimmers = listactives;
+&#x2F;&#x2F;console.log(&#x27;the starting list&#x27;);
+&#x2F;&#x2F;console.log(this.activeswimmers);		
+		&#x2F;&#x2F; if in touchpad mode
+		starttpstatus = $(&quot;#touchpadmode&quot;).attr(&quot;title&quot;);
+&#x2F;&#x2F;console.log(&#x27;in master start fuction status of touchpad&#x27; + starttpstatus);
+		if(starttpstatus == &#x27;on&#x27;)
+		{
+			&#x2F;&#x2F; setup split time capture arrays
+			this.activeswimmers.forEach(function(livetbswimmers) {	
+				&#x2F;&#x2F; need to setup split arrays&#x2F;objects to hold data
+				&#x2F;&#x2F;starttiming.activetimeclock.splitswimmerid(livetbswimmers);
+			});
+
+
+			&#x2F;&#x2F; need to build swimmer&#x2F;order array
+			this.totalsplitarray = [];
+			notimesperswimmer = this.swimdistance&#x2F;this.swimsplit;
+			totalnosplits = (this.activeswimmers.length * notimesperswimmer) -1;
+&#x2F;&#x2F;console.log(notimesperswimmer + &#x27;the no splits per swimer&#x27; );
+&#x2F;&#x2F;console.log(totalnosplits + &#x27;the total no. spliters&#x27; );
+			si = 0;
+			countswi = 0;
+			for (si=0;si&lt;=totalnosplits;si++)
+			{
+&#x2F;&#x2F;console.log(si + &#x27;the info&#x27;);
+				this.totalsplitarray[si] = this.activeswimmers[countswi];
+				countswi++;
+				
+				if(countswi == (this.activeswimmers.length ))
+				{
+					countswi = 0;
+				}
+			}
+&#x2F;&#x2F;console.log(this.totalsplitarray);
+&#x2F;&#x2F;console.log(&#x27;the order above&#x27;);
+				
+				
+			}  &#x2F;&#x2F; closes if touchpad on
+			
+
+		return false;
+	};
+	
+		&#x2F;**
+	*  Master record management
+	* @method recordmanagement
+	*&#x2F;
+	this.recordmanagement = function() {
+				&#x2F;&#x2F; need to keep a counter of element order start if with one
+		var norepetitionsobject = $(&#x27;#swimrepetition.recordlive&#x27;);	
+&#x2F;&#x2F;console.log(norepetitionsobject);				
+		&#x2F;&#x2F;var norepetitionselements = $(&#x27;#swimrepetition.recordlive&#x27;).length;
+		
+		var totalelementrec = $(&quot;.liveswimelement&quot;).length -1;
+		&#x2F;&#x2F; add one to recordcounter
+		var newcounter = parseInt($(&quot;.recordcount&quot;).text());
+		nextcount = newcounter + 1;
+&#x2F;&#x2F;console.log(nextcount + &#x27;next count&#x27;);		
+		&#x2F;&#x2F;html body div.liveswimset div#livedate1374053681000.liveswimelement div#swimrepetition.recordlive
+		var norepetitionsobject = $(&#x27;#swimrepetition.recordlive&#x27;);		
+		var norepetitions =norepetitionsobject[elementliverecid].innerHTML;
+&#x2F;&#x2F;console.log(norepetitions + &#x27;repetitions&#x27;);		
+		
+		if(nextcount &gt; norepetitions)
+		{
+&#x2F;&#x2F;console.log(elementliverecid + &#x27;on which record element&#x27;);
+&#x2F;&#x2F;console.log(totalelementrec + &#x27;total no of record elements&#x27;);			
+			&#x2F;&#x2F; check if more record element or time to finish recording
+			if(elementliverecid == totalelementrec)
+			{
+			$(&quot;.recordfeedback&quot;).text(&#x27;Finished recording&#x27;);
+				&#x2F;&#x2F; need to reset &#x2F; clear record variables
+				elementliverecid = 0;
+
+			}
+			else
+			{
+				elementliverecid++;
+				&#x2F;&#x2F;remove record live from current element and add it to the next
+				$(&#x27;.recordcount&#x27;).remove();
+				&#x2F;&#x2F; add it to the next item
+				&#x2F;&#x2F;$().html(&#x27;&lt;div class=&quot;recordcount&quot;&gt;1&lt;&#x2F;div&gt;&#x27;);
+				&#x2F;&#x2F;$(&quot;#livedate1374053688000&quot;).append(&#x27;&lt;div class=&quot;recordcount&quot; &gt;1&lt;&#x2F;div&gt;&#x27;);
+&#x2F;&#x2F;console.log(norepetitionsobject[elementliverecid].parentNode.id);				
+				$(&#x27;#&#x27; + norepetitionsobject[elementliverecid].parentNode.id).append(&#x27;&lt;div class=&quot;recordcount&quot; &gt;1&lt;&#x2F;div&gt;&#x27;);
+
+&#x2F;&#x2F;console.log(elementliverecid + &#x27;the liverecord count&#x27;);				
+			}
+		}
+		else
+		{
+			$(&quot;.recordcount&quot;).text(nextcount);
+		}
+		
+	};
+
+}; &#x2F;&#x2F; closes master class
+	
+	
+&#x2F;**
+*  Per swimmer timer class 
+*  acting as sub class of Master Timer
+* @class PerSwimmer
+*&#x2F;
+var PerSwimmer = function() {
+
+	this.startclock = new MasterWatch();
+&#x2F;&#x2F;	this.swimmer = swimid;	
+	
+&#x2F;*
+* need to identify swimmer split or stop that has been clicked on the UI
+*&#x2F;	
+	this.splitswimmerid = function(splitid) {
+	this.splitidlive = splitid;			
+
+&#x2F;&#x2F; keep track of the live split swimmers that are active
+			if(!this.activesplitter)
+			{
+			this.activesplitter = [];
+			}
+&#x2F;&#x2F; keep track of how many times the stop button has been click
+			if(!this.stoppedlist)
+			{
+			this.stoppedlist = [];
+			}
+			
+			if(!this.activesplitter[this.splitidlive]){
+				this.activesplitter.push(this.splitidlive);
+			}
+			
+			
+&#x2F;&#x2F; need to defin array for all local split stop times array
+			if(!this.spid)
+			{
+			this.spid = {};	
+			this.sparray = {};	
+			this.spdiffarray = {};
+			}
+			
+&#x2F;&#x2F; if an individual swimmer id array has not been set set it
+		if(!this.spid[this.splitidlive]){			
+&#x2F;&#x2F;console.log(&#x27;should be only first time set of this&#x27;);			
+		this.spid[this.splitidlive] =  [1,0,0];
+		this.sparray[this.splitidlive] =  [];
+		this.spdiffarray[this.splitidlive] = [];	
+		
+	&#x2F;*
+	 * setting for each swimmer  array of array [idofswimmer][splits time where:
+	 *
+	 * 0 = default swimmer time is set to 1 i.e. live
+	 * 1 = total time elapse in ms for each stop &#x2F; split?  need to check for split logic
+	 * 2 = the stop&#x2F;split number local to each swimmer
+	*&#x2F;		
+		}	
+};	
+
+	&#x2F;**
+	* the last split ie the per stop button 
+	* @method stop
+	*&#x2F;
+	this.stop = function(stoploc) {
+&#x2F;&#x2F; contorl logic, has the main timer been started? If you proceed if not do nothing.		
+	if(this.startclock.t[1] === 0) {
+		&#x2F;&#x2F; nothing start do nothing.
+	}
+	else
+	{
+&#x2F;&#x2F;console.log(&#x27;what t arrays are set start after resetbutton pressed?&#x27;);
+	&#x2F;&#x2F; form stop location div
+			
+
+			this.t =  this.startclock.t;
+
+			
+			this.t[this.t[2]] = (+new Date()).valueOf();
+
+	&#x2F;&#x2F; need to make this stop logic local to this swimmer
+			this.spid[stoploc][0] = 1 - this.spid[this.splitidlive][0];
+			
+				if (this.spid[stoploc][0] === 0)
+				{
+					liveHTML.realtimestop(this, stoploc);
+
+				}
+
+		if(this.stoppedlist.length == (this.startclock.activeswimmers.length)){
+		&#x2F;&#x2F; stop the main stopwatch
+&#x2F;&#x2F;console.log(&#x27;all watches have been stopped&#x27;);		
+			clearInterval(this.t[4]);
+		&#x2F;&#x2F; &#x2F;reset&#x2F;clear stoppedlist counter
+			this.stoppedlist = [];
+			}	
+
+		}
+		
+	},
+
+	&#x2F;**
+	*  Splits and calculations	
+	* @method split
+	*&#x2F;
+	this.split = function(spidin) {
+&#x2F;&#x2F;console.log(&#x27;split clicked&#x27;);	
+&#x2F;&#x2F;console.log(spidin + &#x27;incoming splitid&#x27;);
+	&#x2F;&#x2F; contorl logic, has the main timer been started? If yes proceed if not do nothing.		
+	if(this.startclock.t[1] === 0) {
+		&#x2F;&#x2F; nothing start do nothing.
+	}
+	else
+	{	
+		this.t =  this.startclock.t;	
+&#x2F;&#x2F;console.log(this.t);
+		&#x2F;&#x2F; need array to hold each swimmer id along with their times&#x2F;splits info.
+		this.t[2] = 1;		
+		if (this.t[2] !== 0)
+		{
+			this.spid[spidin][2]++;
+&#x2F;&#x2F;console.log(this);				
+			liveHTML.realtimesplitsdiff(this, spidin);
+		}
+
+
+		&#x2F;&#x2F; if the second last split then change button to say stop for the last
+		stopsplitstatuslast = &#x27;&#x27;;
+		stopsplitstatuslast = (this.startclock.stopsplitstatus - this.spid[spidin][2]);
+&#x2F;&#x2F;console.log(this.startclock.stopsplitstatus + &#x27;start  and  live &#x27; + this.spid[spidin][2] + &#x27;difference&#x27; + stopsplitstatuslast);
+		&#x2F;&#x2F; if the swim distance is 50m and split is 50m  change split button to also say stop
+		if(stopsplitstatuslast == 1)
+		{
+			$(&quot;.splitbutton&quot; + spidin).text(&quot;STOP&quot;);
+		}
+		else if(stopsplitstatuslast === 0)
+		{
+			$(&quot;.splitbutton&quot; + spidin).text(&quot;Finished&quot;);
+			this.stoppedlist.push(spidin);		
+			&#x2F;&#x2F; save the splits to pouchdb
+			var sptoday = new Date();
+				datesplitnumber = Date.parse(sptoday);
+
+				swimstyle = $(&quot;#swimstyle&quot;).val();
+				swimstroke = $(&quot;#swimstroke&quot;).val();
+				swimtechnique = $(&quot;#swimtechnique&quot;).val();
+				swimdistance = $(&quot;#swimdistance&quot;).val();
+				swimsplit = $(&quot;#swimsplit&quot;).val();
+				&#x2F;&#x2F; form swim data
+				swimdatastatus = {};
+				swimdatastatus[&#x27;swimdate&#x27;] = sptoday;
+				swimdatastatus[&#x27;swimstyle&#x27;] = swimstyle;
+				swimdatastatus[&#x27;swimstroke&#x27;] = swimstroke;
+				swimdatastatus[&#x27;swimtechnique&#x27;] = swimtechnique;
+				swimdatastatus[&#x27;swimdistance&#x27;] = swimdistance;
+				swimdatastatus[&#x27;swimsplit&#x27;] = swimsplit;
+
+			&#x2F;&#x2F; make socket send to get real time display anywhere
+			&#x2F;&#x2F;var socket = io.connect();
+			&#x2F;&#x2F;socket.emit(&#x27;splitsdatalive&#x27;, stxtstring);	
+&#x2F;&#x2F;console.log(this.sparray[spidin]);				
+			&#x2F;&#x2F; save to localpouchdb need to prepare buld array json structure
+				newjsonswim = {};								
+				newjsonswim[&quot;swimmerid&quot;] = &#x27;&#x27;;
+				newjsonswim[&quot;session&quot;] = {};
+				newjsonswim[&quot;swimmerid&quot;] = spidin;
+				newjsonswim[&quot;session&quot;][&quot;sessionid&quot;] = datesplitnumber;	
+				newjsonswim[&quot;session&quot;][&quot;swiminfo&quot;] = swimdatastatus;	
+				newjsonswim[&quot;session&quot;][&quot;splittimes&quot;]	= this.sparray[spidin];
+
+				livepouch.singleSave(newjsonswim);
+
+
+			&#x2F;&#x2F; need to stop the master stopwatch if all swimmers have finished
+			if(this.stoppedlist.length == (this.startclock.activeswimmers.length)){
+		&#x2F;&#x2F; stop the main stopwatch
+				clearInterval(this.t[4]);
+		&#x2F;&#x2F; &#x2F;reset&#x2F;clear stoppedlist counter
+				this.stoppedlist = [];
+				
+				&#x2F;&#x2F; forward on recordlive counter
+				this.startclock.recordmanagement();
+				
+			}
+		}		
+		else if(stopsplitstatuslast &lt; 0)
+		{
+				&#x2F;&#x2F; if the finished button keeps on being press, could be a split button was press twice. TODO
+				&#x2F;&#x2F; give ability to edit input and update pouchdb
+				$(&quot;.splitbutton&quot; + spidin).text(&quot;Edit splits&quot;);
+				$(&#x27;&lt;a href=&quot;&quot; id=&quot;splitedit&quot;&gt;Split Edit&lt;&#x2F;a&gt;&#x27;).appendTo($(&quot;#splits&quot;+ spidin)).slideDown(&#x27;fast&#x27;);
+
+		}
+
+
+			return false;
+
+		}
+
+	};
+
+	
+}; &#x2F;&#x2F; closes Per Swimmer
+
+    </pre>
+</div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="..&#x2F;assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="..&#x2F;assets/js/yui-prettify.js"></script>
+<script src="..&#x2F;assets/../api.js"></script>
+<script src="..&#x2F;assets/js/api-filter.js"></script>
+<script src="..&#x2F;assets/js/api-list.js"></script>
+<script src="..&#x2F;assets/js/api-search.js"></script>
+<script src="..&#x2F;assets/js/apidocs.js"></script>
+</body>
+</html>

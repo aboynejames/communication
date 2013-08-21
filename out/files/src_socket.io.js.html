@@ -1,0 +1,3437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>src&#x2F;socket.io.js</title>
+    <link rel="stylesheet" href="http:&#x2F;&#x2F;yui.yahooapis.com&#x2F;3.8.0pr2&#x2F;build&#x2F;cssgrids&#x2F;cssgrids-min.css">
+    <link rel="stylesheet" href="..&#x2F;assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="..&#x2F;assets/css/main.css" id="site_styles">
+    <link rel="shortcut icon" type="image/png" href="..&#x2F;assets/favicon.png">
+    <script src="http:&#x2F;&#x2F;yui.yahooapis.com&#x2F;combo?3.8.0pr2&#x2F;build&#x2F;yui&#x2F;yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+            
+                <h1><img src="..&#x2F;assets/css/logo.png" title=""></h1>
+            
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: </em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+    <h2 class="off-left">APIs</h2>
+    <div id="api-tabview" class="tabview">
+        <ul class="tabs">
+            <li><a href="#api-classes">Classes</a></li>
+            <li><a href="#api-modules">Modules</a></li>
+        </ul>
+
+        <div id="api-tabview-filter">
+            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+        </div>
+
+        <div id="api-tabview-panel">
+            <ul id="api-classes" class="apis classes">
+            
+                <li><a href="..&#x2F;classes/llLogic.html">llLogic</a></li>
+            
+                <li><a href="..&#x2F;classes/makeProgramme.html">makeProgramme</a></li>
+            
+                <li><a href="..&#x2F;classes/MasterWatch.html">MasterWatch</a></li>
+            
+                <li><a href="..&#x2F;classes/PerSwimmer.html">PerSwimmer</a></li>
+            
+                <li><a href="..&#x2F;classes/pouchdbSettings.html">pouchdbSettings</a></li>
+            
+                <li><a href="..&#x2F;classes/recordQS.html">recordQS</a></li>
+            
+                <li><a href="..&#x2F;classes/SwimtimeController.html">SwimtimeController</a></li>
+            
+                <li><a href="..&#x2F;classes/ttHTML.html">ttHTML</a></li>
+            
+            </ul>
+
+            <ul id="api-modules" class="apis modules">
+            
+            </ul>
+        </div>
+    </div>
+</div>
+
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+        Show:
+        <label for="api-show-inherited">
+            <input type="checkbox" id="api-show-inherited" checked>
+            Inherited
+        </label>
+
+        <label for="api-show-protected">
+            <input type="checkbox" id="api-show-protected">
+            Protected
+        </label>
+
+        <label for="api-show-private">
+            <input type="checkbox" id="api-show-private">
+            Private
+        </label>
+        <label for="api-show-deprecated">
+            <input type="checkbox" id="api-show-deprecated">
+            Deprecated
+        </label>
+
+    </div>
+
+
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+                        <h1 class="file-heading">File: src&#x2F;socket.io.js</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+&#x2F;*! Socket.IO.js build:0.9.10, development. Copyright(c) 2011 LearnBoost &lt;dev@learnboost.com&gt; MIT Licensed *&#x2F;
+
+var io = (&#x27;undefined&#x27; === typeof module ? {} : module.exports);
+(function() {
+
+&#x2F;**
+ * socket.io
+ * Copyright(c) 2011 LearnBoost &lt;dev@learnboost.com&gt;
+ * MIT Licensed
+ *&#x2F;
+
+(function (exports, global) {
+
+  &#x2F;**
+   * IO namespace.
+   *
+   * @namespace
+   *&#x2F;
+
+  var io = exports;
+
+  &#x2F;**
+   * Socket.IO version
+   *
+   * @api public
+   *&#x2F;
+
+  io.version = &#x27;0.9.10&#x27;;
+
+  &#x2F;**
+   * Protocol implemented.
+   *
+   * @api public
+   *&#x2F;
+
+  io.protocol = 1;
+
+  &#x2F;**
+   * Available transports, these will be populated with the available transports
+   *
+   * @api public
+   *&#x2F;
+
+  io.transports = [];
+
+  &#x2F;**
+   * Keep track of jsonp callbacks.
+   *
+   * @api private
+   *&#x2F;
+
+  io.j = [];
+
+  &#x2F;**
+   * Keep track of our io.Sockets
+   *
+   * @api private
+   *&#x2F;
+  io.sockets = {};
+
+
+  &#x2F;**
+   * Manages connections to hosts.
+   *
+   * @param {String} uri
+   * @Param {Boolean} force creation of new socket (defaults to false)
+   * @api public
+   *&#x2F;
+
+  io.connect = function (host, details) {
+    var uri = io.util.parseUri(host)
+      , uuri
+      , socket;
+
+    if (global &amp;&amp; global.location) {
+      uri.protocol = uri.protocol || global.location.protocol.slice(0, -1);
+      uri.host = uri.host || (global.document
+        ? global.document.domain : global.location.hostname);
+      uri.port = uri.port || global.location.port;
+    }
+
+    uuri = io.util.uniqueUri(uri);
+
+    var options = {
+        host: uri.host
+      , secure: &#x27;https&#x27; == uri.protocol
+      , port: uri.port || (&#x27;https&#x27; == uri.protocol ? 443 : 80)
+      , query: uri.query || &#x27;&#x27;
+    };
+
+    io.util.merge(options, details);
+
+    if (options[&#x27;force new connection&#x27;] || !io.sockets[uuri]) {
+      socket = new io.Socket(options);
+    }
+
+    if (!options[&#x27;force new connection&#x27;] &amp;&amp; socket) {
+      io.sockets[uuri] = socket;
+    }
+
+    socket = socket || io.sockets[uuri];
+
+    &#x2F;&#x2F; if path is different from &#x27;&#x27; or &#x2F;
+    return socket.of(uri.path.length &gt; 1 ? uri.path : &#x27;&#x27;);
+  };
+
+})(&#x27;object&#x27; === typeof module ? module.exports : (this.io = {}), this);
+&#x2F;**
+ * socket.io
+ * Copyright(c) 2011 LearnBoost &lt;dev@learnboost.com&gt;
+ * MIT Licensed
+ *&#x2F;
+
+(function (exports, global) {
+
+  &#x2F;**
+   * Utilities namespace.
+   *
+   * @namespace
+   *&#x2F;
+
+  var util = exports.util = {};
+
+  &#x2F;**
+   * Parses an URI
+   *
+   * @author Steven Levithan &lt;stevenlevithan.com&gt; (MIT license)
+   * @api public
+   *&#x2F;
+
+  var re = &#x2F;^(?:(?![^:@]+:[^:@\&#x2F;]*@)([^:\&#x2F;?#.]+):)?(?:\&#x2F;\&#x2F;)?((?:(([^:@]*)(?::([^:@]*))?)?@)?([^:\&#x2F;?#]*)(?::(\d*))?)(((\&#x2F;(?:[^?#](?![^?#\&#x2F;]*\.[^?#\&#x2F;.]+(?:[?#]|$)))*\&#x2F;?)?([^?#\&#x2F;]*))(?:\?([^#]*))?(?:#(.*))?)&#x2F;;
+
+  var parts = [&#x27;source&#x27;, &#x27;protocol&#x27;, &#x27;authority&#x27;, &#x27;userInfo&#x27;, &#x27;user&#x27;, &#x27;password&#x27;,
+               &#x27;host&#x27;, &#x27;port&#x27;, &#x27;relative&#x27;, &#x27;path&#x27;, &#x27;directory&#x27;, &#x27;file&#x27;, &#x27;query&#x27;,
+               &#x27;anchor&#x27;];
+
+  util.parseUri = function (str) {
+    var m = re.exec(str || &#x27;&#x27;)
+      , uri = {}
+      , i = 14;
+
+    while (i--) {
+      uri[parts[i]] = m[i] || &#x27;&#x27;;
+    }
+
+    return uri;
+  };
+
+  &#x2F;**
+   * Produces a unique url that identifies a Socket.IO connection.
+   *
+   * @param {Object} uri
+   * @api public
+   *&#x2F;
+
+  util.uniqueUri = function (uri) {
+    var protocol = uri.protocol
+      , host = uri.host
+      , port = uri.port;
+
+    if (&#x27;document&#x27; in global) {
+      host = host || document.domain;
+      port = port || (protocol == &#x27;https&#x27;
+        &amp;&amp; document.location.protocol !== &#x27;https:&#x27; ? 443 : document.location.port);
+    } else {
+      host = host || &#x27;localhost&#x27;;
+
+      if (!port &amp;&amp; protocol == &#x27;https&#x27;) {
+        port = 443;
+      }
+    }
+
+    return (protocol || &#x27;http&#x27;) + &#x27;:&#x2F;&#x2F;&#x27; + host + &#x27;:&#x27; + (port || 80);
+  };
+
+  &#x2F;**
+   * Mergest 2 query strings in to once unique query string
+   *
+   * @param {String} base
+   * @param {String} addition
+   * @api public
+   *&#x2F;
+
+  util.query = function (base, addition) {
+    var query = util.chunkQuery(base || &#x27;&#x27;)
+      , components = [];
+
+    util.merge(query, util.chunkQuery(addition || &#x27;&#x27;));
+    for (var part in query) {
+      if (query.hasOwnProperty(part)) {
+        components.push(part + &#x27;=&#x27; + query[part]);
+      }
+    }
+
+    return components.length ? &#x27;?&#x27; + components.join(&#x27;&amp;&#x27;) : &#x27;&#x27;;
+  };
+
+  &#x2F;**
+   * Transforms a querystring in to an object
+   *
+   * @param {String} qs
+   * @api public
+   *&#x2F;
+
+  util.chunkQuery = function (qs) {
+    var query = {}
+      , params = qs.split(&#x27;&amp;&#x27;)
+      , i = 0
+      , l = params.length
+      , kv;
+
+    for (; i &lt; l; ++i) {
+      kv = params[i].split(&#x27;=&#x27;);
+      if (kv[0]) {
+        query[kv[0]] = kv[1];
+      }
+    }
+
+    return query;
+  };
+
+  &#x2F;**
+   * Executes the given function when the page is loaded.
+   *
+   *     io.util.load(function () { console.log(&#x27;page loaded&#x27;); });
+   *
+   * @param {Function} fn
+   * @api public
+   *&#x2F;
+
+  var pageLoaded = false;
+
+  util.load = function (fn) {
+    if (&#x27;document&#x27; in global &amp;&amp; document.readyState === &#x27;complete&#x27; || pageLoaded) {
+      return fn();
+    }
+
+    util.on(global, &#x27;load&#x27;, fn, false);
+  };
+
+  &#x2F;**
+   * Adds an event.
+   *
+   * @api private
+   *&#x2F;
+
+  util.on = function (element, event, fn, capture) {
+    if (element.attachEvent) {
+      element.attachEvent(&#x27;on&#x27; + event, fn);
+    } else if (element.addEventListener) {
+      element.addEventListener(event, fn, capture);
+    }
+  };
+
+  &#x2F;**
+   * Generates the correct &#x60;XMLHttpRequest&#x60; for regular and cross domain requests.
+   *
+   * @param {Boolean} [xdomain] Create a request that can be used cross domain.
+   * @returns {XMLHttpRequest|false} If we can create a XMLHttpRequest.
+   * @api private
+   *&#x2F;
+
+  util.request = function (xdomain) {
+
+    if (xdomain &amp;&amp; &#x27;undefined&#x27; != typeof XDomainRequest) {
+      return new XDomainRequest();
+    }
+
+    if (&#x27;undefined&#x27; != typeof XMLHttpRequest &amp;&amp; (!xdomain || util.ua.hasCORS)) {
+      return new XMLHttpRequest();
+    }
+
+    if (!xdomain) {
+      try {
+        return new window[([&#x27;Active&#x27;].concat(&#x27;Object&#x27;).join(&#x27;X&#x27;))](&#x27;Microsoft.XMLHTTP&#x27;);
+      } catch(e) { }
+    }
+
+    return null;
+  };
+
+  &#x2F;**
+   * XHR based transport constructor.
+   *
+   * @constructor
+   * @api public
+   *&#x2F;
+
+  &#x2F;**
+   * Change the internal pageLoaded value.
+   *&#x2F;
+
+  if (&#x27;undefined&#x27; != typeof window) {
+    util.load(function () {
+      pageLoaded = true;
+    });
+  }
+
+  &#x2F;**
+   * Defers a function to ensure a spinner is not displayed by the browser
+   *
+   * @param {Function} fn
+   * @api public
+   *&#x2F;
+
+  util.defer = function (fn) {
+    if (!util.ua.webkit || &#x27;undefined&#x27; != typeof importScripts) {
+      return fn();
+    }
+
+    util.load(function () {
+      setTimeout(fn, 100);
+    });
+  };
+
+  &#x2F;**
+   * Merges two objects.
+   *
+   * @api public
+   *&#x2F;
+  
+  util.merge = function merge (target, additional, deep, lastseen) {
+    var seen = lastseen || []
+      , depth = typeof deep == &#x27;undefined&#x27; ? 2 : deep
+      , prop;
+
+    for (prop in additional) {
+      if (additional.hasOwnProperty(prop) &amp;&amp; util.indexOf(seen, prop) &lt; 0) {
+        if (typeof target[prop] !== &#x27;object&#x27; || !depth) {
+          target[prop] = additional[prop];
+          seen.push(additional[prop]);
+        } else {
+          util.merge(target[prop], additional[prop], depth - 1, seen);
+        }
+      }
+    }
+
+    return target;
+  };
+
+  &#x2F;**
+   * Merges prototypes from objects
+   *
+   * @api public
+   *&#x2F;
+  
+  util.mixin = function (ctor, ctor2) {
+    util.merge(ctor.prototype, ctor2.prototype);
+  };
+
+  &#x2F;**
+   * Shortcut for prototypical and static inheritance.
+   *
+   * @api private
+   *&#x2F;
+
+  util.inherit = function (ctor, ctor2) {
+    function f() {};
+    f.prototype = ctor2.prototype;
+    ctor.prototype = new f;
+  };
+
+  &#x2F;**
+   * Checks if the given object is an Array.
+   *
+   *     io.util.isArray([]); &#x2F;&#x2F; true
+   *     io.util.isArray({}); &#x2F;&#x2F; false
+   *
+   * @param Object obj
+   * @api public
+   *&#x2F;
+
+  util.isArray = Array.isArray || function (obj) {
+    return Object.prototype.toString.call(obj) === &#x27;[object Array]&#x27;;
+  };
+
+  &#x2F;**
+   * Intersects values of two arrays into a third
+   *
+   * @api public
+   *&#x2F;
+
+  util.intersect = function (arr, arr2) {
+    var ret = []
+      , longest = arr.length &gt; arr2.length ? arr : arr2
+      , shortest = arr.length &gt; arr2.length ? arr2 : arr;
+
+    for (var i = 0, l = shortest.length; i &lt; l; i++) {
+      if (~util.indexOf(longest, shortest[i]))
+        ret.push(shortest[i]);
+    }
+
+    return ret;
+  }
+
+  &#x2F;**
+   * Array indexOf compatibility.
+   *
+   * @see bit.ly&#x2F;a5Dxa2
+   * @api public
+   *&#x2F;
+
+  util.indexOf = function (arr, o, i) {
+    
+    for (var j = arr.length, i = i &lt; 0 ? i + j &lt; 0 ? 0 : i + j : i || 0; 
+         i &lt; j &amp;&amp; arr[i] !== o; i++) {}
+
+    return j &lt;= i ? -1 : i;
+  };
+
+  &#x2F;**
+   * Converts enumerables to array.
+   *
+   * @api public
+   *&#x2F;
+
+  util.toArray = function (enu) {
+    var arr = [];
+
+    for (var i = 0, l = enu.length; i &lt; l; i++)
+      arr.push(enu[i]);
+
+    return arr;
+  };
+
+  &#x2F;**
+   * UA &#x2F; engines detection namespace.
+   *
+   * @namespace
+   *&#x2F;
+
+  util.ua = {};
+
+  &#x2F;**
+   * Whether the UA supports CORS for XHR.
+   *
+   * @api public
+   *&#x2F;
+
+  util.ua.hasCORS = &#x27;undefined&#x27; != typeof XMLHttpRequest &amp;&amp; (function () {
+    try {
+      var a = new XMLHttpRequest();
+    } catch (e) {
+      return false;
+    }
+
+    return a.withCredentials != undefined;
+  })();
+
+  &#x2F;**
+   * Detect webkit.
+   *
+   * @api public
+   *&#x2F;
+
+  util.ua.webkit = &#x27;undefined&#x27; != typeof navigator
+    &amp;&amp; &#x2F;webkit&#x2F;i.test(navigator.userAgent);
+
+   &#x2F;**
+   * Detect iPad&#x2F;iPhone&#x2F;iPod.
+   *
+   * @api public
+   *&#x2F;
+
+  util.ua.iDevice = &#x27;undefined&#x27; != typeof navigator
+      &amp;&amp; &#x2F;iPad|iPhone|iPod&#x2F;i.test(navigator.userAgent);
+
+})(&#x27;undefined&#x27; != typeof io ? io : module.exports, this);
+&#x2F;**
+ * socket.io
+ * Copyright(c) 2011 LearnBoost &lt;dev@learnboost.com&gt;
+ * MIT Licensed
+ *&#x2F;
+
+(function (exports, io) {
+
+  &#x2F;**
+   * Expose constructor.
+   *&#x2F;
+
+  exports.EventEmitter = EventEmitter;
+
+  &#x2F;**
+   * Event emitter constructor.
+   *
+   * @api public.
+   *&#x2F;
+
+  function EventEmitter () {};
+
+  &#x2F;**
+   * Adds a listener
+   *
+   * @api public
+   *&#x2F;
+
+  EventEmitter.prototype.on = function (name, fn) {
+    if (!this.$events) {
+      this.$events = {};
+    }
+
+    if (!this.$events[name]) {
+      this.$events[name] = fn;
+    } else if (io.util.isArray(this.$events[name])) {
+      this.$events[name].push(fn);
+    } else {
+      this.$events[name] = [this.$events[name], fn];
+    }
+
+    return this;
+  };
+
+  EventEmitter.prototype.addListener = EventEmitter.prototype.on;
+
+  &#x2F;**
+   * Adds a volatile listener.
+   *
+   * @api public
+   *&#x2F;
+
+  EventEmitter.prototype.once = function (name, fn) {
+    var self = this;
+
+    function on () {
+      self.removeListener(name, on);
+      fn.apply(this, arguments);
+    };
+
+    on.listener = fn;
+    this.on(name, on);
+
+    return this;
+  };
+
+  &#x2F;**
+   * Removes a listener.
+   *
+   * @api public
+   *&#x2F;
+
+  EventEmitter.prototype.removeListener = function (name, fn) {
+    if (this.$events &amp;&amp; this.$events[name]) {
+      var list = this.$events[name];
+
+      if (io.util.isArray(list)) {
+        var pos = -1;
+
+        for (var i = 0, l = list.length; i &lt; l; i++) {
+          if (list[i] === fn || (list[i].listener &amp;&amp; list[i].listener === fn)) {
+            pos = i;
+            break;
+          }
+        }
+
+        if (pos &lt; 0) {
+          return this;
+        }
+
+        list.splice(pos, 1);
+
+        if (!list.length) {
+          delete this.$events[name];
+        }
+      } else if (list === fn || (list.listener &amp;&amp; list.listener === fn)) {
+        delete this.$events[name];
+      }
+    }
+
+    return this;
+  };
+
+  &#x2F;**
+   * Removes all listeners for an event.
+   *
+   * @api public
+   *&#x2F;
+
+  EventEmitter.prototype.removeAllListeners = function (name) {
+    if (name === undefined) {
+      this.$events = {};
+      return this;
+    }
+
+    if (this.$events &amp;&amp; this.$events[name]) {
+      this.$events[name] = null;
+    }
+
+    return this;
+  };
+
+  &#x2F;**
+   * Gets all listeners for a certain event.
+   *
+   * @api publci
+   *&#x2F;
+
+  EventEmitter.prototype.listeners = function (name) {
+    if (!this.$events) {
+      this.$events = {};
+    }
+
+    if (!this.$events[name]) {
+      this.$events[name] = [];
+    }
+
+    if (!io.util.isArray(this.$events[name])) {
+      this.$events[name] = [this.$events[name]];
+    }
+
+    return this.$events[name];
+  };
+
+  &#x2F;**
+   * Emits an event.
+   *
+   * @api public
+   *&#x2F;
+
+  EventEmitter.prototype.emit = function (name) {
+    if (!this.$events) {
+      return false;
+    }
+
+    var handler = this.$events[name];
+
+    if (!handler) {
+      return false;
+    }
+
+    var args = Array.prototype.slice.call(arguments, 1);
+
+    if (&#x27;function&#x27; == typeof handler) {
+      handler.apply(this, args);
+    } else if (io.util.isArray(handler)) {
+      var listeners = handler.slice();
+
+      for (var i = 0, l = listeners.length; i &lt; l; i++) {
+        listeners[i].apply(this, args);
+      }
+    } else {
+      return false;
+    }
+
+    return true;
+  };
+
+})(
+    &#x27;undefined&#x27; != typeof io ? io : module.exports
+  , &#x27;undefined&#x27; != typeof io ? io : module.parent.exports
+);
+
+&#x2F;**
+ * socket.io
+ * Copyright(c) 2011 LearnBoost &lt;dev@learnboost.com&gt;
+ * MIT Licensed
+ *&#x2F;
+
+&#x2F;**
+ * Based on JSON2 (http:&#x2F;&#x2F;www.JSON.org&#x2F;js.html).
+ *&#x2F;
+
+(function (exports, nativeJSON) {
+  &quot;use strict&quot;;
+
+  &#x2F;&#x2F; use native JSON if it&#x27;s available
+  if (nativeJSON &amp;&amp; nativeJSON.parse){
+    return exports.JSON = {
+      parse: nativeJSON.parse
+    , stringify: nativeJSON.stringify
+    }
+  }
+
+  var JSON = exports.JSON = {};
+
+  function f(n) {
+      &#x2F;&#x2F; Format integers to have at least two digits.
+      return n &lt; 10 ? &#x27;0&#x27; + n : n;
+  }
+
+  function date(d, key) {
+    return isFinite(d.valueOf()) ?
+        d.getUTCFullYear()     + &#x27;-&#x27; +
+        f(d.getUTCMonth() + 1) + &#x27;-&#x27; +
+        f(d.getUTCDate())      + &#x27;T&#x27; +
+        f(d.getUTCHours())     + &#x27;:&#x27; +
+        f(d.getUTCMinutes())   + &#x27;:&#x27; +
+        f(d.getUTCSeconds())   + &#x27;Z&#x27; : null;
+  };
+
+  var cx = &#x2F;[\u0000\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]&#x2F;g,
+      escapable = &#x2F;[\\\&quot;\x00-\x1f\x7f-\x9f\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]&#x2F;g,
+      gap,
+      indent,
+      meta = {    &#x2F;&#x2F; table of character substitutions
+          &#x27;\b&#x27;: &#x27;\\b&#x27;,
+          &#x27;\t&#x27;: &#x27;\\t&#x27;,
+          &#x27;\n&#x27;: &#x27;\\n&#x27;,
+          &#x27;\f&#x27;: &#x27;\\f&#x27;,
+          &#x27;\r&#x27;: &#x27;\\r&#x27;,
+          &#x27;&quot;&#x27; : &#x27;\\&quot;&#x27;,
+          &#x27;\\&#x27;: &#x27;\\\\&#x27;
+      },
+      rep;
+
+
+  function quote(string) {
+
+&#x2F;&#x2F; If the string contains no control characters, no quote characters, and no
+&#x2F;&#x2F; backslash characters, then we can safely slap some quotes around it.
+&#x2F;&#x2F; Otherwise we must also replace the offending characters with safe escape
+&#x2F;&#x2F; sequences.
+
+      escapable.lastIndex = 0;
+      return escapable.test(string) ? &#x27;&quot;&#x27; + string.replace(escapable, function (a) {
+          var c = meta[a];
+          return typeof c === &#x27;string&#x27; ? c :
+              &#x27;\\u&#x27; + (&#x27;0000&#x27; + a.charCodeAt(0).toString(16)).slice(-4);
+      }) + &#x27;&quot;&#x27; : &#x27;&quot;&#x27; + string + &#x27;&quot;&#x27;;
+  }
+
+
+  function str(key, holder) {
+
+&#x2F;&#x2F; Produce a string from holder[key].
+
+      var i,          &#x2F;&#x2F; The loop counter.
+          k,          &#x2F;&#x2F; The member key.
+          v,          &#x2F;&#x2F; The member value.
+          length,
+          mind = gap,
+          partial,
+          value = holder[key];
+
+&#x2F;&#x2F; If the value has a toJSON method, call it to obtain a replacement value.
+
+      if (value instanceof Date) {
+          value = date(key);
+      }
+
+&#x2F;&#x2F; If we were called with a replacer function, then call the replacer to
+&#x2F;&#x2F; obtain a replacement value.
+
+      if (typeof rep === &#x27;function&#x27;) {
+          value = rep.call(holder, key, value);
+      }
+
+&#x2F;&#x2F; What happens next depends on the value&#x27;s type.
+
+      switch (typeof value) {
+      case &#x27;string&#x27;:
+          return quote(value);
+
+      case &#x27;number&#x27;:
+
+&#x2F;&#x2F; JSON numbers must be finite. Encode non-finite numbers as null.
+
+          return isFinite(value) ? String(value) : &#x27;null&#x27;;
+
+      case &#x27;boolean&#x27;:
+      case &#x27;null&#x27;:
+
+&#x2F;&#x2F; If the value is a boolean or null, convert it to a string. Note:
+&#x2F;&#x2F; typeof null does not produce &#x27;null&#x27;. The case is included here in
+&#x2F;&#x2F; the remote chance that this gets fixed someday.
+
+          return String(value);
+
+&#x2F;&#x2F; If the type is &#x27;object&#x27;, we might be dealing with an object or an array or
+&#x2F;&#x2F; null.
+
+      case &#x27;object&#x27;:
+
+&#x2F;&#x2F; Due to a specification blunder in ECMAScript, typeof null is &#x27;object&#x27;,
+&#x2F;&#x2F; so watch out for that case.
+
+          if (!value) {
+              return &#x27;null&#x27;;
+          }
+
+&#x2F;&#x2F; Make an array to hold the partial results of stringifying this object value.
+
+          gap += indent;
+          partial = [];
+
+&#x2F;&#x2F; Is the value an array?
+
+          if (Object.prototype.toString.apply(value) === &#x27;[object Array]&#x27;) {
+
+&#x2F;&#x2F; The value is an array. Stringify every element. Use null as a placeholder
+&#x2F;&#x2F; for non-JSON values.
+
+              length = value.length;
+              for (i = 0; i &lt; length; i += 1) {
+                  partial[i] = str(i, value) || &#x27;null&#x27;;
+              }
+
+&#x2F;&#x2F; Join all of the elements together, separated with commas, and wrap them in
+&#x2F;&#x2F; brackets.
+
+              v = partial.length === 0 ? &#x27;[]&#x27; : gap ?
+                  &#x27;[\n&#x27; + gap + partial.join(&#x27;,\n&#x27; + gap) + &#x27;\n&#x27; + mind + &#x27;]&#x27; :
+                  &#x27;[&#x27; + partial.join(&#x27;,&#x27;) + &#x27;]&#x27;;
+              gap = mind;
+              return v;
+          }
+
+&#x2F;&#x2F; If the replacer is an array, use it to select the members to be stringified.
+
+          if (rep &amp;&amp; typeof rep === &#x27;object&#x27;) {
+              length = rep.length;
+              for (i = 0; i &lt; length; i += 1) {
+                  if (typeof rep[i] === &#x27;string&#x27;) {
+                      k = rep[i];
+                      v = str(k, value);
+                      if (v) {
+                          partial.push(quote(k) + (gap ? &#x27;: &#x27; : &#x27;:&#x27;) + v);
+                      }
+                  }
+              }
+          } else {
+
+&#x2F;&#x2F; Otherwise, iterate through all of the keys in the object.
+
+              for (k in value) {
+                  if (Object.prototype.hasOwnProperty.call(value, k)) {
+                      v = str(k, value);
+                      if (v) {
+                          partial.push(quote(k) + (gap ? &#x27;: &#x27; : &#x27;:&#x27;) + v);
+                      }
+                  }
+              }
+          }
+
+&#x2F;&#x2F; Join all of the member texts together, separated with commas,
+&#x2F;&#x2F; and wrap them in braces.
+
+          v = partial.length === 0 ? &#x27;{}&#x27; : gap ?
+              &#x27;{\n&#x27; + gap + partial.join(&#x27;,\n&#x27; + gap) + &#x27;\n&#x27; + mind + &#x27;}&#x27; :
+              &#x27;{&#x27; + partial.join(&#x27;,&#x27;) + &#x27;}&#x27;;
+          gap = mind;
+          return v;
+      }
+  }
+
+&#x2F;&#x2F; If the JSON object does not yet have a stringify method, give it one.
+
+  JSON.stringify = function (value, replacer, space) {
+
+&#x2F;&#x2F; The stringify method takes a value and an optional replacer, and an optional
+&#x2F;&#x2F; space parameter, and returns a JSON text. The replacer can be a function
+&#x2F;&#x2F; that can replace values, or an array of strings that will select the keys.
+&#x2F;&#x2F; A default replacer method can be provided. Use of the space parameter can
+&#x2F;&#x2F; produce text that is more easily readable.
+
+      var i;
+      gap = &#x27;&#x27;;
+      indent = &#x27;&#x27;;
+
+&#x2F;&#x2F; If the space parameter is a number, make an indent string containing that
+&#x2F;&#x2F; many spaces.
+
+      if (typeof space === &#x27;number&#x27;) {
+          for (i = 0; i &lt; space; i += 1) {
+              indent += &#x27; &#x27;;
+          }
+
+&#x2F;&#x2F; If the space parameter is a string, it will be used as the indent string.
+
+      } else if (typeof space === &#x27;string&#x27;) {
+          indent = space;
+      }
+
+&#x2F;&#x2F; If there is a replacer, it must be a function or an array.
+&#x2F;&#x2F; Otherwise, throw an error.
+
+      rep = replacer;
+      if (replacer &amp;&amp; typeof replacer !== &#x27;function&#x27; &amp;&amp;
+              (typeof replacer !== &#x27;object&#x27; ||
+              typeof replacer.length !== &#x27;number&#x27;)) {
+          throw new Error(&#x27;JSON.stringify&#x27;);
+      }
+
+&#x2F;&#x2F; Make a fake root object containing our value under the key of &#x27;&#x27;.
+&#x2F;&#x2F; Return the result of stringifying the value.
+
+      return str(&#x27;&#x27;, {&#x27;&#x27;: value});
+  };
+
+&#x2F;&#x2F; If the JSON object does not yet have a parse method, give it one.
+
+  JSON.parse = function (text, reviver) {
+  &#x2F;&#x2F; The parse method takes a text and an optional reviver function, and returns
+  &#x2F;&#x2F; a JavaScript value if the text is a valid JSON text.
+
+      var j;
+
+      function walk(holder, key) {
+
+  &#x2F;&#x2F; The walk method is used to recursively walk the resulting structure so
+  &#x2F;&#x2F; that modifications can be made.
+
+          var k, v, value = holder[key];
+          if (value &amp;&amp; typeof value === &#x27;object&#x27;) {
+              for (k in value) {
+                  if (Object.prototype.hasOwnProperty.call(value, k)) {
+                      v = walk(value, k);
+                      if (v !== undefined) {
+                          value[k] = v;
+                      } else {
+                          delete value[k];
+                      }
+                  }
+              }
+          }
+          return reviver.call(holder, key, value);
+      }
+
+
+  &#x2F;&#x2F; Parsing happens in four stages. In the first stage, we replace certain
+  &#x2F;&#x2F; Unicode characters with escape sequences. JavaScript handles many characters
+  &#x2F;&#x2F; incorrectly, either silently deleting them, or treating them as line endings.
+
+      text = String(text);
+      cx.lastIndex = 0;
+      if (cx.test(text)) {
+          text = text.replace(cx, function (a) {
+              return &#x27;\\u&#x27; +
+                  (&#x27;0000&#x27; + a.charCodeAt(0).toString(16)).slice(-4);
+          });
+      }
+
+  &#x2F;&#x2F; In the second stage, we run the text against regular expressions that look
+  &#x2F;&#x2F; for non-JSON patterns. We are especially concerned with &#x27;()&#x27; and &#x27;new&#x27;
+  &#x2F;&#x2F; because they can cause invocation, and &#x27;=&#x27; because it can cause mutation.
+  &#x2F;&#x2F; But just to be safe, we want to reject all unexpected forms.
+
+  &#x2F;&#x2F; We split the second stage into 4 regexp operations in order to work around
+  &#x2F;&#x2F; crippling inefficiencies in IE&#x27;s and Safari&#x27;s regexp engines. First we
+  &#x2F;&#x2F; replace the JSON backslash pairs with &#x27;@&#x27; (a non-JSON character). Second, we
+  &#x2F;&#x2F; replace all simple value tokens with &#x27;]&#x27; characters. Third, we delete all
+  &#x2F;&#x2F; open brackets that follow a colon or comma or that begin the text. Finally,
+  &#x2F;&#x2F; we look to see that the remaining characters are only whitespace or &#x27;]&#x27; or
+  &#x2F;&#x2F; &#x27;,&#x27; or &#x27;:&#x27; or &#x27;{&#x27; or &#x27;}&#x27;. If that is so, then the text is safe for eval.
+
+      if (&#x2F;^[\],:{}\s]*$&#x2F;
+              .test(text.replace(&#x2F;\\(?:[&quot;\\\&#x2F;bfnrt]|u[0-9a-fA-F]{4})&#x2F;g, &#x27;@&#x27;)
+                  .replace(&#x2F;&quot;[^&quot;\\\n\r]*&quot;|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?&#x2F;g, &#x27;]&#x27;)
+                  .replace(&#x2F;(?:^|:|,)(?:\s*\[)+&#x2F;g, &#x27;&#x27;))) {
+
+  &#x2F;&#x2F; In the third stage we use the eval function to compile the text into a
+  &#x2F;&#x2F; JavaScript structure. The &#x27;{&#x27; operator is subject to a syntactic ambiguity
+  &#x2F;&#x2F; in JavaScript: it can begin a block or an object literal. We wrap the text
+  &#x2F;&#x2F; in parens to eliminate the ambiguity.
+
+          j = eval(&#x27;(&#x27; + text + &#x27;)&#x27;);
+
+  &#x2F;&#x2F; In the optional fourth stage, we recursively walk the new structure, passing
+  &#x2F;&#x2F; each name&#x2F;value pair to a reviver function for possible transformation.
+
+          return typeof reviver === &#x27;function&#x27; ?
+              walk({&#x27;&#x27;: j}, &#x27;&#x27;) : j;
+      }
+
+  &#x2F;&#x2F; If the text is not JSON parseable, then a SyntaxError is thrown.
+
+      throw new SyntaxError(&#x27;JSON.parse&#x27;);
+  };
+
+})(
+    &#x27;undefined&#x27; != typeof io ? io : module.exports
+  , typeof JSON !== &#x27;undefined&#x27; ? JSON : undefined
+);
+
+&#x2F;**
+ * socket.io
+ * Copyright(c) 2011 LearnBoost &lt;dev@learnboost.com&gt;
+ * MIT Licensed
+ *&#x2F;
+
+(function (exports, io) {
+
+  &#x2F;**
+   * Parser namespace.
+   *
+   * @namespace
+   *&#x2F;
+
+  var parser = exports.parser = {};
+
+  &#x2F;**
+   * Packet types.
+   *&#x2F;
+
+  var packets = parser.packets = [
+      &#x27;disconnect&#x27;
+    , &#x27;connect&#x27;
+    , &#x27;heartbeat&#x27;
+    , &#x27;message&#x27;
+    , &#x27;json&#x27;
+    , &#x27;event&#x27;
+    , &#x27;ack&#x27;
+    , &#x27;error&#x27;
+    , &#x27;noop&#x27;
+  ];
+
+  &#x2F;**
+   * Errors reasons.
+   *&#x2F;
+
+  var reasons = parser.reasons = [
+      &#x27;transport not supported&#x27;
+    , &#x27;client not handshaken&#x27;
+    , &#x27;unauthorized&#x27;
+  ];
+
+  &#x2F;**
+   * Errors advice.
+   *&#x2F;
+
+  var advice = parser.advice = [
+      &#x27;reconnect&#x27;
+  ];
+
+  &#x2F;**
+   * Shortcuts.
+   *&#x2F;
+
+  var JSON = io.JSON
+    , indexOf = io.util.indexOf;
+
+  &#x2F;**
+   * Encodes a packet.
+   *
+   * @api private
+   *&#x2F;
+
+  parser.encodePacket = function (packet) {
+    var type = indexOf(packets, packet.type)
+      , id = packet.id || &#x27;&#x27;
+      , endpoint = packet.endpoint || &#x27;&#x27;
+      , ack = packet.ack
+      , data = null;
+
+    switch (packet.type) {
+      case &#x27;error&#x27;:
+        var reason = packet.reason ? indexOf(reasons, packet.reason) : &#x27;&#x27;
+          , adv = packet.advice ? indexOf(advice, packet.advice) : &#x27;&#x27;;
+
+        if (reason !== &#x27;&#x27; || adv !== &#x27;&#x27;)
+          data = reason + (adv !== &#x27;&#x27; ? (&#x27;+&#x27; + adv) : &#x27;&#x27;);
+
+        break;
+
+      case &#x27;message&#x27;:
+        if (packet.data !== &#x27;&#x27;)
+          data = packet.data;
+        break;
+
+      case &#x27;event&#x27;:
+        var ev = { name: packet.name };
+
+        if (packet.args &amp;&amp; packet.args.length) {
+          ev.args = packet.args;
+        }
+
+        data = JSON.stringify(ev);
+        break;
+
+      case &#x27;json&#x27;:
+        data = JSON.stringify(packet.data);
+        break;
+
+      case &#x27;connect&#x27;:
+        if (packet.qs)
+          data = packet.qs;
+        break;
+
+      case &#x27;ack&#x27;:
+        data = packet.ackId
+          + (packet.args &amp;&amp; packet.args.length
+              ? &#x27;+&#x27; + JSON.stringify(packet.args) : &#x27;&#x27;);
+        break;
+    }
+
+    &#x2F;&#x2F; construct packet with required fragments
+    var encoded = [
+        type
+      , id + (ack == &#x27;data&#x27; ? &#x27;+&#x27; : &#x27;&#x27;)
+      , endpoint
+    ];
+
+    &#x2F;&#x2F; data fragment is optional
+    if (data !== null &amp;&amp; data !== undefined)
+      encoded.push(data);
+
+    return encoded.join(&#x27;:&#x27;);
+  };
+
+  &#x2F;**
+   * Encodes multiple messages (payload).
+   *
+   * @param {Array} messages
+   * @api private
+   *&#x2F;
+
+  parser.encodePayload = function (packets) {
+    var decoded = &#x27;&#x27;;
+
+    if (packets.length == 1)
+      return packets[0];
+
+    for (var i = 0, l = packets.length; i &lt; l; i++) {
+      var packet = packets[i];
+      decoded += &#x27;\ufffd&#x27; + packet.length + &#x27;\ufffd&#x27; + packets[i];
+    }
+
+    return decoded;
+  };
+
+  &#x2F;**
+   * Decodes a packet
+   *
+   * @api private
+   *&#x2F;
+
+  var regexp = &#x2F;([^:]+):([0-9]+)?(\+)?:([^:]+)?:?([\s\S]*)?&#x2F;;
+
+  parser.decodePacket = function (data) {
+    var pieces = data.match(regexp);
+
+    if (!pieces) return {};
+
+    var id = pieces[2] || &#x27;&#x27;
+      , data = pieces[5] || &#x27;&#x27;
+      , packet = {
+            type: packets[pieces[1]]
+          , endpoint: pieces[4] || &#x27;&#x27;
+        };
+
+    &#x2F;&#x2F; whether we need to acknowledge the packet
+    if (id) {
+      packet.id = id;
+      if (pieces[3])
+        packet.ack = &#x27;data&#x27;;
+      else
+        packet.ack = true;
+    }
+
+    &#x2F;&#x2F; handle different packet types
+    switch (packet.type) {
+      case &#x27;error&#x27;:
+        var pieces = data.split(&#x27;+&#x27;);
+        packet.reason = reasons[pieces[0]] || &#x27;&#x27;;
+        packet.advice = advice[pieces[1]] || &#x27;&#x27;;
+        break;
+
+      case &#x27;message&#x27;:
+        packet.data = data || &#x27;&#x27;;
+        break;
+
+      case &#x27;event&#x27;:
+        try {
+          var opts = JSON.parse(data);
+          packet.name = opts.name;
+          packet.args = opts.args;
+        } catch (e) { }
+
+        packet.args = packet.args || [];
+        break;
+
+      case &#x27;json&#x27;:
+        try {
+          packet.data = JSON.parse(data);
+        } catch (e) { }
+        break;
+
+      case &#x27;connect&#x27;:
+        packet.qs = data || &#x27;&#x27;;
+        break;
+
+      case &#x27;ack&#x27;:
+        var pieces = data.match(&#x2F;^([0-9]+)(\+)?(.*)&#x2F;);
+        if (pieces) {
+          packet.ackId = pieces[1];
+          packet.args = [];
+
+          if (pieces[3]) {
+            try {
+              packet.args = pieces[3] ? JSON.parse(pieces[3]) : [];
+            } catch (e) { }
+          }
+        }
+        break;
+
+      case &#x27;disconnect&#x27;:
+      case &#x27;heartbeat&#x27;:
+        break;
+    };
+
+    return packet;
+  };
+
+  &#x2F;**
+   * Decodes data payload. Detects multiple messages
+   *
+   * @return {Array} messages
+   * @api public
+   *&#x2F;
+
+  parser.decodePayload = function (data) {
+    &#x2F;&#x2F; IE doesn&#x27;t like data[i] for unicode chars, charAt works fine
+    if (data.charAt(0) == &#x27;\ufffd&#x27;) {
+      var ret = [];
+
+      for (var i = 1, length = &#x27;&#x27;; i &lt; data.length; i++) {
+        if (data.charAt(i) == &#x27;\ufffd&#x27;) {
+          ret.push(parser.decodePacket(data.substr(i + 1).substr(0, length)));
+          i += Number(length) + 1;
+          length = &#x27;&#x27;;
+        } else {
+          length += data.charAt(i);
+        }
+      }
+
+      return ret;
+    } else {
+      return [parser.decodePacket(data)];
+    }
+  };
+
+})(
+    &#x27;undefined&#x27; != typeof io ? io : module.exports
+  , &#x27;undefined&#x27; != typeof io ? io : module.parent.exports
+);
+&#x2F;**
+ * socket.io
+ * Copyright(c) 2011 LearnBoost &lt;dev@learnboost.com&gt;
+ * MIT Licensed
+ *&#x2F;
+
+(function (exports, io) {
+
+  &#x2F;**
+   * Expose constructor.
+   *&#x2F;
+
+  exports.Transport = Transport;
+
+  &#x2F;**
+   * This is the transport template for all supported transport methods.
+   *
+   * @constructor
+   * @api public
+   *&#x2F;
+
+  function Transport (socket, sessid) {
+    this.socket = socket;
+    this.sessid = sessid;
+  };
+
+  &#x2F;**
+   * Apply EventEmitter mixin.
+   *&#x2F;
+
+  io.util.mixin(Transport, io.EventEmitter);
+
+
+  &#x2F;**
+   * Indicates whether heartbeats is enabled for this transport
+   *
+   * @api private
+   *&#x2F;
+
+  Transport.prototype.heartbeats = function () {
+    return true;
+  }
+
+  &#x2F;**
+   * Handles the response from the server. When a new response is received
+   * it will automatically update the timeout, decode the message and
+   * forwards the response to the onMessage function for further processing.
+   *
+   * @param {String} data Response from the server.
+   * @api private
+   *&#x2F;
+
+  Transport.prototype.onData = function (data) {
+    this.clearCloseTimeout();
+    
+    &#x2F;&#x2F; If the connection in currently open (or in a reopening state) reset the close 
+    &#x2F;&#x2F; timeout since we have just received data. This check is necessary so
+    &#x2F;&#x2F; that we don&#x27;t reset the timeout on an explicitly disconnected connection.
+    if (this.socket.connected || this.socket.connecting || this.socket.reconnecting) {
+      this.setCloseTimeout();
+    }
+
+    if (data !== &#x27;&#x27;) {
+      &#x2F;&#x2F; todo: we should only do decodePayload for xhr transports
+      var msgs = io.parser.decodePayload(data);
+
+      if (msgs &amp;&amp; msgs.length) {
+        for (var i = 0, l = msgs.length; i &lt; l; i++) {
+          this.onPacket(msgs[i]);
+        }
+      }
+    }
+
+    return this;
+  };
+
+  &#x2F;**
+   * Handles packets.
+   *
+   * @api private
+   *&#x2F;
+
+  Transport.prototype.onPacket = function (packet) {
+    this.socket.setHeartbeatTimeout();
+
+    if (packet.type == &#x27;heartbeat&#x27;) {
+      return this.onHeartbeat();
+    }
+
+    if (packet.type == &#x27;connect&#x27; &amp;&amp; packet.endpoint == &#x27;&#x27;) {
+      this.onConnect();
+    }
+
+    if (packet.type == &#x27;error&#x27; &amp;&amp; packet.advice == &#x27;reconnect&#x27;) {
+      this.isOpen = false;
+    }
+
+    this.socket.onPacket(packet);
+
+    return this;
+  };
+
+  &#x2F;**
+   * Sets close timeout
+   *
+   * @api private
+   *&#x2F;
+  
+  Transport.prototype.setCloseTimeout = function () {
+    if (!this.closeTimeout) {
+      var self = this;
+
+      this.closeTimeout = setTimeout(function () {
+        self.onDisconnect();
+      }, this.socket.closeTimeout);
+    }
+  };
+
+  &#x2F;**
+   * Called when transport disconnects.
+   *
+   * @api private
+   *&#x2F;
+
+  Transport.prototype.onDisconnect = function () {
+    if (this.isOpen) this.close();
+    this.clearTimeouts();
+    this.socket.onDisconnect();
+    return this;
+  };
+
+  &#x2F;**
+   * Called when transport connects
+   *
+   * @api private
+   *&#x2F;
+
+  Transport.prototype.onConnect = function () {
+    this.socket.onConnect();
+    return this;
+  }
+
+  &#x2F;**
+   * Clears close timeout
+   *
+   * @api private
+   *&#x2F;
+
+  Transport.prototype.clearCloseTimeout = function () {
+    if (this.closeTimeout) {
+      clearTimeout(this.closeTimeout);
+      this.closeTimeout = null;
+    }
+  };
+
+  &#x2F;**
+   * Clear timeouts
+   *
+   * @api private
+   *&#x2F;
+
+  Transport.prototype.clearTimeouts = function () {
+    this.clearCloseTimeout();
+
+    if (this.reopenTimeout) {
+      clearTimeout(this.reopenTimeout);
+    }
+  };
+
+  &#x2F;**
+   * Sends a packet
+   *
+   * @param {Object} packet object.
+   * @api private
+   *&#x2F;
+
+  Transport.prototype.packet = function (packet) {
+    this.send(io.parser.encodePacket(packet));
+  };
+
+  &#x2F;**
+   * Send the received heartbeat message back to server. So the server
+   * knows we are still connected.
+   *
+   * @param {String} heartbeat Heartbeat response from the server.
+   * @api private
+   *&#x2F;
+
+  Transport.prototype.onHeartbeat = function (heartbeat) {
+    this.packet({ type: &#x27;heartbeat&#x27; });
+  };
+ 
+  &#x2F;**
+   * Called when the transport opens.
+   *
+   * @api private
+   *&#x2F;
+
+  Transport.prototype.onOpen = function () {
+    this.isOpen = true;
+    this.clearCloseTimeout();
+    this.socket.onOpen();
+  };
+
+  &#x2F;**
+   * Notifies the base when the connection with the Socket.IO server
+   * has been disconnected.
+   *
+   * @api private
+   *&#x2F;
+
+  Transport.prototype.onClose = function () {
+    var self = this;
+
+    &#x2F;* FIXME: reopen delay causing a infinit loop
+    this.reopenTimeout = setTimeout(function () {
+      self.open();
+    }, this.socket.options[&#x27;reopen delay&#x27;]);*&#x2F;
+
+    this.isOpen = false;
+    this.socket.onClose();
+    this.onDisconnect();
+  };
+
+  &#x2F;**
+   * Generates a connection url based on the Socket.IO URL Protocol.
+   * See &lt;https:&#x2F;&#x2F;github.com&#x2F;learnboost&#x2F;socket.io-node&#x2F;&gt; for more details.
+   *
+   * @returns {String} Connection url
+   * @api private
+   *&#x2F;
+
+  Transport.prototype.prepareUrl = function () {
+    var options = this.socket.options;
+
+    return this.scheme() + &#x27;:&#x2F;&#x2F;&#x27;
+      + options.host + &#x27;:&#x27; + options.port + &#x27;&#x2F;&#x27;
+      + options.resource + &#x27;&#x2F;&#x27; + io.protocol
+      + &#x27;&#x2F;&#x27; + this.name + &#x27;&#x2F;&#x27; + this.sessid;
+  };
+
+  &#x2F;**
+   * Checks if the transport is ready to start a connection.
+   *
+   * @param {Socket} socket The socket instance that needs a transport
+   * @param {Function} fn The callback
+   * @api private
+   *&#x2F;
+
+  Transport.prototype.ready = function (socket, fn) {
+    fn.call(this);
+  };
+})(
+    &#x27;undefined&#x27; != typeof io ? io : module.exports
+  , &#x27;undefined&#x27; != typeof io ? io : module.parent.exports
+);
+&#x2F;**
+ * socket.io
+ * Copyright(c) 2011 LearnBoost &lt;dev@learnboost.com&gt;
+ * MIT Licensed
+ *&#x2F;
+
+(function (exports, io, global) {
+
+  &#x2F;**
+   * Expose constructor.
+   *&#x2F;
+
+  exports.Socket = Socket;
+
+  &#x2F;**
+   * Create a new &#x60;Socket.IO client&#x60; which can establish a persistent
+   * connection with a Socket.IO enabled server.
+   *
+   * @api public
+   *&#x2F;
+
+  function Socket (options) {
+    this.options = {
+        port: 80
+      , secure: false
+      , document: &#x27;document&#x27; in global ? document : false
+      , resource: &#x27;socket.io&#x27;
+      , transports: io.transports
+      , &#x27;connect timeout&#x27;: 10000
+      , &#x27;try multiple transports&#x27;: true
+      , &#x27;reconnect&#x27;: true
+      , &#x27;reconnection delay&#x27;: 500
+      , &#x27;reconnection limit&#x27;: Infinity
+      , &#x27;reopen delay&#x27;: 3000
+      , &#x27;max reconnection attempts&#x27;: 10
+      , &#x27;sync disconnect on unload&#x27;: false
+      , &#x27;auto connect&#x27;: true
+      , &#x27;flash policy port&#x27;: 10843
+      , &#x27;manualFlush&#x27;: false
+    };
+
+    io.util.merge(this.options, options);
+
+    this.connected = false;
+    this.open = false;
+    this.connecting = false;
+    this.reconnecting = false;
+    this.namespaces = {};
+    this.buffer = [];
+    this.doBuffer = false;
+
+    if (this.options[&#x27;sync disconnect on unload&#x27;] &amp;&amp;
+        (!this.isXDomain() || io.util.ua.hasCORS)) {
+      var self = this;
+      io.util.on(global, &#x27;beforeunload&#x27;, function () {
+        self.disconnectSync();
+      }, false);
+    }
+
+    if (this.options[&#x27;auto connect&#x27;]) {
+      this.connect();
+    }
+};
+
+  &#x2F;**
+   * Apply EventEmitter mixin.
+   *&#x2F;
+
+  io.util.mixin(Socket, io.EventEmitter);
+
+  &#x2F;**
+   * Returns a namespace listener&#x2F;emitter for this socket
+   *
+   * @api public
+   *&#x2F;
+
+  Socket.prototype.of = function (name) {
+    if (!this.namespaces[name]) {
+      this.namespaces[name] = new io.SocketNamespace(this, name);
+
+      if (name !== &#x27;&#x27;) {
+        this.namespaces[name].packet({ type: &#x27;connect&#x27; });
+      }
+    }
+
+    return this.namespaces[name];
+  };
+
+  &#x2F;**
+   * Emits the given event to the Socket and all namespaces
+   *
+   * @api private
+   *&#x2F;
+
+  Socket.prototype.publish = function () {
+    this.emit.apply(this, arguments);
+
+    var nsp;
+
+    for (var i in this.namespaces) {
+      if (this.namespaces.hasOwnProperty(i)) {
+        nsp = this.of(i);
+        nsp.$emit.apply(nsp, arguments);
+      }
+    }
+  };
+
+  &#x2F;**
+   * Performs the handshake
+   *
+   * @api private
+   *&#x2F;
+
+  function empty () { };
+
+  Socket.prototype.handshake = function (fn) {
+    var self = this
+      , options = this.options;
+
+    function complete (data) {
+      if (data instanceof Error) {
+        self.connecting = false;
+        self.onError(data.message);
+      } else {
+        fn.apply(null, data.split(&#x27;:&#x27;));
+      }
+    };
+
+    var url = [
+          &#x27;http&#x27; + (options.secure ? &#x27;s&#x27; : &#x27;&#x27;) + &#x27;:&#x2F;&#x27;
+        , options.host + &#x27;:&#x27; + options.port
+        , options.resource
+        , io.protocol
+        , io.util.query(this.options.query, &#x27;t=&#x27; + +new Date)
+      ].join(&#x27;&#x2F;&#x27;);
+
+    if (this.isXDomain() &amp;&amp; !io.util.ua.hasCORS) {
+      var insertAt = document.getElementsByTagName(&#x27;script&#x27;)[0]
+        , script = document.createElement(&#x27;script&#x27;);
+
+      script.src = url + &#x27;&amp;jsonp=&#x27; + io.j.length;
+      insertAt.parentNode.insertBefore(script, insertAt);
+
+      io.j.push(function (data) {
+        complete(data);
+        script.parentNode.removeChild(script);
+      });
+    } else {
+      var xhr = io.util.request();
+
+      xhr.open(&#x27;GET&#x27;, url, true);
+      if (this.isXDomain()) {
+        xhr.withCredentials = true;
+      }
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4) {
+          xhr.onreadystatechange = empty;
+
+          if (xhr.status == 200) {
+            complete(xhr.responseText);
+          } else if (xhr.status == 403) {
+            self.onError(xhr.responseText);
+          } else {
+            self.connecting = false;            
+            !self.reconnecting &amp;&amp; self.onError(xhr.responseText);
+          }
+        }
+      };
+      xhr.send(null);
+    }
+  };
+
+  &#x2F;**
+   * Find an available transport based on the options supplied in the constructor.
+   *
+   * @api private
+   *&#x2F;
+
+  Socket.prototype.getTransport = function (override) {
+    var transports = override || this.transports, match;
+
+    for (var i = 0, transport; transport = transports[i]; i++) {
+      if (io.Transport[transport]
+        &amp;&amp; io.Transport[transport].check(this)
+        &amp;&amp; (!this.isXDomain() || io.Transport[transport].xdomainCheck(this))) {
+        return new io.Transport[transport](this, this.sessionid);
+      }
+    }
+
+    return null;
+  };
+
+  &#x2F;**
+   * Connects to the server.
+   *
+   * @param {Function} [fn] Callback.
+   * @returns {io.Socket}
+   * @api public
+   *&#x2F;
+
+  Socket.prototype.connect = function (fn) {
+    if (this.connecting) {
+      return this;
+    }
+
+    var self = this;
+    self.connecting = true;
+    
+    this.handshake(function (sid, heartbeat, close, transports) {
+      self.sessionid = sid;
+      self.closeTimeout = close * 1000;
+      self.heartbeatTimeout = heartbeat * 1000;
+      if(!self.transports)
+          self.transports = self.origTransports = (transports ? io.util.intersect(
+              transports.split(&#x27;,&#x27;)
+            , self.options.transports
+          ) : self.options.transports);
+
+      self.setHeartbeatTimeout();
+
+      function connect (transports){
+        if (self.transport) self.transport.clearTimeouts();
+
+        self.transport = self.getTransport(transports);
+        if (!self.transport) return self.publish(&#x27;connect_failed&#x27;);
+
+        &#x2F;&#x2F; once the transport is ready
+        self.transport.ready(self, function () {
+          self.connecting = true;
+          self.publish(&#x27;connecting&#x27;, self.transport.name);
+          self.transport.open();
+
+          if (self.options[&#x27;connect timeout&#x27;]) {
+            self.connectTimeoutTimer = setTimeout(function () {
+              if (!self.connected) {
+                self.connecting = false;
+
+                if (self.options[&#x27;try multiple transports&#x27;]) {
+                  var remaining = self.transports;
+
+                  while (remaining.length &gt; 0 &amp;&amp; remaining.splice(0,1)[0] !=
+                         self.transport.name) {}
+
+                    if (remaining.length){
+                      connect(remaining);
+                    } else {
+                      self.publish(&#x27;connect_failed&#x27;);
+                    }
+                }
+              }
+            }, self.options[&#x27;connect timeout&#x27;]);
+          }
+        });
+      }
+
+      connect(self.transports);
+
+      self.once(&#x27;connect&#x27;, function (){
+        clearTimeout(self.connectTimeoutTimer);
+
+        fn &amp;&amp; typeof fn == &#x27;function&#x27; &amp;&amp; fn();
+      });
+    });
+
+    return this;
+  };
+
+  &#x2F;**
+   * Clears and sets a new heartbeat timeout using the value given by the
+   * server during the handshake.
+   *
+   * @api private
+   *&#x2F;
+
+  Socket.prototype.setHeartbeatTimeout = function () {
+    clearTimeout(this.heartbeatTimeoutTimer);
+    if(this.transport &amp;&amp; !this.transport.heartbeats()) return;
+
+    var self = this;
+    this.heartbeatTimeoutTimer = setTimeout(function () {
+      self.transport.onClose();
+    }, this.heartbeatTimeout);
+  };
+
+  &#x2F;**
+   * Sends a message.
+   *
+   * @param {Object} data packet.
+   * @returns {io.Socket}
+   * @api public
+   *&#x2F;
+
+  Socket.prototype.packet = function (data) {
+    if (this.connected &amp;&amp; !this.doBuffer) {
+      this.transport.packet(data);
+    } else {
+      this.buffer.push(data);
+    }
+
+    return this;
+  };
+
+  &#x2F;**
+   * Sets buffer state
+   *
+   * @api private
+   *&#x2F;
+
+  Socket.prototype.setBuffer = function (v) {
+    this.doBuffer = v;
+
+    if (!v &amp;&amp; this.connected &amp;&amp; this.buffer.length) {
+      if (!this.options[&#x27;manualFlush&#x27;]) {
+        this.flushBuffer();
+      }
+    }
+  };
+
+  &#x2F;**
+   * Flushes the buffer data over the wire.
+   * To be invoked manually when &#x27;manualFlush&#x27; is set to true.
+   *
+   * @api public
+   *&#x2F;
+
+  Socket.prototype.flushBuffer = function() {
+    this.transport.payload(this.buffer);
+    this.buffer = [];
+  };
+  
+
+  &#x2F;**
+   * Disconnect the established connect.
+   *
+   * @returns {io.Socket}
+   * @api public
+   *&#x2F;
+
+  Socket.prototype.disconnect = function () {
+    if (this.connected || this.connecting) {
+      if (this.open) {
+        this.of(&#x27;&#x27;).packet({ type: &#x27;disconnect&#x27; });
+      }
+
+      &#x2F;&#x2F; handle disconnection immediately
+      this.onDisconnect(&#x27;booted&#x27;);
+    }
+
+    return this;
+  };
+
+  &#x2F;**
+   * Disconnects the socket with a sync XHR.
+   *
+   * @api private
+   *&#x2F;
+
+  Socket.prototype.disconnectSync = function () {
+    &#x2F;&#x2F; ensure disconnection
+    var xhr = io.util.request();
+    var uri = [
+        &#x27;http&#x27; + (this.options.secure ? &#x27;s&#x27; : &#x27;&#x27;) + &#x27;:&#x2F;&#x27;
+      , this.options.host + &#x27;:&#x27; + this.options.port
+      , this.options.resource
+      , io.protocol
+      , &#x27;&#x27;
+      , this.sessionid
+    ].join(&#x27;&#x2F;&#x27;) + &#x27;&#x2F;?disconnect=1&#x27;;
+
+    xhr.open(&#x27;GET&#x27;, uri, false);
+    xhr.send(null);
+
+    &#x2F;&#x2F; handle disconnection immediately
+    this.onDisconnect(&#x27;booted&#x27;);
+  };
+
+  &#x2F;**
+   * Check if we need to use cross domain enabled transports. Cross domain would
+   * be a different port or different domain name.
+   *
+   * @returns {Boolean}
+   * @api private
+   *&#x2F;
+
+  Socket.prototype.isXDomain = function () {
+
+    var port = global.location.port ||
+      (&#x27;https:&#x27; == global.location.protocol ? 443 : 80);
+
+    return this.options.host !== global.location.hostname 
+      || this.options.port != port;
+  };
+
+  &#x2F;**
+   * Called upon handshake.
+   *
+   * @api private
+   *&#x2F;
+
+  Socket.prototype.onConnect = function () {
+    if (!this.connected) {
+      this.connected = true;
+      this.connecting = false;
+      if (!this.doBuffer) {
+        &#x2F;&#x2F; make sure to flush the buffer
+        this.setBuffer(false);
+      }
+      this.emit(&#x27;connect&#x27;);
+    }
+  };
+
+  &#x2F;**
+   * Called when the transport opens
+   *
+   * @api private
+   *&#x2F;
+
+  Socket.prototype.onOpen = function () {
+    this.open = true;
+  };
+
+  &#x2F;**
+   * Called when the transport closes.
+   *
+   * @api private
+   *&#x2F;
+
+  Socket.prototype.onClose = function () {
+    this.open = false;
+    clearTimeout(this.heartbeatTimeoutTimer);
+  };
+
+  &#x2F;**
+   * Called when the transport first opens a connection
+   *
+   * @param text
+   *&#x2F;
+
+  Socket.prototype.onPacket = function (packet) {
+    this.of(packet.endpoint).onPacket(packet);
+  };
+
+  &#x2F;**
+   * Handles an error.
+   *
+   * @api private
+   *&#x2F;
+
+  Socket.prototype.onError = function (err) {
+    if (err &amp;&amp; err.advice) {
+      if (err.advice === &#x27;reconnect&#x27; &amp;&amp; (this.connected || this.connecting)) {
+        this.disconnect();
+        if (this.options.reconnect) {
+          this.reconnect();
+        }
+      }
+    }
+
+    this.publish(&#x27;error&#x27;, err &amp;&amp; err.reason ? err.reason : err);
+  };
+
+  &#x2F;**
+   * Called when the transport disconnects.
+   *
+   * @api private
+   *&#x2F;
+
+  Socket.prototype.onDisconnect = function (reason) {
+    var wasConnected = this.connected
+      , wasConnecting = this.connecting;
+
+    this.connected = false;
+    this.connecting = false;
+    this.open = false;
+
+    if (wasConnected || wasConnecting) {
+      this.transport.close();
+      this.transport.clearTimeouts();
+      if (wasConnected) {
+        this.publish(&#x27;disconnect&#x27;, reason);
+
+        if (&#x27;booted&#x27; != reason &amp;&amp; this.options.reconnect &amp;&amp; !this.reconnecting) {
+          this.reconnect();
+        }
+      }
+    }
+  };
+
+  &#x2F;**
+   * Called upon reconnection.
+   *
+   * @api private
+   *&#x2F;
+
+  Socket.prototype.reconnect = function () {
+    this.reconnecting = true;
+    this.reconnectionAttempts = 0;
+    this.reconnectionDelay = this.options[&#x27;reconnection delay&#x27;];
+
+    var self = this
+      , maxAttempts = this.options[&#x27;max reconnection attempts&#x27;]
+      , tryMultiple = this.options[&#x27;try multiple transports&#x27;]
+      , limit = this.options[&#x27;reconnection limit&#x27;];
+
+    function reset () {
+      if (self.connected) {
+        for (var i in self.namespaces) {
+          if (self.namespaces.hasOwnProperty(i) &amp;&amp; &#x27;&#x27; !== i) {
+              self.namespaces[i].packet({ type: &#x27;connect&#x27; });
+          }
+        }
+        self.publish(&#x27;reconnect&#x27;, self.transport.name, self.reconnectionAttempts);
+      }
+
+      clearTimeout(self.reconnectionTimer);
+
+      self.removeListener(&#x27;connect_failed&#x27;, maybeReconnect);
+      self.removeListener(&#x27;connect&#x27;, maybeReconnect);
+
+      self.reconnecting = false;
+
+      delete self.reconnectionAttempts;
+      delete self.reconnectionDelay;
+      delete self.reconnectionTimer;
+      delete self.redoTransports;
+
+      self.options[&#x27;try multiple transports&#x27;] = tryMultiple;
+    };
+
+    function maybeReconnect () {
+      if (!self.reconnecting) {
+        return;
+      }
+
+      if (self.connected) {
+        return reset();
+      };
+
+      if (self.connecting &amp;&amp; self.reconnecting) {
+        return self.reconnectionTimer = setTimeout(maybeReconnect, 1000);
+      }
+
+      if (self.reconnectionAttempts++ &gt;= maxAttempts) {
+        if (!self.redoTransports) {
+          self.on(&#x27;connect_failed&#x27;, maybeReconnect);
+          self.options[&#x27;try multiple transports&#x27;] = true;
+          self.transports = self.origTransports;
+          self.transport = self.getTransport();
+          self.redoTransports = true;
+          self.connect();
+        } else {
+          self.publish(&#x27;reconnect_failed&#x27;);
+          reset();
+        }
+      } else {
+        if (self.reconnectionDelay &lt; limit) {
+          self.reconnectionDelay *= 2; &#x2F;&#x2F; exponential back off
+        }
+
+        self.connect();
+        self.publish(&#x27;reconnecting&#x27;, self.reconnectionDelay, self.reconnectionAttempts);
+        self.reconnectionTimer = setTimeout(maybeReconnect, self.reconnectionDelay);
+      }
+    };
+
+    this.options[&#x27;try multiple transports&#x27;] = false;
+    this.reconnectionTimer = setTimeout(maybeReconnect, this.reconnectionDelay);
+
+    this.on(&#x27;connect&#x27;, maybeReconnect);
+  };
+
+})(
+    &#x27;undefined&#x27; != typeof io ? io : module.exports
+  , &#x27;undefined&#x27; != typeof io ? io : module.parent.exports
+  , this
+);
+&#x2F;**
+ * socket.io
+ * Copyright(c) 2011 LearnBoost &lt;dev@learnboost.com&gt;
+ * MIT Licensed
+ *&#x2F;
+
+(function (exports, io) {
+
+  &#x2F;**
+   * Expose constructor.
+   *&#x2F;
+
+  exports.SocketNamespace = SocketNamespace;
+
+  &#x2F;**
+   * Socket namespace constructor.
+   *
+   * @constructor
+   * @api public
+   *&#x2F;
+
+  function SocketNamespace (socket, name) {
+    this.socket = socket;
+    this.name = name || &#x27;&#x27;;
+    this.flags = {};
+    this.json = new Flag(this, &#x27;json&#x27;);
+    this.ackPackets = 0;
+    this.acks = {};
+  };
+
+  &#x2F;**
+   * Apply EventEmitter mixin.
+   *&#x2F;
+
+  io.util.mixin(SocketNamespace, io.EventEmitter);
+
+  &#x2F;**
+   * Copies emit since we override it
+   *
+   * @api private
+   *&#x2F;
+
+  SocketNamespace.prototype.$emit = io.EventEmitter.prototype.emit;
+
+  &#x2F;**
+   * Creates a new namespace, by proxying the request to the socket. This
+   * allows us to use the synax as we do on the server.
+   *
+   * @api public
+   *&#x2F;
+
+  SocketNamespace.prototype.of = function () {
+    return this.socket.of.apply(this.socket, arguments);
+  };
+
+  &#x2F;**
+   * Sends a packet.
+   *
+   * @api private
+   *&#x2F;
+
+  SocketNamespace.prototype.packet = function (packet) {
+    packet.endpoint = this.name;
+    this.socket.packet(packet);
+    this.flags = {};
+    return this;
+  };
+
+  &#x2F;**
+   * Sends a message
+   *
+   * @api public
+   *&#x2F;
+
+  SocketNamespace.prototype.send = function (data, fn) {
+    var packet = {
+        type: this.flags.json ? &#x27;json&#x27; : &#x27;message&#x27;
+      , data: data
+    };
+
+    if (&#x27;function&#x27; == typeof fn) {
+      packet.id = ++this.ackPackets;
+      packet.ack = true;
+      this.acks[packet.id] = fn;
+    }
+
+    return this.packet(packet);
+  };
+
+  &#x2F;**
+   * Emits an event
+   *
+   * @api public
+   *&#x2F;
+  
+  SocketNamespace.prototype.emit = function (name) {
+    var args = Array.prototype.slice.call(arguments, 1)
+      , lastArg = args[args.length - 1]
+      , packet = {
+            type: &#x27;event&#x27;
+          , name: name
+        };
+
+    if (&#x27;function&#x27; == typeof lastArg) {
+      packet.id = ++this.ackPackets;
+      packet.ack = &#x27;data&#x27;;
+      this.acks[packet.id] = lastArg;
+      args = args.slice(0, args.length - 1);
+    }
+
+    packet.args = args;
+
+    return this.packet(packet);
+  };
+
+  &#x2F;**
+   * Disconnects the namespace
+   *
+   * @api private
+   *&#x2F;
+
+  SocketNamespace.prototype.disconnect = function () {
+    if (this.name === &#x27;&#x27;) {
+      this.socket.disconnect();
+    } else {
+      this.packet({ type: &#x27;disconnect&#x27; });
+      this.$emit(&#x27;disconnect&#x27;);
+    }
+
+    return this;
+  };
+
+  &#x2F;**
+   * Handles a packet
+   *
+   * @api private
+   *&#x2F;
+
+  SocketNamespace.prototype.onPacket = function (packet) {
+    var self = this;
+
+    function ack () {
+      self.packet({
+          type: &#x27;ack&#x27;
+        , args: io.util.toArray(arguments)
+        , ackId: packet.id
+      });
+    };
+
+    switch (packet.type) {
+      case &#x27;connect&#x27;:
+        this.$emit(&#x27;connect&#x27;);
+        break;
+
+      case &#x27;disconnect&#x27;:
+        if (this.name === &#x27;&#x27;) {
+          this.socket.onDisconnect(packet.reason || &#x27;booted&#x27;);
+        } else {
+          this.$emit(&#x27;disconnect&#x27;, packet.reason);
+        }
+        break;
+
+      case &#x27;message&#x27;:
+      case &#x27;json&#x27;:
+        var params = [&#x27;message&#x27;, packet.data];
+
+        if (packet.ack == &#x27;data&#x27;) {
+          params.push(ack);
+        } else if (packet.ack) {
+          this.packet({ type: &#x27;ack&#x27;, ackId: packet.id });
+        }
+
+        this.$emit.apply(this, params);
+        break;
+
+      case &#x27;event&#x27;:
+        var params = [packet.name].concat(packet.args);
+
+        if (packet.ack == &#x27;data&#x27;)
+          params.push(ack);
+
+        this.$emit.apply(this, params);
+        break;
+
+      case &#x27;ack&#x27;:
+        if (this.acks[packet.ackId]) {
+          this.acks[packet.ackId].apply(this, packet.args);
+          delete this.acks[packet.ackId];
+        }
+        break;
+
+      case &#x27;error&#x27;:
+        if (packet.advice){
+          this.socket.onError(packet);
+        } else {
+          if (packet.reason == &#x27;unauthorized&#x27;) {
+            this.$emit(&#x27;connect_failed&#x27;, packet.reason);
+          } else {
+            this.$emit(&#x27;error&#x27;, packet.reason);
+          }
+        }
+        break;
+    }
+  };
+
+  &#x2F;**
+   * Flag interface.
+   *
+   * @api private
+   *&#x2F;
+
+  function Flag (nsp, name) {
+    this.namespace = nsp;
+    this.name = name;
+  };
+
+  &#x2F;**
+   * Send a message
+   *
+   * @api public
+   *&#x2F;
+
+  Flag.prototype.send = function () {
+    this.namespace.flags[this.name] = true;
+    this.namespace.send.apply(this.namespace, arguments);
+  };
+
+  &#x2F;**
+   * Emit an event
+   *
+   * @api public
+   *&#x2F;
+
+  Flag.prototype.emit = function () {
+    this.namespace.flags[this.name] = true;
+    this.namespace.emit.apply(this.namespace, arguments);
+  };
+
+})(
+    &#x27;undefined&#x27; != typeof io ? io : module.exports
+  , &#x27;undefined&#x27; != typeof io ? io : module.parent.exports
+);
+
+&#x2F;**
+ * socket.io
+ * Copyright(c) 2011 LearnBoost &lt;dev@learnboost.com&gt;
+ * MIT Licensed
+ *&#x2F;
+
+(function (exports, io, global) {
+
+  &#x2F;**
+   * Expose constructor.
+   *&#x2F;
+
+  exports.websocket = WS;
+
+  &#x2F;**
+   * The WebSocket transport uses the HTML5 WebSocket API to establish an
+   * persistent connection with the Socket.IO server. This transport will also
+   * be inherited by the FlashSocket fallback as it provides a API compatible
+   * polyfill for the WebSockets.
+   *
+   * @constructor
+   * @extends {io.Transport}
+   * @api public
+   *&#x2F;
+
+  function WS (socket) {
+    io.Transport.apply(this, arguments);
+  };
+
+  &#x2F;**
+   * Inherits from Transport.
+   *&#x2F;
+
+  io.util.inherit(WS, io.Transport);
+
+  &#x2F;**
+   * Transport name
+   *
+   * @api public
+   *&#x2F;
+
+  WS.prototype.name = &#x27;websocket&#x27;;
+
+  &#x2F;**
+   * Initializes a new &#x60;WebSocket&#x60; connection with the Socket.IO server. We attach
+   * all the appropriate listeners to handle the responses from the server.
+   *
+   * @returns {Transport}
+   * @api public
+   *&#x2F;
+
+  WS.prototype.open = function () {
+    var query = io.util.query(this.socket.options.query)
+      , self = this
+      , Socket
+
+
+    if (!Socket) {
+      Socket = global.MozWebSocket || global.WebSocket;
+    }
+
+    this.websocket = new Socket(this.prepareUrl() + query);
+
+    this.websocket.onopen = function () {
+      self.onOpen();
+      self.socket.setBuffer(false);
+    };
+    this.websocket.onmessage = function (ev) {
+      self.onData(ev.data);
+    };
+    this.websocket.onclose = function () {
+      self.onClose();
+      self.socket.setBuffer(true);
+    };
+    this.websocket.onerror = function (e) {
+      self.onError(e);
+    };
+
+    return this;
+  };
+
+  &#x2F;**
+   * Send a message to the Socket.IO server. The message will automatically be
+   * encoded in the correct message format.
+   *
+   * @returns {Transport}
+   * @api public
+   *&#x2F;
+
+  &#x2F;&#x2F; Do to a bug in the current IDevices browser, we need to wrap the send in a 
+  &#x2F;&#x2F; setTimeout, when they resume from sleeping the browser will crash if 
+  &#x2F;&#x2F; we don&#x27;t allow the browser time to detect the socket has been closed
+  if (io.util.ua.iDevice) {
+    WS.prototype.send = function (data) {
+      var self = this;
+      setTimeout(function() {
+         self.websocket.send(data);
+      },0);
+      return this;
+    };
+  } else {
+    WS.prototype.send = function (data) {
+      this.websocket.send(data);
+      return this;
+    };
+  }
+
+  &#x2F;**
+   * Payload
+   *
+   * @api private
+   *&#x2F;
+
+  WS.prototype.payload = function (arr) {
+    for (var i = 0, l = arr.length; i &lt; l; i++) {
+      this.packet(arr[i]);
+    }
+    return this;
+  };
+
+  &#x2F;**
+   * Disconnect the established &#x60;WebSocket&#x60; connection.
+   *
+   * @returns {Transport}
+   * @api public
+   *&#x2F;
+
+  WS.prototype.close = function () {
+    this.websocket.close();
+    return this;
+  };
+
+  &#x2F;**
+   * Handle the errors that &#x60;WebSocket&#x60; might be giving when we
+   * are attempting to connect or send messages.
+   *
+   * @param {Error} e The error.
+   * @api private
+   *&#x2F;
+
+  WS.prototype.onError = function (e) {
+    this.socket.onError(e);
+  };
+
+  &#x2F;**
+   * Returns the appropriate scheme for the URI generation.
+   *
+   * @api private
+   *&#x2F;
+  WS.prototype.scheme = function () {
+    return this.socket.options.secure ? &#x27;wss&#x27; : &#x27;ws&#x27;;
+  };
+
+  &#x2F;**
+   * Checks if the browser has support for native &#x60;WebSockets&#x60; and that
+   * it&#x27;s not the polyfill created for the FlashSocket transport.
+   *
+   * @return {Boolean}
+   * @api public
+   *&#x2F;
+
+  WS.check = function () {
+    return (&#x27;WebSocket&#x27; in global &amp;&amp; !(&#x27;__addTask&#x27; in WebSocket))
+          || &#x27;MozWebSocket&#x27; in global;
+  };
+
+  &#x2F;**
+   * Check if the &#x60;WebSocket&#x60; transport support cross domain communications.
+   *
+   * @returns {Boolean}
+   * @api public
+   *&#x2F;
+
+  WS.xdomainCheck = function () {
+    return true;
+  };
+
+  &#x2F;**
+   * Add the transport to your public io.transports array.
+   *
+   * @api private
+   *&#x2F;
+
+  io.transports.push(&#x27;websocket&#x27;);
+
+})(
+    &#x27;undefined&#x27; != typeof io ? io.Transport : module.exports
+  , &#x27;undefined&#x27; != typeof io ? io : module.parent.exports
+  , this
+);
+
+&#x2F;**
+ * socket.io
+ * Copyright(c) 2011 LearnBoost &lt;dev@learnboost.com&gt;
+ * MIT Licensed
+ *&#x2F;
+
+(function (exports, io, global) {
+
+  &#x2F;**
+   * Expose constructor.
+   *
+   * @api public
+   *&#x2F;
+
+  exports.XHR = XHR;
+
+  &#x2F;**
+   * XHR constructor
+   *
+   * @costructor
+   * @api public
+   *&#x2F;
+
+  function XHR (socket) {
+    if (!socket) return;
+
+    io.Transport.apply(this, arguments);
+    this.sendBuffer = [];
+  };
+
+  &#x2F;**
+   * Inherits from Transport.
+   *&#x2F;
+
+  io.util.inherit(XHR, io.Transport);
+
+  &#x2F;**
+   * Establish a connection
+   *
+   * @returns {Transport}
+   * @api public
+   *&#x2F;
+
+  XHR.prototype.open = function () {
+    this.socket.setBuffer(false);
+    this.onOpen();
+    this.get();
+
+    &#x2F;&#x2F; we need to make sure the request succeeds since we have no indication
+    &#x2F;&#x2F; whether the request opened or not until it succeeded.
+    this.setCloseTimeout();
+
+    return this;
+  };
+
+  &#x2F;**
+   * Check if we need to send data to the Socket.IO server, if we have data in our
+   * buffer we encode it and forward it to the &#x60;post&#x60; method.
+   *
+   * @api private
+   *&#x2F;
+
+  XHR.prototype.payload = function (payload) {
+    var msgs = [];
+
+    for (var i = 0, l = payload.length; i &lt; l; i++) {
+      msgs.push(io.parser.encodePacket(payload[i]));
+    }
+
+    this.send(io.parser.encodePayload(msgs));
+  };
+
+  &#x2F;**
+   * Send data to the Socket.IO server.
+   *
+   * @param data The message
+   * @returns {Transport}
+   * @api public
+   *&#x2F;
+
+  XHR.prototype.send = function (data) {
+    this.post(data);
+    return this;
+  };
+
+  &#x2F;**
+   * Posts a encoded message to the Socket.IO server.
+   *
+   * @param {String} data A encoded message.
+   * @api private
+   *&#x2F;
+
+  function empty () { };
+
+  XHR.prototype.post = function (data) {
+    var self = this;
+    this.socket.setBuffer(true);
+
+    function stateChange () {
+      if (this.readyState == 4) {
+        this.onreadystatechange = empty;
+        self.posting = false;
+
+        if (this.status == 200){
+          self.socket.setBuffer(false);
+        } else {
+          self.onClose();
+        }
+      }
+    }
+
+    function onload () {
+      this.onload = empty;
+      self.socket.setBuffer(false);
+    };
+
+    this.sendXHR = this.request(&#x27;POST&#x27;);
+
+    if (global.XDomainRequest &amp;&amp; this.sendXHR instanceof XDomainRequest) {
+      this.sendXHR.onload = this.sendXHR.onerror = onload;
+    } else {
+      this.sendXHR.onreadystatechange = stateChange;
+    }
+
+    this.sendXHR.send(data);
+  };
+
+  &#x2F;**
+   * Disconnects the established &#x60;XHR&#x60; connection.
+   *
+   * @returns {Transport}
+   * @api public
+   *&#x2F;
+
+  XHR.prototype.close = function () {
+    this.onClose();
+    return this;
+  };
+
+  &#x2F;**
+   * Generates a configured XHR request
+   *
+   * @param {String} url The url that needs to be requested.
+   * @param {String} method The method the request should use.
+   * @returns {XMLHttpRequest}
+   * @api private
+   *&#x2F;
+
+  XHR.prototype.request = function (method) {
+    var req = io.util.request(this.socket.isXDomain())
+      , query = io.util.query(this.socket.options.query, &#x27;t=&#x27; + +new Date);
+
+    req.open(method || &#x27;GET&#x27;, this.prepareUrl() + query, true);
+
+    if (method == &#x27;POST&#x27;) {
+      try {
+        if (req.setRequestHeader) {
+          req.setRequestHeader(&#x27;Content-type&#x27;, &#x27;text&#x2F;plain;charset=UTF-8&#x27;);
+        } else {
+          &#x2F;&#x2F; XDomainRequest
+          req.contentType = &#x27;text&#x2F;plain&#x27;;
+        }
+      } catch (e) {}
+    }
+
+    return req;
+  };
+
+  &#x2F;**
+   * Returns the scheme to use for the transport URLs.
+   *
+   * @api private
+   *&#x2F;
+
+  XHR.prototype.scheme = function () {
+    return this.socket.options.secure ? &#x27;https&#x27; : &#x27;http&#x27;;
+  };
+
+  &#x2F;**
+   * Check if the XHR transports are supported
+   *
+   * @param {Boolean} xdomain Check if we support cross domain requests.
+   * @returns {Boolean}
+   * @api public
+   *&#x2F;
+
+  XHR.check = function (socket, xdomain) {
+    try {
+      var request = io.util.request(xdomain),
+          usesXDomReq = (global.XDomainRequest &amp;&amp; request instanceof XDomainRequest),
+          socketProtocol = (socket &amp;&amp; socket.options &amp;&amp; socket.options.secure ? &#x27;https:&#x27; : &#x27;http:&#x27;),
+          isXProtocol = (socketProtocol != global.location.protocol);
+      if (request &amp;&amp; !(usesXDomReq &amp;&amp; isXProtocol)) {
+        return true;
+      }
+    } catch(e) {}
+
+    return false;
+  };
+
+  &#x2F;**
+   * Check if the XHR transport supports cross domain requests.
+   *
+   * @returns {Boolean}
+   * @api public
+   *&#x2F;
+
+  XHR.xdomainCheck = function (socket) {
+    return XHR.check(socket, true);
+  };
+
+})(
+    &#x27;undefined&#x27; != typeof io ? io.Transport : module.exports
+  , &#x27;undefined&#x27; != typeof io ? io : module.parent.exports
+  , this
+);
+&#x2F;**
+ * socket.io
+ * Copyright(c) 2011 LearnBoost &lt;dev@learnboost.com&gt;
+ * MIT Licensed
+ *&#x2F;
+
+(function (exports, io) {
+
+  &#x2F;**
+   * Expose constructor.
+   *&#x2F;
+
+  exports.htmlfile = HTMLFile;
+
+  &#x2F;**
+   * The HTMLFile transport creates a &#x60;forever iframe&#x60; based transport
+   * for Internet Explorer. Regular forever iframe implementations will 
+   * continuously trigger the browsers buzy indicators. If the forever iframe
+   * is created inside a &#x60;htmlfile&#x60; these indicators will not be trigged.
+   *
+   * @constructor
+   * @extends {io.Transport.XHR}
+   * @api public
+   *&#x2F;
+
+  function HTMLFile (socket) {
+    io.Transport.XHR.apply(this, arguments);
+  };
+
+  &#x2F;**
+   * Inherits from XHR transport.
+   *&#x2F;
+
+  io.util.inherit(HTMLFile, io.Transport.XHR);
+
+  &#x2F;**
+   * Transport name
+   *
+   * @api public
+   *&#x2F;
+
+  HTMLFile.prototype.name = &#x27;htmlfile&#x27;;
+
+  &#x2F;**
+   * Creates a new Ac...eX &#x60;htmlfile&#x60; with a forever loading iframe
+   * that can be used to listen to messages. Inside the generated
+   * &#x60;htmlfile&#x60; a reference will be made to the HTMLFile transport.
+   *
+   * @api private
+   *&#x2F;
+
+  HTMLFile.prototype.get = function () {
+    this.doc = new window[([&#x27;Active&#x27;].concat(&#x27;Object&#x27;).join(&#x27;X&#x27;))](&#x27;htmlfile&#x27;);
+    this.doc.open();
+    this.doc.write(&#x27;&lt;html&gt;&lt;&#x2F;html&gt;&#x27;);
+    this.doc.close();
+    this.doc.parentWindow.s = this;
+
+    var iframeC = this.doc.createElement(&#x27;div&#x27;);
+    iframeC.className = &#x27;socketio&#x27;;
+
+    this.doc.body.appendChild(iframeC);
+    this.iframe = this.doc.createElement(&#x27;iframe&#x27;);
+
+    iframeC.appendChild(this.iframe);
+
+    var self = this
+      , query = io.util.query(this.socket.options.query, &#x27;t=&#x27;+ +new Date);
+
+    this.iframe.src = this.prepareUrl() + query;
+
+    io.util.on(window, &#x27;unload&#x27;, function () {
+      self.destroy();
+    });
+  };
+
+  &#x2F;**
+   * The Socket.IO server will write script tags inside the forever
+   * iframe, this function will be used as callback for the incoming
+   * information.
+   *
+   * @param {String} data The message
+   * @param {document} doc Reference to the context
+   * @api private
+   *&#x2F;
+
+  HTMLFile.prototype._ = function (data, doc) {
+    this.onData(data);
+    try {
+      var script = doc.getElementsByTagName(&#x27;script&#x27;)[0];
+      script.parentNode.removeChild(script);
+    } catch (e) { }
+  };
+
+  &#x2F;**
+   * Destroy the established connection, iframe and &#x60;htmlfile&#x60;.
+   * And calls the &#x60;CollectGarbage&#x60; function of Internet Explorer
+   * to release the memory.
+   *
+   * @api private
+   *&#x2F;
+
+  HTMLFile.prototype.destroy = function () {
+    if (this.iframe){
+      try {
+        this.iframe.src = &#x27;about:blank&#x27;;
+      } catch(e){}
+
+      this.doc = null;
+      this.iframe.parentNode.removeChild(this.iframe);
+      this.iframe = null;
+
+      CollectGarbage();
+    }
+  };
+
+  &#x2F;**
+   * Disconnects the established connection.
+   *
+   * @returns {Transport} Chaining.
+   * @api public
+   *&#x2F;
+
+  HTMLFile.prototype.close = function () {
+    this.destroy();
+    return io.Transport.XHR.prototype.close.call(this);
+  };
+
+  &#x2F;**
+   * Checks if the browser supports this transport. The browser
+   * must have an &#x60;Ac...eXObject&#x60; implementation.
+   *
+   * @return {Boolean}
+   * @api public
+   *&#x2F;
+
+  HTMLFile.check = function (socket) {
+    if (typeof window != &quot;undefined&quot; &amp;&amp; ([&#x27;Active&#x27;].concat(&#x27;Object&#x27;).join(&#x27;X&#x27;)) in window){
+      try {
+        var a = new window[([&#x27;Active&#x27;].concat(&#x27;Object&#x27;).join(&#x27;X&#x27;))](&#x27;htmlfile&#x27;);
+        return a &amp;&amp; io.Transport.XHR.check(socket);
+      } catch(e){}
+    }
+    return false;
+  };
+
+  &#x2F;**
+   * Check if cross domain requests are supported.
+   *
+   * @returns {Boolean}
+   * @api public
+   *&#x2F;
+
+  HTMLFile.xdomainCheck = function () {
+    &#x2F;&#x2F; we can probably do handling for sub-domains, we should
+    &#x2F;&#x2F; test that it&#x27;s cross domain but a subdomain here
+    return false;
+  };
+
+  &#x2F;**
+   * Add the transport to your public io.transports array.
+   *
+   * @api private
+   *&#x2F;
+
+  io.transports.push(&#x27;htmlfile&#x27;);
+
+})(
+    &#x27;undefined&#x27; != typeof io ? io.Transport : module.exports
+  , &#x27;undefined&#x27; != typeof io ? io : module.parent.exports
+);
+
+&#x2F;**
+ * socket.io
+ * Copyright(c) 2011 LearnBoost &lt;dev@learnboost.com&gt;
+ * MIT Licensed
+ *&#x2F;
+
+(function (exports, io, global) {
+
+  &#x2F;**
+   * Expose constructor.
+   *&#x2F;
+
+  exports[&#x27;xhr-polling&#x27;] = XHRPolling;
+
+  &#x2F;**
+   * The XHR-polling transport uses long polling XHR requests to create a
+   * &quot;persistent&quot; connection with the server.
+   *
+   * @constructor
+   * @api public
+   *&#x2F;
+
+  function XHRPolling () {
+    io.Transport.XHR.apply(this, arguments);
+  };
+
+  &#x2F;**
+   * Inherits from XHR transport.
+   *&#x2F;
+
+  io.util.inherit(XHRPolling, io.Transport.XHR);
+
+  &#x2F;**
+   * Merge the properties from XHR transport
+   *&#x2F;
+
+  io.util.merge(XHRPolling, io.Transport.XHR);
+
+  &#x2F;**
+   * Transport name
+   *
+   * @api public
+   *&#x2F;
+
+  XHRPolling.prototype.name = &#x27;xhr-polling&#x27;;
+
+  &#x2F;**
+   * Indicates whether heartbeats is enabled for this transport
+   *
+   * @api private
+   *&#x2F;
+
+  XHRPolling.prototype.heartbeats = function () {
+    return false;
+  };
+
+  &#x2F;** 
+   * Establish a connection, for iPhone and Android this will be done once the page
+   * is loaded.
+   *
+   * @returns {Transport} Chaining.
+   * @api public
+   *&#x2F;
+
+  XHRPolling.prototype.open = function () {
+    var self = this;
+
+    io.Transport.XHR.prototype.open.call(self);
+    return false;
+  };
+
+  &#x2F;**
+   * Starts a XHR request to wait for incoming messages.
+   *
+   * @api private
+   *&#x2F;
+
+  function empty () {};
+
+  XHRPolling.prototype.get = function () {
+    if (!this.isOpen) return;
+
+    var self = this;
+
+    function stateChange () {
+      if (this.readyState == 4) {
+        this.onreadystatechange = empty;
+
+        if (this.status == 200) {
+          self.onData(this.responseText);
+          self.get();
+        } else {
+          self.onClose();
+        }
+      }
+    };
+
+    function onload () {
+      this.onload = empty;
+      this.onerror = empty;
+      self.onData(this.responseText);
+      self.get();
+    };
+
+    function onerror () {
+      self.onClose();
+    };
+
+    this.xhr = this.request();
+
+    if (global.XDomainRequest &amp;&amp; this.xhr instanceof XDomainRequest) {
+      this.xhr.onload = onload;
+      this.xhr.onerror = onerror;
+    } else {
+      this.xhr.onreadystatechange = stateChange;
+    }
+
+    this.xhr.send(null);
+  };
+
+  &#x2F;**
+   * Handle the unclean close behavior.
+   *
+   * @api private
+   *&#x2F;
+
+  XHRPolling.prototype.onClose = function () {
+    io.Transport.XHR.prototype.onClose.call(this);
+
+    if (this.xhr) {
+      this.xhr.onreadystatechange = this.xhr.onload = this.xhr.onerror = empty;
+      try {
+        this.xhr.abort();
+      } catch(e){}
+      this.xhr = null;
+    }
+  };
+
+  &#x2F;**
+   * Webkit based browsers show a infinit spinner when you start a XHR request
+   * before the browsers onload event is called so we need to defer opening of
+   * the transport until the onload event is called. Wrapping the cb in our
+   * defer method solve this.
+   *
+   * @param {Socket} socket The socket instance that needs a transport
+   * @param {Function} fn The callback
+   * @api private
+   *&#x2F;
+
+  XHRPolling.prototype.ready = function (socket, fn) {
+    var self = this;
+
+    io.util.defer(function () {
+      fn.call(self);
+    });
+  };
+
+  &#x2F;**
+   * Add the transport to your public io.transports array.
+   *
+   * @api private
+   *&#x2F;
+
+  io.transports.push(&#x27;xhr-polling&#x27;);
+
+})(
+    &#x27;undefined&#x27; != typeof io ? io.Transport : module.exports
+  , &#x27;undefined&#x27; != typeof io ? io : module.parent.exports
+  , this
+);
+
+&#x2F;**
+ * socket.io
+ * Copyright(c) 2011 LearnBoost &lt;dev@learnboost.com&gt;
+ * MIT Licensed
+ *&#x2F;
+
+(function (exports, io, global) {
+  &#x2F;**
+   * There is a way to hide the loading indicator in Firefox. If you create and
+   * remove a iframe it will stop showing the current loading indicator.
+   * Unfortunately we can&#x27;t feature detect that and UA sniffing is evil.
+   *
+   * @api private
+   *&#x2F;
+
+  var indicator = global.document &amp;&amp; &quot;MozAppearance&quot; in
+    global.document.documentElement.style;
+
+  &#x2F;**
+   * Expose constructor.
+   *&#x2F;
+
+  exports[&#x27;jsonp-polling&#x27;] = JSONPPolling;
+
+  &#x2F;**
+   * The JSONP transport creates an persistent connection by dynamically
+   * inserting a script tag in the page. This script tag will receive the
+   * information of the Socket.IO server. When new information is received
+   * it creates a new script tag for the new data stream.
+   *
+   * @constructor
+   * @extends {io.Transport.xhr-polling}
+   * @api public
+   *&#x2F;
+
+  function JSONPPolling (socket) {
+    io.Transport[&#x27;xhr-polling&#x27;].apply(this, arguments);
+
+    this.index = io.j.length;
+
+    var self = this;
+
+    io.j.push(function (msg) {
+      self._(msg);
+    });
+  };
+
+  &#x2F;**
+   * Inherits from XHR polling transport.
+   *&#x2F;
+
+  io.util.inherit(JSONPPolling, io.Transport[&#x27;xhr-polling&#x27;]);
+
+  &#x2F;**
+   * Transport name
+   *
+   * @api public
+   *&#x2F;
+
+  JSONPPolling.prototype.name = &#x27;jsonp-polling&#x27;;
+
+  &#x2F;**
+   * Posts a encoded message to the Socket.IO server using an iframe.
+   * The iframe is used because script tags can create POST based requests.
+   * The iframe is positioned outside of the view so the user does not
+   * notice it&#x27;s existence.
+   *
+   * @param {String} data A encoded message.
+   * @api private
+   *&#x2F;
+
+  JSONPPolling.prototype.post = function (data) {
+    var self = this
+      , query = io.util.query(
+             this.socket.options.query
+          , &#x27;t=&#x27;+ (+new Date) + &#x27;&amp;i=&#x27; + this.index
+        );
+
+    if (!this.form) {
+      var form = document.createElement(&#x27;form&#x27;)
+        , area = document.createElement(&#x27;textarea&#x27;)
+        , id = this.iframeId = &#x27;socketio_iframe_&#x27; + this.index
+        , iframe;
+
+      form.className = &#x27;socketio&#x27;;
+      form.style.position = &#x27;absolute&#x27;;
+      form.style.top = &#x27;0px&#x27;;
+      form.style.left = &#x27;0px&#x27;;
+      form.style.display = &#x27;none&#x27;;
+      form.target = id;
+      form.method = &#x27;POST&#x27;;
+      form.setAttribute(&#x27;accept-charset&#x27;, &#x27;utf-8&#x27;);
+      area.name = &#x27;d&#x27;;
+      form.appendChild(area);
+      document.body.appendChild(form);
+
+      this.form = form;
+      this.area = area;
+    }
+
+    this.form.action = this.prepareUrl() + query;
+
+    function complete () {
+      initIframe();
+      self.socket.setBuffer(false);
+    };
+
+    function initIframe () {
+      if (self.iframe) {
+        self.form.removeChild(self.iframe);
+      }
+
+      try {
+        &#x2F;&#x2F; ie6 dynamic iframes with target=&quot;&quot; support (thanks Chris Lambacher)
+        iframe = document.createElement(&#x27;&lt;iframe name=&quot;&#x27;+ self.iframeId +&#x27;&quot;&gt;&#x27;);
+      } catch (e) {
+        iframe = document.createElement(&#x27;iframe&#x27;);
+        iframe.name = self.iframeId;
+      }
+
+      iframe.id = self.iframeId;
+
+      self.form.appendChild(iframe);
+      self.iframe = iframe;
+    };
+
+    initIframe();
+
+    &#x2F;&#x2F; we temporarily stringify until we figure out how to prevent
+    &#x2F;&#x2F; browsers from turning &#x60;\n&#x60; into &#x60;\r\n&#x60; in form inputs
+    this.area.value = io.JSON.stringify(data);
+
+    try {
+      this.form.submit();
+    } catch(e) {}
+
+    if (this.iframe.attachEvent) {
+      iframe.onreadystatechange = function () {
+        if (self.iframe.readyState == &#x27;complete&#x27;) {
+          complete();
+        }
+      };
+    } else {
+      this.iframe.onload = complete;
+    }
+
+    this.socket.setBuffer(true);
+  };
+  
+  &#x2F;**
+   * Creates a new JSONP poll that can be used to listen
+   * for messages from the Socket.IO server.
+   *
+   * @api private
+   *&#x2F;
+
+  JSONPPolling.prototype.get = function () {
+    var self = this
+      , script = document.createElement(&#x27;script&#x27;)
+      , query = io.util.query(
+             this.socket.options.query
+          , &#x27;t=&#x27;+ (+new Date) + &#x27;&amp;i=&#x27; + this.index
+        );
+
+    if (this.script) {
+      this.script.parentNode.removeChild(this.script);
+      this.script = null;
+    }
+
+    script.async = true;
+    script.src = this.prepareUrl() + query;
+    script.onerror = function () {
+      self.onClose();
+    };
+
+    var insertAt = document.getElementsByTagName(&#x27;script&#x27;)[0]
+    insertAt.parentNode.insertBefore(script, insertAt);
+    this.script = script;
+
+    if (indicator) {
+      setTimeout(function () {
+        var iframe = document.createElement(&#x27;iframe&#x27;);
+        document.body.appendChild(iframe);
+        document.body.removeChild(iframe);
+      }, 100);
+    }
+  };
+
+  &#x2F;**
+   * Callback function for the incoming message stream from the Socket.IO server.
+   *
+   * @param {String} data The message
+   * @api private
+   *&#x2F;
+
+  JSONPPolling.prototype._ = function (msg) {
+    this.onData(msg);
+    if (this.isOpen) {
+      this.get();
+    }
+    return this;
+  };
+
+  &#x2F;**
+   * The indicator hack only works after onload
+   *
+   * @param {Socket} socket The socket instance that needs a transport
+   * @param {Function} fn The callback
+   * @api private
+   *&#x2F;
+
+  JSONPPolling.prototype.ready = function (socket, fn) {
+    var self = this;
+    if (!indicator) return fn.call(this);
+
+    io.util.load(function () {
+      fn.call(self);
+    });
+  };
+
+  &#x2F;**
+   * Checks if browser supports this transport.
+   *
+   * @return {Boolean}
+   * @api public
+   *&#x2F;
+
+  JSONPPolling.check = function () {
+    return &#x27;document&#x27; in global;
+  };
+
+  &#x2F;**
+   * Check if cross domain requests are supported
+   *
+   * @returns {Boolean}
+   * @api public
+   *&#x2F;
+
+  JSONPPolling.xdomainCheck = function () {
+    return true;
+  };
+
+  &#x2F;**
+   * Add the transport to your public io.transports array.
+   *
+   * @api private
+   *&#x2F;
+
+  io.transports.push(&#x27;jsonp-polling&#x27;);
+
+})(
+    &#x27;undefined&#x27; != typeof io ? io.Transport : module.exports
+  , &#x27;undefined&#x27; != typeof io ? io : module.parent.exports
+  , this
+);
+
+})();
+    </pre>
+</div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="..&#x2F;assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="..&#x2F;assets/js/yui-prettify.js"></script>
+<script src="..&#x2F;assets/../api.js"></script>
+<script src="..&#x2F;assets/js/api-filter.js"></script>
+<script src="..&#x2F;assets/js/api-list.js"></script>
+<script src="..&#x2F;assets/js/api-search.js"></script>
+<script src="..&#x2F;assets/js/apidocs.js"></script>
+</body>
+</html>
