@@ -1,0 +1,9 @@
+src/flotr2.min.js
+src/jquery-1.7.2.min.js
+src/jquery-ui.min.js
+src/socket.io.js
+src/IndexedDBShim.min.js
+src/pouchdb.alpha.js
+src/jquerycookie.js
+src/html5-canvas-drawing-app.js
+
