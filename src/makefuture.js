@@ -26,8 +26,67 @@ var makeProgramme = function() {
 */	
 makeProgramme.prototype.makeLogic = function(madeactionin, targetin) {
 //console.log(madeactionin + 'from make class');
- 
+	divcapturelast = '';
+	textmodesettings = '';
+		/**
+	* save one document
+	* @method savecommunicationset
+	*/
+	function savecommunicationset (datein, commgroupdata, smlength) {	
+//console.log(Date.parse(datein));
+		var datestringday = Date.parse(datein);
 
+			swimgroupcomm = {};
+			newjsoncomm = {};
+				
+			//var chdiv = Object.keys(commgroupdata);
+			commgroupdata.forEach(function(dataid) {
+//console.log('in the loop' + dataid);	
+//console.log(smic[dataid].dataset);
+			//#setauthored1373464381000 #swimsettings select#swimrepetition
+			//sample = "#setauthored" + commelidin + " .swimsettings .swimsettingslabel select#swimtype";
+	
+			var divcapturein = "#setauthored" + dataid + " .swimsettings .swimsettingslabel select";		
+				// get all the set element data
+			swimtype = $( divcapturein + "#swimtype").val();
+			swimstroke = $( divcapturein + "#swimstroke").val();
+			swimtechnique = $( divcapturein + "#swimtechnique").val();
+			swimdistance = $( divcapturein + "#swimdistance").val();
+			swimrepetition = $( divcapturein + "#swimrepetition").val();
+//console.log('reps=' + swimrepetition);			
+
+			// collect into object and save via pouchdb.
+			// form swim data
+			swimcommstatus = {};
+			swimcommstatus.commdate = datein;
+			swimcommstatus.commtype = swimtype;
+			swimcommstatus.commstroke = swimstroke;
+			swimcommstatus.commtechnique = swimtechnique;
+			swimcommstatus.commdistance = swimdistance;
+			swimcommstatus.commrepetition = swimrepetition;
+//console.log(dataid + 'what');
+			
+			swimgroupcomm[dataid] = swimcommstatus;
+		// save to localpouchdb need to prepare buld array json structure
+											
+			newjsoncomm.commid = datein;//commgroupdata[dataid].dataset.commid;
+			newjsoncomm.commdate = Date.parse(datein);
+			newjsoncomm.swimmerid = [11111111,222222,333333];
+			newjsoncomm.communication = swimgroupcomm;	
+//console.log(newjsoncomm);					
+
+				
+			});
+			
+			//console.log('before save');				
+//console.log(newjsoncomm);					
+			livepouch.singleSave(newjsoncomm);
+
+			$("#canvasDiv").hide();
+				
+	} // closes function	
+						
+	
         if (madeactionin == "newelement")
 				{			
 					var livecurrentDate = $( "#datepicker" ).datepicker( "getDate" );
@@ -60,7 +119,7 @@ makeProgramme.prototype.makeLogic = function(madeactionin, targetin) {
 						var secondlastid ='';
 						if(uniqueelementids.length == 1)
 						{
-						 secondlastid = uniqueelementids[0];
+							secondlastid = uniqueelementids[0];
 						}
 						else
 						{
@@ -69,7 +128,7 @@ makeProgramme.prototype.makeLogic = function(madeactionin, targetin) {
 	//console.log(secondlastid);
 	//console.log(uniqueelementids[secondlastid]);
 						// need to collect values set  #setauthored1374308817000 div.swimsettings div.swimsettingslabel select#swimtype.rightselect
-					var divcapturelast = "#setauthored" + secondlastid + " .swimsettings .swimsettingslabel select";
+					divcapturelast = "#setauthored" + secondlastid + " .swimsettings .swimsettingslabel select";
 //console.log(divcapturelast);						
 						// get all the set element data
 					swimtype = $( divcapturelast + "#swimtype").val();
@@ -79,7 +138,7 @@ makeProgramme.prototype.makeLogic = function(madeactionin, targetin) {
 					swimrepetition = $( divcapturelast + "#swimrepetition").val();
 //console.log('reps=' + swimrepetition);	
 						//now set the text version settings  #editdate1374309051000.editswimelement div#swimrepetition
-					var textmodesettings = "#editdate" + secondlastid + ".editswimelement ";					
+					textmodesettings = "#editdate" + secondlastid + ".editswimelement ";					
 					$(textmodesettings + "#swimtype").text(swimtype);
 					$(textmodesettings + "#swimstroke").text(swimstroke);
 					$(textmodesettings + "#swimtechnique").text(swimtechnique);
@@ -102,14 +161,14 @@ makeProgramme.prototype.makeLogic = function(madeactionin, targetin) {
 				{
 //console.log($sotgt[0].dataset.editid);					
 					// need to capture edit data id
-					 //var emi = $("#edit").attr('data-editid');
+					//var emi = $("#edit").attr('data-editid');
 					var emi = targetin.data("editid");
 										// set new current id
-					currentliveelementid.push(parseInt(emi) );
+					currentliveelementid.push(parseInt(emi));
 					// make this text view into form view
 					$("#communicationelement" + emi).show();
 					$("#editdate" + emi ).hide();
-						var textmodesettings = "#editdate" + emi + ".editswimelement ";					
+						textmodesettings = "#editdate" + emi + ".editswimelement ";					
 						eswimtype = $(textmodesettings + "#swimtype").text();
 						eswimstroke = $(textmodesettings + "#swimstroke").text();
 						eswimtechnique = $(textmodesettings + "#swimtechnique").text();
@@ -135,7 +194,7 @@ makeProgramme.prototype.makeLogic = function(madeactionin, targetin) {
 					$("#editdate" + currentliveelementid[previousid] ).show();
 					$("#communicationelement" + currentliveelementid[previousid] ).hide();
 					// turn element before to text view
-						var divcapturelast = "#setauthored" + currentliveelementid[previousid]  + " .swimsettings .swimsettingslabel select";
+						divcapturelast = "#setauthored" + currentliveelementid[previousid]  + " .swimsettings .swimsettingslabel select";
 //console.log(divcapturelast);						
 							// get all the set element data
 						swimtype = $( divcapturelast + "#swimtype").val();
@@ -165,7 +224,7 @@ makeProgramme.prototype.makeLogic = function(madeactionin, targetin) {
 				else if (madeactionin == "save")
 				{
 					// need to capture remove id number
-					 var smi = $("#save").attr('data-saveid');
+					var smi = $("#save").attr('data-saveid');
 					$("#save" + smi).remove();
 					$('<div class="editel"><a href="" id="edit' + smi + '">edit</a></div>').appendTo("#communicationelement" + smi );
 					
@@ -190,7 +249,7 @@ makeProgramme.prototype.makeLogic = function(madeactionin, targetin) {
 				else if (madeactionin == "savecommunication")
 				{
 					// collect the date
-					var datein = $( "#datepicker" ).datepicker( "getDate" );		
+					datein = $( "#datepicker" ).datepicker( "getDate" );		
 console.log(datein);					
 					// get a list of the unique ids and loop through to extract information
 					var smi = $(".communicationelement");
@@ -201,81 +260,25 @@ console.log(datein);
 //console.log(smiclength);	
 					
 				// check to see if a date exists if not, promp to add a date
-				if(datein == null || smiclength == 0)
-				{
-					var feedbackcomm = '';
-					if(datein == null)
+					if(datein === null || smiclength === 0)
 					{
-						feedbackcomm = 'Please add a date';;
+						var feedbackcomm = '';
+						if(datein === null)
+						{
+							feedbackcomm = 'Please add a date';
+						}
+						if(smiclength === 0)
+						{
+							feedbackcomm += ' Please add a communication element';
+						}
+						$(".commfeedback").html(feedbackcomm);
 					}
-					if(smiclength == 0)
+					else
 					{
-						feedbackcomm += ' Please add a communication element';
-					}
-					$(".commfeedback").html(feedbackcomm);
-				}
-				else
-				{
-				$(".commfeedback").empty();
-				$(".liveswimset").empty();
-				sdaterecord = '';
-					
-				/**
-				* save one document
-				* @method singleSave
-				*/
-				function savecommunicationset (datein, commgroupdata, smlength) {	
-	//console.log(Date.parse(datein));
-					var datestringday = Date.parse(datein);
+						$(".commfeedback").empty();
+						$(".liveswimset").empty();
+						sdaterecord = '';
 
-						swimgroupcomm = {};
-						newjsoncomm = {};
-							
-						//var chdiv = Object.keys(commgroupdata);
-						commgroupdata.forEach(function(dataid) {
-//console.log('in the loop' + dataid);	
-			//console.log(smic[dataid].dataset);
-						//#setauthored1373464381000 #swimsettings select#swimrepetition
-						//sample = "#setauthored" + commelidin + " .swimsettings .swimsettingslabel select#swimtype";
-				
-						var divcapturein = "#setauthored" + dataid + " .swimsettings .swimsettingslabel select";		
-							// get all the set element data
-						swimtype = $( divcapturein + "#swimtype").val();
-						swimstroke = $( divcapturein + "#swimstroke").val();
-						swimtechnique = $( divcapturein + "#swimtechnique").val();
-						swimdistance = $( divcapturein + "#swimdistance").val();
-						swimrepetition = $( divcapturein + "#swimrepetition").val();
-		//console.log('reps=' + swimrepetition);			
-
-						// collect into object and save via pouchdb.
-						// form swim data
-						swimcommstatus = {};
-						swimcommstatus['commdate'] = datein;
-						swimcommstatus['commtype'] = swimtype;
-						swimcommstatus['commstroke'] = swimstroke;
-						swimcommstatus['commtechnique'] = swimtechnique;
-						swimcommstatus['commdistance'] = swimdistance;
-						swimcommstatus['commrepetition'] = swimrepetition;
-//console.log(dataid + 'what');
-						
-						swimgroupcomm[dataid] = swimcommstatus;
-					// save to localpouchdb need to prepare buld array json structure
-														
-						newjsoncomm["commid"] = datein;//commgroupdata[dataid].dataset.commid;
-						newjsoncomm["commdate"] = Date.parse(datein);
-						newjsoncomm["swimmerid"] = [11111111,222222,333333];
-						newjsoncomm["communication"] = swimgroupcomm;	
-//console.log(newjsoncomm);					
-
-							
-						});
-//console.log('before save');				
-//console.log(newjsoncomm);					
-						livepouch.singleSave(newjsoncomm);
-
-						$("#canvasDiv").hide();
-							
-						} // closes function	
 							
 					var smonth = datein.getUTCMonth() + 1;
 					var sday = datein.getDate();
@@ -293,9 +296,8 @@ console.log(datein);
 						
 //console.log('before empty call');
 						$(".communicationelement").empty();
+					}
 				}
-				}
-			
 				else if (madeactionin == "sketchpad")
 				{
 					// show the canvas sketchpad UI

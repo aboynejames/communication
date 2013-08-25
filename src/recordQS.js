@@ -27,7 +27,11 @@ var recordQS = function() {
 recordQS.prototype.recordLogic = function(recordin, detailin) {
 //console.log(recordin + 'from recordQS class');
 //console.log(detailin);
+	function localCommcall(commdatein, callback) {  
+		livepouch.mapQueryCommdate(commdatein, callback);
+	}  
 
+	
 	if( detailin.attr("id") == "fpdate")
 		{
 			// playback a communication programme
@@ -41,15 +45,12 @@ recordQS.prototype.recordLogic = function(recordin, detailin) {
 //console.log($sotgt);			
 			var commdatein = detailin.data("dcommid");
 			
-				function localCommcall(commdatein, callback) {  
-					livepouch.mapQueryCommdate(commdatein, callback);
-				}  
 	
 				localCommcall(commdatein, function(rtmap) {  
 
 				presentcommunication = '';
 //console.log(rtmap);	
-				rtmap["rows"].forEach(function(rowcomm){
+				rtmap.rows.forEach(function(rowcomm){
 //console.log('live training set');
 //console.log(rowcomm);
 //console.log(rowcomm.key + 'the key date');

@@ -304,17 +304,17 @@ ttHTML.prototype.visualiseme = function(livepouch, swimidin, historicaldata) {
 		
 		var visualdata = '';
 		visualdata = 'Date:' ;
-		visualdata += historicaldata[perswimmersp]['swiminfo']['swimdate'];
+		visualdata += historicaldata[perswimmersp].swiminfo.swimdate;
 		visualdata += ' '; 
-		visualdata += historicaldata[perswimmersp]['swiminfo']['swimstroke'];
+		visualdata += historicaldata[perswimmersp].swiminfo.swimstroke;
 		visualdata += ' ';
-		visualdata += historicaldata[perswimmersp]['swiminfo']['swimtechnique'];
+		visualdata += historicaldata[perswimmersp].swiminfo.swimtechnique;
 		visualdata += ' ';
-		visualdata += historicaldata[perswimmersp]['swiminfo']['swimstyle'];
+		visualdata += historicaldata[perswimmersp].swiminfo.swimstyle;
 		visualdata += ' ';			
-		visualdata += historicaldata[perswimmersp]['swiminfo']['swimdistance'];
+		visualdata += historicaldata[perswimmersp].swiminfo.swimdistance;
 		visualdata += ' ';		
-		visualdata += historicaldata[perswimmersp]['swiminfo']['swimsplit'];
+		visualdata += historicaldata[perswimmersp].swiminfo.swimsplit;
 		visualdata += '<br />';
 	
 		thesplitdiff = '';
@@ -323,7 +323,7 @@ ttHTML.prototype.visualiseme = function(livepouch, swimidin, historicaldata) {
 		actualsplitdiff = '';
 					
 		// itterate over each array split and format
-			historicaldata[perswimmersp]['splittimes'].forEach(function (speratesplit) {
+			historicaldata[perswimmersp].splittimes.forEach(function (speratesplit) {
 
 			// do some maths to get difference, if higher colour red, lower colour green
 			// if not first number
@@ -356,10 +356,10 @@ ttHTML.prototype.visualiseme = function(livepouch, swimidin, historicaldata) {
 			$("#splittimeshistorical" + perswimmersp + swimidin).prepend(visualdata);
 			var compareshortsplit = '';
 				// visualise the stats between different sessions
-			if(lastdataid['datasessionid'])
+			if(lastdataid.datasessionid)
 			{
 				// do some analaysis  
-				netsetcompare =  lasttimefornextcalc - lastdataid['splitlasttime'];
+				netsetcompare =  lasttimefornextcalc - lastdataid.splitlasttime;
 				if(netsetcompare > 0 ) {
 					lasttimegetting = 'slower';
 					comparecolor = 'red';					
@@ -383,8 +383,8 @@ ttHTML.prototype.visualiseme = function(livepouch, swimidin, historicaldata) {
 			}
 			
 			//set data session id for mulit data comparison
-			lastdataid['datasessionid'] = perswimmersp;
-			lastdataid['splitlasttime'] = lasttimefornextcalc;	
+			lastdataid.datasessionid = perswimmersp;
+			lastdataid.splitlasttime = lasttimefornextcalc;	
 	//console.log(lastdataid);
 							
 	});  // closes perswimmer data
@@ -454,7 +454,7 @@ ttHTML.prototype.visualisechart = function(livepouch, swimidin, historicaldata) 
 		
 				})(document.getElementById(container), d1);
 	
-}
+};
 
 /**
 * Display summary stats
@@ -496,7 +496,7 @@ ttHTML.prototype.summaryme = function(livepouch, swimidin, historicaldata) {
 	fasttraining = fastlist.pop();
 	
 	//find slowest time
-	slowlist = totaltimearray.sort(function(a,b){return a-b});
+	slowlist = totaltimearray.sort(function(a,b){return a-b});;
 	slowtraining = slowlist.pop();
 	
 	// work out average

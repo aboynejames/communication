@@ -11,8 +11,8 @@
 */
 var pouchdbSettings = function() {
   this.account = {};
-	this.account['pouchdbname'] = 'idb://traintimer';
-	this.account['pouch'] = 'traintimer';
+	this.account.pouchdbname = 'idb://traintimer';
+	this.account.pouch = 'traintimer';
 	this.lanein = '';
 
 };
@@ -23,7 +23,7 @@ var pouchdbSettings = function() {
 */
 pouchdbSettings.prototype.bulkSave = function(datain) {
 	
-		Pouch(this.account['pouchdbname'], function(err, db) {
+		Pouch(this.account.pouchdbname, function(err, db) {
 			// Opened a new database
 			db.bulkDocs({docs: datain}, function(err, results) {
 				// Saved the documents into the database
@@ -39,7 +39,7 @@ pouchdbSettings.prototype.bulkSave = function(datain) {
 */
 pouchdbSettings.prototype.singleSave = function(datain) {
 		
-	Pouch(this.account['pouchdbname'], function(err, db) {
+	Pouch(this.account.pouchdbname, function(err, db) {
 		
 		db.post(datain, function(err, response) {
 		
@@ -53,7 +53,7 @@ pouchdbSettings.prototype.singleSave = function(datain) {
 */
 pouchdbSettings.prototype.updateSingle = function(datain) {
 		
-	Pouch(this.account['pouchdbname'], function(err, db) {
+	Pouch(this.account.pouchdbname, function(err, db) {
 		
 		db.post(datain, function(err, response) {
 		
@@ -68,7 +68,7 @@ pouchdbSettings.prototype.updateSingle = function(datain) {
 */
 pouchdbSettings.prototype.allDocs = function() {
 	
-		Pouch(this.account['pouchdbname'], function(err, db) {
+		Pouch(this.account.pouchdbname, function(err, db) {
 			
 					db.allDocs(function(err, response) {
 //console.log(response);	
@@ -84,7 +84,7 @@ pouchdbSettings.prototype.allDocs = function() {
 */
 pouchdbSettings.prototype.getDoc = function(docid) {
 	
-		Pouch(this.account['pouchdbname'], function(err, db) {
+		Pouch(this.account.pouchdbname, function(err, db) {
 			
 			db.get(docid, function(err, doc) {
 
@@ -106,7 +106,7 @@ pouchdbSettings.prototype.getDoc = function(docid) {
 */
 pouchdbSettings.prototype.putDoc = function(designdoc) {
 	
-		Pouch(this.account['pouchdbname'], function(err, db) {
+		Pouch(this.account.pouchdbname, function(err, db) {
 			
 			db.put( designdoc ,  function(err, doc) {
 
@@ -123,7 +123,7 @@ pouchdbSettings.prototype.putDoc = function(designdoc) {
 */
 pouchdbSettings.prototype.mapQueryswimmers = function(callbackin) {
 //console.log('lane number in' + lanein);		
-		Pouch(this.account['pouchdbname'], function(err, db) {
+		Pouch(this.account.pouchdbname, function(err, db) {
 //console.log('lane number in pouch' + lanein);				
 				function map(swimquery) {
 					if(swimquery.name) {
@@ -146,7 +146,7 @@ pouchdbSettings.prototype.mapQueryswimmers = function(callbackin) {
 */
 pouchdbSettings.prototype.mapQueryname = function(lanein, callbackin) {
 //console.log('lane number in' + lanein);		
-		Pouch(this.account['pouchdbname'], function(err, db) {
+		Pouch(this.account.pouchdbname, function(err, db) {
 //console.log('lane number in pouch' + lanein);				
 				function map(lanequery) {
 //console.log('lane number in map' + lanequery['lanein']);			
@@ -169,7 +169,7 @@ pouchdbSettings.prototype.mapQueryname = function(lanein, callbackin) {
 */
 pouchdbSettings.prototype.mapQueryCommdate = function(commdatein, callbackin) {
 //console.log('lane number in' + lanein);		
-		Pouch(this.account['pouchdbname'], function(err, db) {
+		Pouch(this.account.pouchdbname, function(err, db) {
 //console.log('lane number in pouch' + lanein);				
 				function map(commquery) {
 		
@@ -193,7 +193,7 @@ pouchdbSettings.prototype.mapQueryCommdate = function(commdatein, callbackin) {
 */
 pouchdbSettings.prototype.mapQuerySplits = function(lanein, callbackin) {
 //console.log('lane number in' + lanein);		
-		Pouch(this.account['pouchdbname'], function(err, db) {
+		Pouch(this.account.pouchdbname, function(err, db) {
 //console.log('lane number in pouch' + lanein);				
 				function map(splitsquery) {
 //console.log('lane number in map' + lanequery['lanein']);			
@@ -216,7 +216,7 @@ pouchdbSettings.prototype.mapQuerySplits = function(lanein, callbackin) {
 */
 pouchdbSettings.prototype.deleteDoc = function(docid) {
 	
-		Pouch(this.account['pouchdbname'], function(err, db) {
+		Pouch(this.account.pouchdbname, function(err, db) {
 //console.log(docid);		
 		db.get(docid, function(err, docout) {
 //console.log('docid returned');
@@ -237,7 +237,7 @@ pouchdbSettings.prototype.deleteDoc = function(docid) {
 */
 pouchdbSettings.prototype.changeLog = function(synccallback) {
 	
-		Pouch(this.account['pouchdbname'], function(err, db) {
+		Pouch(this.account.pouchdbname, function(err, db) {
 			
 		db.changes(function(err, response) {
 //console.log(response);
@@ -254,7 +254,7 @@ pouchdbSettings.prototype.changeLog = function(synccallback) {
 */
 pouchdbSettings.prototype.filterchangeLog = function(callbackin) {
 	
-		Pouch(this.account['pouchdbname'], function(err, db) {
+		Pouch(this.account.pouchdbname, function(err, db) {
 			
 		db.changes( {filter : 'swimmers/justname'}, function(err, response) {
 //console.log(response);
@@ -273,7 +273,7 @@ pouchdbSettings.prototype.filterchangeLog = function(callbackin) {
 */
 pouchdbSettings.prototype.replicate = function() {
 //console.log('replication started ouside');	
-			Pouch.replicate(this.account['pouchdbname'], 'http://localhost:5984/traintimer/', function(err, changes) {
+			Pouch.replicate(this.account.pouchdbname, 'http://localhost:5984/traintimer/', function(err, changes) {
   //
 //console.log('replication started');				
 			});			
@@ -286,7 +286,7 @@ pouchdbSettings.prototype.replicate = function() {
 */
 pouchdbSettings.prototype.deletePouch = function() {
 
-		Pouch.destroy(this.account['pouchdbname'], function(err, info) {
+		Pouch.destroy(this.account.pouchdbname, function(err, info) {
 			// database deleted
 		});
 
@@ -313,15 +313,15 @@ historicalswimdata = {};
 						// the current swim settings
 						swimsetlive = {};
 						//swimsetlive["swimdate"] = $("#swimdate").text();
-						swimsetlive["swimstyle"] = $("#swimstyle").val();
-						swimsetlive["swimstroke"] = $("#swimstroke").val();
-						swimsetlive["swimtechnique"] = $("#swimtechnique").val();
-						swimsetlive["swimdistance"] = $("#swimdistance").val();
+						swimsetlive.swimstyle = $("#swimstyle").val();
+						swimsetlive.swimstroke = $("#swimstroke").val();
+						swimsetlive.swimtechnique = $("#swimtechnique").val();
+						swimsetlive.swimdistance = $("#swimdistance").val();
 //console.log(spmap);							
 					// itterate over results and pick out the one required	
-						spmap['rows'].forEach(function(rowswimrs){
+						spmap.rows.forEach(function(rowswimrs){
 //console.log(rowswimrs['key']);
-							if(rowswimrs['key'] == swimidin )
+							if(rowswimrs.key == swimidin )
 							{
 								// need to set time interval to retrieve
 								var timerightnow = new Date();
@@ -337,14 +337,14 @@ historicalswimdata = {};
 									endswimdateperiod = startswimdate - 315360000000;  // go back 10 years from todays date
 								}	
 //console.log(endswimdateperiod + 'go back three hours' + startswimdate + 'current time' + 'saveactual time' + rowswimrs['value']['sessionid']);								
-								if( rowswimrs['value']['sessionid'] < startswimdate && rowswimrs['value']['sessionid'] > endswimdateperiod)
+								if( rowswimrs.value.sessionid < startswimdate && rowswimrs.value.sessionid > endswimdateperiod)
 								{
 //console.log('time filter passed');								
 									// need a set of filters for time period and swim setting e.g. stroke distance etc
-									if(swimsetlive["swimstyle"] ==  rowswimrs['value']['swiminfo']['swimstyle'] && swimsetlive["swimstroke"] ==  rowswimrs['value']['swiminfo']['swimstroke']  && swimsetlive["swimtechnique"] ==  rowswimrs['value']['swiminfo']['swimtechnique'] && swimsetlive["swimdistance"] ==  rowswimrs['value']['swiminfo']['swimdistance'] )
+									if(swimsetlive.swimstyle ==  rowswimrs.value.swiminfo.swimstyle && swimsetlive.swimstroke ==  rowswimrs.value.swiminfo.swimstroke  && swimsetlive.swimtechnique ==  rowswimrs.value.swiminfo.swimtechnique && swimsetlive.swimdistance ==  rowswimrs.value.swiminfo.swimdistance )
 									{
 									//pass the lane data to get html ready
-										historicalswimdata[rowswimrs['value']['sessionid']] = rowswimrs['value'];
+										historicalswimdata[rowswimrs.value.sessionid] = rowswimrs.value;
 									
 									}
 								}

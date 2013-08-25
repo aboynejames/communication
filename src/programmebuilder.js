@@ -67,7 +67,7 @@ $(document).ready(function(){
       
 		localCommcall('133', function(rtmap) {  
 
-		var livecommcode =liveHTML.livecommunicationset(rtmap["rows"]);
+		var livecommcode =liveHTML.livecommunicationset(rtmap.rows);
 			
 		$(".pastfuturecomm").html(livecommcode);	
 			
@@ -194,7 +194,7 @@ success: function( resultback ){
 
 					this.acceptdetails = JSON.parse(resultback);
 					
-					if(this.acceptdetails['signin'] == 'passed') {		
+					if(this.acceptdetails.signin == 'passed') {		
 												//passedsigntest("one");
 												$.cookie("traintimer", cookieidhash,  { expires: 7 });
 												$("#ifsignedin").show();	
@@ -293,18 +293,18 @@ success: function( resultback ){
 
 		localDatalog( function(trainlog) {
 
-				trainlog['results'].forEach(function(rowsswimsplit){
+				trainlog.results.forEach(function(rowsswimsplit){
 		
-					if (rowsswimsplit.doc['session'] && (rowsswimsplit.deleted != 1))
+					if (rowsswimsplit.doc.session && (rowsswimsplit.deleted != 1))
 					{
 						// form JSON to sync back to couch
 						buildsyncsplits = {};
-						buildsyncsplits['session'] = rowsswimsplit.doc['session'];
-						buildsyncsplits['swimmerid'] =rowsswimsplit.doc['swimmerid'];
+						buildsyncsplits.session = rowsswimsplit.doc.session;
+						buildsyncsplits.swimmerid =rowsswimsplit.doc.swimmerid;
 						syncdataforsave =  JSON.stringify(buildsyncsplits);
 						$.post("/sync/", syncdataforsave ,function(result){
 					// put a message back to UI to tell of a successful sync
-						livepouch.deleteDoc(rowsswimsplit.doc['_id']);	
+						livepouch.deleteDoc(rowsswimsplit.doc._id);	
 			
 						});
 					}
@@ -411,9 +411,9 @@ console.log('callback from sync to couchdb via node is complete');
 					
 // need to save new master to couch, name and masters id,  validate unique ID number
 					firstsavenewmaster = {};
-					firstsavenewmaster['name'] = newmastnameis;
-					firstsavenewmaster['swimmerid'] = newmastidis;
-					firstsavenewmaster['lanetrain'] = newlane;
+					firstsavenewmaster.name = newmastnameis;
+					firstsavenewmaster.swimmerid = newmastidis;
+					firstsavenewmaster.lanetrain	= newlane;
 					jsonfirstsavenewmaster =  JSON.stringify(firstsavenewmaster);
 
 						//  make save to poudbfirst
@@ -488,12 +488,12 @@ $("select#thelaneoptions").change(function () {
 
 						presentswimmer = '';
 	
-					rtmap["rows"].forEach(function(rowswimrs){
+					rtmap.rows.forEach(function(rowswimrs){
 
-							if(rowswimrs['key'] == selectedlanenow )
+							if(rowswimrs.key == selectedlanenow )
 							{
 								//pass the lane data to get html ready
-								presentswimmer += liveHTML.fromswimmers(rowswimrs['value'][1], rowswimrs['value'][0]);
+								presentswimmer += liveHTML.fromswimmers(rowswimrs.value[1], rowswimrs.value[0]);
 							
 								}
 						});
@@ -584,14 +584,14 @@ console.log(valuesel);
 						presentswimmer = '';
 						presentswimmer = '<form id="alphaswimmeradd" class="menu-text" action="#" method="post">';
 //console.log(rtmap);								
-					rtmap["rows"].forEach(function(rowswimrs){
-						getfirstletter = rowswimrs['value'][1].charAt(0);
+					rtmap.rows.forEach(function(rowswimrs){
+						getfirstletter = rowswimrs.value[1].charAt(0);
 						makelettersmall = getfirstletter.toLowerCase();
 						
 							if(makelettersmall == selectedswimmernow )
 							{
 								// prepare list box  select and append HTML
-								presentswimmer += liveHTML.checkboxswimmers(rowswimrs['value'][1], rowswimrs['value'][0]);
+								presentswimmer += liveHTML.checkboxswimmers(rowswimrs.value[1], rowswimrs.value[0]);
 								//pass the lane data to get html ready
 								//presentswimmer += liveHTML.fromswimmers(rowswimrs['value'][1], rowswimrs['value'][0]);
 							
@@ -818,7 +818,7 @@ console.log('local server is offline');
 			
 		}
 	
-	})
+	});
 
 
 	socketpi.on('repeatnews', function (startnews) {

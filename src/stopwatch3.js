@@ -67,17 +67,17 @@
 									swimsplit = $("#swimsplit").val();
 									// form swim data
 									swimdatastatus = {};
-									swimdatastatus['swimdate'] = sptoday;
-									swimdatastatus['swimstyle'] = swimstyle;
-									swimdatastatus['swimstroke'] = swimstroke;
-									swimdatastatus['swimtechnique'] = swimtechnique;
-									swimdatastatus['swimdistance'] = swimdistance;
-									swimdatastatus['swimsplit'] = swimsplit;
+									swimdatastatus.swimdate = sptoday;
+									swimdatastatus.swimstyle = swimstyle;
+									swimdatastatus.swimstroke = swimstroke;
+									swimdatastatus.swimtechnique = swimtechnique;
+									swimdatastatus.swimdistance = swimdistance;
+									swimdatastatus.swimsplit = swimsplit;
 
 								// route to server side URL
 								stxt = {};
-								stxt['swimstatus'] = swimdatastatus;
-								stxt['splitdata'] = this.activetimeclock.sparray;		
+								stxt.swimstatus = swimdatastatus;
+								stxt.splitdata = this.activetimeclock.sparray;		
 								stxtstring =  JSON.stringify(stxt);											
 								// make socket send to get real time display anywhere
 								//var socket = io.connect();
@@ -87,21 +87,21 @@
 									cleandatakey = {};
 									bulksplits = [];
 									i = 0;
-								cleandatakey= Object.keys(stxt['splitdata']);
+								cleandatakey= Object.keys(stxt.splitdata);
 								cleandatakey.forEach(function(bulkkey){
 									newjsonswim = {};
 
-								if(stxt['splitdata'][bulkkey].length > 0 ) 
+								if(stxt.splitdata[bulkkey].length > 0 ) 
 								{									
 
-									newjsonswim["swimmerid"] = '';
-									newjsonswim["session"] = {};
+									newjsonswim.swimmerid = '';
+									newjsonswim.session = {};
 									activesplitsb  = [];	
-									activesplitsb = stxt['splitdata'][bulkkey];
-									newjsonswim["swimmerid"] = bulkkey;
-									newjsonswim["session"]["sessionid"] = datesplitnumber;	
-									newjsonswim["session"]["swiminfo"] = stxt['swimstatus'];	
-									newjsonswim["session"]["splittimes"]	= activesplitsb;
+									activesplitsb = stxt.splitdata[bulkkey];
+									newjsonswim.swimmerid = bulkkey;
+									newjsonswim.session.sessionid = datesplitnumber;	
+									newjsonswim.session.swiminfo = stxt.swimstatus;	
+									newjsonswim.session.splittimes	= activesplitsb;
 									
 									//livepouch.singleSave(newjsonswim);
 									bulksplits[i] = newjsonswim;
@@ -460,15 +460,15 @@ $("#liveswimset").text('live: ' + currentsetset);
 //console.log("internal click contactin");
 				// collect the form data
 				incontact = {};
-				incontact['name'] = $("#namein").val();
-				incontact['email'] = $("#emailin").val();
-				incontact['website'] = $("#websitein").val();
-				incontact['inpassword'] = $("#inpassword").val();
-				incontact['message'] = $("#messagein").val();
+				incontact.name = $("#namein").val();
+				incontact.email = $("#emailin").val();
+				incontact.website = $("#websitein").val();
+				incontact.inpassword = $("#inpassword").val();
+				incontact.message = $("#messagein").val();
 //console.log(incontact);
 //console.log('post inconact');
 				// validate there is name, email message
-				if(incontact['name'].length > 0  && incontact['email'].length > 0 && incontact['message'].length > 0)
+				if(incontact.name.length > 0  && incontact.email.length > 0 && incontact.message.length > 0)
 				{ 
 						
 				//formdata = {};
@@ -484,7 +484,7 @@ console.log(resultb);
 						$("#emailin").val("");
 						$("#websitein").val("");
 						$("#messagein").val("");
-						$("#signupspacereply").text(resultb["startbackupreply"]);
+						$("#signupspacereply").text(resultb.startbackupreply);
 						$("#formfeedback").empty();
 						$("#signupstart").remove();
 					
@@ -495,15 +495,15 @@ console.log(resultb);
 				else
 				{
 					formfeedback = "Please enter ";
-					if(incontact['name'].length === 0)
+					if(incontact.name.length === 0)
 					{
 						formfeedback += " a Name ";
 					}
-					if(incontact['email'].length === 0)
+					if(incontact.email.length === 0)
 					{
 							formfeedback += " Email ";
 					}
-					if(incontact['message'].length === 0)
+					if(incontact.message.length === 0)
 					{
 						formfeedback += " Swim Club";
 					}
@@ -709,7 +709,7 @@ console.log(this.swiminterval  + 'interval  set');
 			//#livedate1374329671919.liveswimelement #swimdistance
 			formidentifer = '#livedate' + this.liverecordelement;
 console.log($(formidentifer).children("#swimdistance").text());
-			this.swimdistance = $(formidentifer).children("#swimdistance").text()
+			this.swimdistance = $(formidentifer).children("#swimdistance").text();
 console.log(this.swimdistance + 'distance from live record');			
 		//this.swimdistance = $("#swimdistance").val();
 		this.swimsplit = '';
@@ -799,7 +799,7 @@ console.log(this.swimsplit + 'split distance set');
 		nextcount = newcounter + 1;
 //console.log(nextcount + 'next count');		
 		//html body div.liveswimset div#livedate1374053681000.liveswimelement div#swimrepetition.recordlive
-		var norepetitionsobject = $('#swimrepetition.recordlive');		
+		norepetitionsobject = $('#swimrepetition.recordlive');		
 		var norepetitions =norepetitionsobject[elementliverecid].innerHTML;
 //console.log(norepetitions + 'repetitions');		
 		
@@ -986,12 +986,12 @@ var PerSwimmer = function() {
 				swimsplit = $("#swimsplit").val();
 				// form swim data
 				swimdatastatus = {};
-				swimdatastatus['swimdate'] = sptoday;
-				swimdatastatus['swimstyle'] = swimstyle;
-				swimdatastatus['swimstroke'] = swimstroke;
-				swimdatastatus['swimtechnique'] = swimtechnique;
-				swimdatastatus['swimdistance'] = swimdistance;
-				swimdatastatus['swimsplit'] = swimsplit;
+				swimdatastatus.swimdate = sptoday;
+				swimdatastatus.swimstyle = swimstyle;
+				swimdatastatus.swimstroke = swimstroke;
+				swimdatastatus.swimtechnique = swimtechnique;
+				swimdatastatus.swimdistance = swimdistance;
+				swimdatastatus.swimsplit = swimsplit;
 
 			// make socket send to get real time display anywhere
 			//var socket = io.connect();
@@ -999,12 +999,12 @@ var PerSwimmer = function() {
 //console.log(this.sparray[spidin]);				
 			// save to localpouchdb need to prepare buld array json structure
 				newjsonswim = {};								
-				newjsonswim["swimmerid"] = '';
-				newjsonswim["session"] = {};
-				newjsonswim["swimmerid"] = spidin;
-				newjsonswim["session"]["sessionid"] = datesplitnumber;	
-				newjsonswim["session"]["swiminfo"] = swimdatastatus;	
-				newjsonswim["session"]["splittimes"]	= this.sparray[spidin];
+				newjsonswim.swimmerid = '';
+				newjsonswim.session = {};
+				newjsonswim.swimmerid = spidin;
+				newjsonswim.session.sessionid = datesplitnumber;	
+				newjsonswim.session.swiminfo = swimdatastatus;	
+				newjsonswim.session.splittimes	= this.sparray[spidin];
 
 				livepouch.singleSave(newjsonswim);
 
