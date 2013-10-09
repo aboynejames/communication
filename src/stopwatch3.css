@@ -230,7 +230,18 @@ body {margin:0; padding:0; font:12px/18px Helvetica, Arial, sans-serif;}
 	width:100%;
 	min-height:60px;
 	padding-top:25px;
-	border:0px solid pink;
+	border:1px solid pink;
+}
+
+#newmaster {
+	display:block;
+	border:0px solid black;
+}
+
+#newmaster li {
+	display:block;
+	font-size:1.6em;
+	
 }
 
 #addswimmer {
