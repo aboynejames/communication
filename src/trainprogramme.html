@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en"  -manifest="communication.appcache" > <!--manifest="communication.appcache"--> 
+<html lang="en"  > <!--manifest="communication.appcache"--> 
   <head>
 	<meta charset="utf-8">
 	<title>Open Sport Project - self engine</title>
@@ -48,23 +48,23 @@
 				<div style="clear:both">
 			</section>
 		</li>
-		<li><div class="lifestyle">Swimming</div>
-			<section id="context">
-			<!-- placer for forming text context e.g. word cloud, chaining words, selet tweet, blog post or other content to set context-->
-			</section>
+		<li>
+			<div class="lifestyle">Swimming</div>
 		</li>
-	</nav>
-	<nav id="socialtools" >
-		<ul>
+<!--		</nav>-->
+		
+
+<!--		<nav id="socialtools" >
+		<ul>-->
 			<li><a href="" id="socialcontext" data-socialstatus="on" >Social</a>
 			<section class="social">
 
-		<div class="demo">
-			<h2>
-				<a class="control-text" href="#" id="loadlane" title="on" >Swimmers</a><span id="loadlanediv" ></span>
-			</h2> 
+				<div class="demo">
+				<h2>
+					<a class="control-text" href="#" id="loadlane" title="on" >Swimmers</a><span id="loadlanediv" ></span>
+				</h2> 
 
-</div> <!-- closes demo class -->
+			</div> <!-- closes demo class -->
 <!--<input type="text" id="postOrder" name="postOrder" value="" size="30"><br /></div>-->
 
 				<div id="controloptions">
@@ -154,8 +154,13 @@
 					<a class="control-text" href="#"  id="startsort" title="on" >Edit</a>
 				</section>
 			</li>
-		</ul>
-	</nav>
+		<!--</ul>
+	</nav>-->
+		
+			<section id="context">
+			<!-- placer for forming text context e.g. word cloud, chaining words, selet tweet, blog post or other content to set context-->
+		</section>
+
 	
 </section> <!-- close attention settings -->
 
@@ -389,22 +394,22 @@
 						</li>
 					</ul>
 				</form>
-	<div id="formfeedback"></div>
+		<div id="formfeedback"></div>
 
+		</div>
+			<div id="signupspacereply"></div>
+					</li>
+				</ul>	
+				<ul>
+					<li class="inmenu-text"><a id="syncdata" href="/sync" title="syncdata" style="display: none;">Sync &amp; Clear data</a></li>
+					<li class="inmenu-text"><a id="clearpouchdb" href="#" title="clearpouchdb" style="display: none;">Clear Database</a></li>
+				</ul>
+			</nav>
+		</header>
 	</div>
-		<div id="signupspacereply"></div>
-				</li>
-			</ul>	
-			<ul>
-				<li class="inmenu-text"><a id="syncdata" href="/sync" title="syncdata" style="display: none;">Sync &amp; Clear data</a></li>
-				<li class="inmenu-text"><a id="clearpouchdb" href="#" title="clearpouchdb" style="display: none;">Clear Database</a></li>
-			</ul>
-		</nav>
-	</header>
-</div>
-</section>
-<footer id="footer" class="body">
-      <p>2012- <a href="">Self Engine - open sport project</a></p>
-    </footer>
-  </body>
+	</section>
+	<footer id="footer" class="body">
+		<p>2012- <a href="">Self Engine - open sport project</a></p>
+	</footer>
+</body>
 </html>

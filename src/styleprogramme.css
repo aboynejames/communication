@@ -133,6 +133,7 @@ nav {
 }
 
 #socialtools li {
+	display:inline;
 	list-style-type: none;
 	margin-top:1.8em;
 }
@@ -173,7 +174,7 @@ nav {
     border:1px solid #dcdcdc;
     color:#777777;
     font-family:arial;
-    font-size:1em;
+    font-size:0.7em;
     font-weight:bold;
     padding:0.6em 1em;
     text-decoration:none;
@@ -194,7 +195,7 @@ nav {
     border:1px solid #dcdcdc;
     color:#777777;
     font-family:arial;
-    font-size:1em;
+    font-size:0.7em;
     font-weight:bold;
     padding:0.6em 1em;
     text-decoration:none;
