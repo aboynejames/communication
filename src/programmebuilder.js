@@ -739,28 +739,57 @@ console.log(valuesel);
 	
 /*
 * Touchpad listening socket
-	*/
+*/
  // when you get a serialdata event, do this:
 socketpi.on('serialEvent', function (data) {
+console.log('serial event');
+console.log(data);
+serialin = JSON.parse(data);
+console.log(serialin);
+
+        inser = Object.keys(serialin);
+        inser.forEach(function(thein) {
+        textaction = thein;
+        timein = serialin[thein];
+console.log(thein);
+console.log(serialin[thein]);
+        });
+
 
 // whatever the 'value' property of the received data is:
-	if(data.value == 1)
-	{		
+        if(data.value == 1)
+        {
 //console.log(starttiming.activetimeclock.startclock.itp);
-//console.log('touchpad ingredients');		
-//console.log(starttiming.activetimeclock.startclock.totalsplitarray);		
+//console.log('touchpad ingredients');
+//console.log(starttiming.activetimeclock.startclock.totalsplitarray);
 
-		//buttonidserial = '8959315--1256701539';  // test data
-		// call the split function
-		starttiming.activetimeclock.splitswimmerid(starttiming.activetimeclock.startclock.totalsplitarray[starttiming.activetimeclock.startclock.itp]);
-		starttiming.activetimeclock.split(starttiming.activetimeclock.startclock.totalsplitarray[starttiming.activetimeclock.startclock.itp]);
-		starttiming.activetimeclock.startclock.itp++; 
+                //buttonidserial = '8959315--1256701539';  // test data
+                // call the split function
+                starttiming.activetimeclock.splitswimmerid(starttiming.activetimeclock.startclock.totalsplitarray[starttiming.activetimeclock.startclock.itp]);
+                starttiming.activetimeclock.split(starttiming.activetimeclock.startclock.totalsplitarray[starttiming.activetimeclock.startclock.itp]);
+                starttiming.activetimeclock.startclock.itp++;
 
-	}
-	
+        }
+        else if(textaction == 'lap')
+        {
+                starttiming.activetimeclock.splitswimmerid(starttiming.activetimeclock.startclock.totalsplitarray[starttiming.activetimeclock.startclock.itp]);
+                starttiming.activetimeclock.split(starttiming.activetimeclock.startclock.totalsplitarray[starttiming.activetimeclock.startclock.itp]);
+                starttiming.activetimeclock.startclock.itp++;
+        }
+
+        else if(textaction == "Start")
+        {
+                starttiming.activetimeclock.startclock.startStop();
+
+        }
+        else if (textaction == 'Reset')
+        {
+                starttiming.activetimeclock.startclock.reset();
+        }
+
 //console.log('after split class called');
-	
-});	
+
+});
 
 
 // listen to server for DUP call over local network data.
