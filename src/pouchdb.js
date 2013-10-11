@@ -311,12 +311,15 @@ historicalswimdata = {};
 						historicalswimdata = {};	
 							
 						// the current swim settings
-						swimsetlive = {};
+							
+						var liveelementrecord = $(".recordcount").parent().attr('id');		
+						var	swimsetlive = {};
 						//swimsetlive["swimdate"] = $("#swimdate").text();
-						swimsetlive.swimstyle = $("#swimstyle").val();
-						swimsetlive.swimstroke = $("#swimstroke").val();
-						swimsetlive.swimtechnique = $("#swimtechnique").val();
-						swimsetlive.swimdistance = $("#swimdistance").val();
+						swimsetlive.swimstyle = $("#" + liveelementrecord + ".liveswimelement #swimstyle").text();
+						swimsetlive.swimtype =	$("#" + liveelementrecord + ".liveswimelement #swimtype").text();
+						swimsetlive.swimstroke = $("#" + liveelementrecord + ".liveswimelement #swimstroke").text();
+						swimsetlive.swimtechnique =  $("#" + liveelementrecord + ".liveswimelement #swimtechnique").text();
+						swimsetlive.swimdistance = $("#" + liveelementrecord + ".liveswimelement #swimdistance").text();
 //console.log(spmap);							
 					// itterate over results and pick out the one required	
 						spmap.rows.forEach(function(rowswimrs){
@@ -324,13 +327,13 @@ historicalswimdata = {};
 							if(rowswimrs.key == swimidin )
 							{
 								// need to set time interval to retrieve
-								var timerightnow = new Date();
-								startswimdate = Date.parse(timerightnow); // current time/date
+								var traintimenow = new Date();
+								startswimdate = Date.parse(traintimenow); // current time/date
 								
 								// change length goe back in time depending on chart or summary context (plus need to sync with online couchdb for all data history)
 								if(datatypein == "splitdatain")
 								{
-									endswimdateperiod = startswimdate - 10800000;  //go back 3 hours
+									endswimdateperiod = startswimdate - 86400000; // 86400000 cover from start date 24 hours 10800000;  //go back 3 hours
 								}
 								else if(datatypein == "persummaryid")
 								{
@@ -341,7 +344,7 @@ historicalswimdata = {};
 								{
 //console.log('time filter passed');								
 									// need a set of filters for time period and swim setting e.g. stroke distance etc
-									if(swimsetlive.swimstyle ==  rowswimrs.value.swiminfo.swimstyle && swimsetlive.swimstroke ==  rowswimrs.value.swiminfo.swimstroke  && swimsetlive.swimtechnique ==  rowswimrs.value.swiminfo.swimtechnique && swimsetlive.swimdistance ==  rowswimrs.value.swiminfo.swimdistance )
+									if( swimsetlive.swimstroke ==  rowswimrs.value.swiminfo.swimstroke  && swimsetlive.swimtechnique ==  rowswimrs.value.swiminfo.swimtechnique && swimsetlive.swimdistance ==  rowswimrs.value.swiminfo.swimdistance )
 									{
 									//pass the lane data to get html ready
 										historicalswimdata[rowswimrs.value.sessionid] = rowswimrs.value;

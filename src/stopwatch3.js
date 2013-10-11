@@ -700,21 +700,21 @@ $("#sortable1").sortable( "option", "revert", true );//sortable( "option", "disa
 		// need to pickup set element from the liveswimset div area
 		//first identify liverecord set element
 		this.liverecordelement = $(".recordcount").parent().data('recordid');
-console.log(this.liverecordelement);			
+//console.log(this.liverecordelement);			
 		this.swiminterval = '';
 		this.swiminterval = $("#swiminterval").val();
 		//this.swiminterval = $("#swiminterval").val();
-console.log(this.swiminterval  + 'interval  set');			
+//console.log(this.swiminterval  + 'interval  set');			
 		this.swimdistance = '';
 			//#livedate1374329671919.liveswimelement #swimdistance
 			formidentifer = '#livedate' + this.liverecordelement;
-console.log($(formidentifer).children("#swimdistance").text());
+//console.log($(formidentifer).children("#swimdistance").text());
 			this.swimdistance = $(formidentifer).children("#swimdistance").text();
-console.log(this.swimdistance + 'distance from live record');			
+//console.log(this.swimdistance + 'distance from live record');			
 		//this.swimdistance = $("#swimdistance").val();
 		this.swimsplit = '';
 		this.swimsplit = $("#swimsplit").val();
-console.log(this.swimsplit + 'split distance set');		
+//console.log(this.swimsplit + 'split distance set');		
 		//this.swimsplit = $("#swimsplit").val();
 //console.log('dist' + this.swimdistance + 'and split' + this.swimsplit);
 		this.stopsplitstatus = (this.swimdistance/this.swimsplit);
@@ -783,30 +783,24 @@ console.log(this.swimsplit + 'split distance set');
 		return false;
 	};
 	
-		/**
+	/**
 	*  Master record management
 	* @method recordmanagement
 	*/
 	this.recordmanagement = function() {
 				// need to keep a counter of element order start if with one
 		var norepetitionsobject = $('#swimrepetition.recordlive');	
-//console.log(norepetitionsobject);				
-		//var norepetitionselements = $('#swimrepetition.recordlive').length;
 		
 		var totalelementrec = $(".liveswimelement").length -1;
 		// add one to recordcounter
 		var newcounter = parseInt($(".recordcount").text());
 		nextcount = newcounter + 1;
-//console.log(nextcount + 'next count');		
-		//html body div.liveswimset div#livedate1374053681000.liveswimelement div#swimrepetition.recordlive
+
 		norepetitionsobject = $('#swimrepetition.recordlive');		
 		var norepetitions =norepetitionsobject[elementliverecid].innerHTML;
-//console.log(norepetitions + 'repetitions');		
 		
 		if(nextcount > norepetitions)
-		{
-//console.log(elementliverecid + 'on which record element');
-//console.log(totalelementrec + 'total no of record elements');			
+		{	
 			// check if more record element or time to finish recording
 			if(elementliverecid == totalelementrec)
 			{
@@ -820,13 +814,8 @@ console.log(this.swimsplit + 'split distance set');
 				elementliverecid++;
 				//remove record live from current element and add it to the next
 				$('.recordcount').remove();
-				// add it to the next item
-				//$().html('<div class="recordcount">1</div>');
-				//$("#livedate1374053688000").append('<div class="recordcount" >1</div>');
-//console.log(norepetitionsobject[elementliverecid].parentNode.id);				
-				$('#' + norepetitionsobject[elementliverecid].parentNode.id).append('<div class="recordcount" >1</div>');
-
-//console.log(elementliverecid + 'the liverecord count');				
+				// add it to the next item				
+				$('#' + norepetitionsobject[elementliverecid].parentNode.id).append('<div class="recordcount" >1</div>');		
 			}
 		}
 		else
@@ -978,16 +967,17 @@ var PerSwimmer = function() {
 			// save the splits to pouchdb
 			var sptoday = new Date();
 				datesplitnumber = Date.parse(sptoday);
-
-				swimstyle = $("#swimstyle").val();
-				swimstroke = $("#swimstroke").val();
-				swimtechnique = $("#swimtechnique").val();
-				swimdistance = $("#swimdistance").val();
+// need to identify live swim element
+				var liveelementrecord = $(".recordcount").parent().attr('id');		
+				swimtype = $("#" + liveelementrecord + ".liveswimelement #swimtype").text();
+				swimstroke = $("#" + liveelementrecord + ".liveswimelement #swimstroke").text();
+				swimtechnique = $("#" + liveelementrecord + ".liveswimelement #swimtechnique").text();
+				swimdistance = $("#" + liveelementrecord + ".liveswimelement #swimdistance").text();
 				swimsplit = $("#swimsplit").val();
 				// form swim data
 				swimdatastatus = {};
 				swimdatastatus.swimdate = sptoday;
-				swimdatastatus.swimstyle = swimstyle;
+				swimdatastatus.swimtype = swimtype;
 				swimdatastatus.swimstroke = swimstroke;
 				swimdatastatus.swimtechnique = swimtechnique;
 				swimdatastatus.swimdistance = swimdistance;
@@ -1005,7 +995,7 @@ var PerSwimmer = function() {
 				newjsonswim.session.sessionid = datesplitnumber;	
 				newjsonswim.session.swiminfo = swimdatastatus;	
 				newjsonswim.session.splittimes	= this.sparray[spidin];
-
+//console.log(newjsonswim);
 				livepouch.singleSave(newjsonswim);
 
 

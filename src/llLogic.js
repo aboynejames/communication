@@ -102,7 +102,7 @@ llLogic.prototype.frameworklogic = function(intentionin) {
 		}
 	break;
 		
-			case "toolscontext": 
+	case "toolscontext": 
 	// need to check for status of button
 	var toolsstatus = $("#toolscontext").data("toolsstatus");
 //console.log(toolsstatus + 'status');	
@@ -116,6 +116,10 @@ llLogic.prototype.frameworklogic = function(intentionin) {
 			$(".tools").hide();
 			$("#toolscontext").data("toolsstatus", "on");
 		}
+	break;
+		
+	case "skipelement":
+		starttiming.activetimeclock.startclock.recordmanagement();
 	break;
 		
 	}

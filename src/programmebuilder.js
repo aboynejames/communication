@@ -302,7 +302,7 @@ success: function( resultback ){
 						buildsyncsplits.session = rowsswimsplit.doc.session;
 						buildsyncsplits.swimmerid =rowsswimsplit.doc.swimmerid;
 						syncdataforsave =  JSON.stringify(buildsyncsplits);
-						$.post("/sync/", syncdataforsave ,function(result){
+						$.post("http://www.mepath.co.uk:8833/sync/", syncdataforsave ,function(result){
 					// put a message back to UI to tell of a successful sync
 						livepouch.deleteDoc(rowsswimsplit.doc._id);	
 			

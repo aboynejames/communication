@@ -38,7 +38,7 @@ recordQS.prototype.recordLogic = function(recordin, detailin) {
 					// empty the existing live communication
 			$(".liveswimset").empty();
 			$(".recordfeedback").text('');
-
+			elementliverecid = 0;
 			//load data back from pouchdb
 			// extract fpdate clicked
 //console.log('the clicke fpdate');				
@@ -66,7 +66,7 @@ recordQS.prototype.recordLogic = function(recordin, detailin) {
 						// get the communication data and display programme
 						presentcommunication += 1;
 					
-							$(".liveswimset").append('<div class="liveswimelement" id="livedate' + seteldata + '" data-recordid="' + seteldata + '"><div id="swimrepetition" class="recordlive" >' + rowcomm.value[1][seteldata].commrepetition + '</div> ' + '<div id="swimtype">' + rowcomm.value[1][seteldata].commtype + '</div> <div id="swimstroke">' + rowcomm.value[1][seteldata].commstroke + '</div> <div id="swimdistance">' + rowcomm.value[1][seteldata].commdistance + '</div> <div id="swimtechnique">' + rowcomm.value[1][seteldata].commtechnique + ' </div></div>' );
+							$(".liveswimset").append('<div class="liveswimelement" id="livedate' + seteldata + '" data-recordid="' + seteldata + '"><div id="swimrepetition" class="recordlive" >' + rowcomm.value[1][seteldata].commrepetition + '</div> ' + '<div id="swimtype">' + rowcomm.value[1][seteldata].commtype + '</div> <div id="swimstroke">' + rowcomm.value[1][seteldata].commstroke + '</div> <div id="swimdistance">' + rowcomm.value[1][seteldata].commdistance + '</div> <div id="swimtechnique">' + rowcomm.value[1][seteldata].commtechnique + '</div></div>' );
 						});
 								
 					}

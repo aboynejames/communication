@@ -33,18 +33,14 @@ makeProgramme.prototype.makeLogic = function(madeactionin, targetin) {
 	* @method savecommunicationset
 	*/
 	function savecommunicationset (datein, commgroupdata, smlength) {	
-//console.log(Date.parse(datein));
-		var datestringday = Date.parse(datein);
-
+console.log(Date.parse(datein));
+		var indate = Date.parse(datein);
+		var datestringday = indate + 7200000;  // account for UK summer time
+console.log(datestringday);
 			swimgroupcomm = {};
 			newjsoncomm = {};
 				
-			//var chdiv = Object.keys(commgroupdata);
 			commgroupdata.forEach(function(dataid) {
-//console.log('in the loop' + dataid);	
-//console.log(smic[dataid].dataset);
-			//#setauthored1373464381000 #swimsettings select#swimrepetition
-			//sample = "#setauthored" + commelidin + " .swimsettings .swimsettingslabel select#swimtype";
 	
 			var divcapturein = "#setauthored" + dataid + " .swimsettings .swimsettingslabel select";		
 				// get all the set element data
@@ -52,8 +48,7 @@ makeProgramme.prototype.makeLogic = function(madeactionin, targetin) {
 			swimstroke = $( divcapturein + "#swimstroke").val();
 			swimtechnique = $( divcapturein + "#swimtechnique").val();
 			swimdistance = $( divcapturein + "#swimdistance").val();
-			swimrepetition = $( divcapturein + "#swimrepetition").val();
-//console.log('reps=' + swimrepetition);			
+			swimrepetition = $( divcapturein + "#swimrepetition").val();	
 
 			// collect into object and save via pouchdb.
 			// form swim data
@@ -64,22 +59,17 @@ makeProgramme.prototype.makeLogic = function(madeactionin, targetin) {
 			swimcommstatus.commtechnique = swimtechnique;
 			swimcommstatus.commdistance = swimdistance;
 			swimcommstatus.commrepetition = swimrepetition;
-//console.log(dataid + 'what');
 			
 			swimgroupcomm[dataid] = swimcommstatus;
 		// save to localpouchdb need to prepare buld array json structure
 											
 			newjsoncomm.commid = datein;//commgroupdata[dataid].dataset.commid;
-			newjsoncomm.commdate = Date.parse(datein);
+			newjsoncomm.commdate = datestringday;
 			newjsoncomm.swimmerid = [11111111,222222,333333];
-			newjsoncomm.communication = swimgroupcomm;	
-//console.log(newjsoncomm);					
+			newjsoncomm.communication = swimgroupcomm;				
 
-				
 			});
-			
-			//console.log('before save');				
-//console.log(newjsoncomm);					
+							
 			livepouch.singleSave(newjsoncomm);
 
 			$("#canvasDiv").hide();
@@ -249,7 +239,7 @@ makeProgramme.prototype.makeLogic = function(madeactionin, targetin) {
 				else if (madeactionin == "savecommunication")
 				{
 					// collect the date
-					datein = $( "#datepicker" ).datepicker( "getDate" );		
+					datein = $( "#datepicker" ).datepicker( "getDate" );	
 console.log(datein);					
 					// get a list of the unique ids and loop through to extract information
 					var smi = $(".communicationelement");
@@ -280,7 +270,7 @@ console.log(datein);
 						sdaterecord = '';
 
 							
-					var smonth = datein.getUTCMonth() + 1;
+					var smonth = datein.getUTCMonth();
 					var sday = datein.getDate();
 					var syear = datein.getUTCFullYear();
 					var sdaterecord = sday + '/' + smonth + '/' + syear;
