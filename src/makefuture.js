@@ -270,7 +270,7 @@ console.log(datein);
 						sdaterecord = '';
 
 							
-					var smonth = datein.getUTCMonth();
+					var smonth = datein.getUTCMonth() + 1;
 					var sday = datein.getDate();
 					var syear = datein.getUTCFullYear();
 					var sdaterecord = sday + '/' + smonth + '/' + syear;
