@@ -1,7 +1,7 @@
 /*
 * load and playback swim commuication
 */
-var baseUrl = "http://localhost/ll/opensportproject/swimtraintimer/communication/src/trainprogramme.html";
+var baseUrl = "http://localhost/ll/opensportproject/swimtraintimer/communication/src/index.html";
 
 casper.test.comment("Scenario: Load swim communication and playback");
 

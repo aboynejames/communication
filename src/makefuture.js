@@ -28,7 +28,8 @@ makeProgramme.prototype.makeLogic = function(madeactionin, targetin) {
 //console.log(madeactionin + 'from make class');
 	divcapturelast = '';
 	textmodesettings = '';
-		/**
+	
+	/**
 	* save one document
 	* @method savecommunicationset
 	*/
@@ -274,8 +275,10 @@ console.log(datein);
 					var sday = datein.getDate();
 					var syear = datein.getUTCFullYear();
 					var sdaterecord = sday + '/' + smonth + '/' + syear;
+					var indatet = Date.parse(datein);
+					var datestringdayt = indatet + 7200000;
 												
-						var dateid = '<div class="swimcommdate"><a href="" id="fpdate" data-dcommid="' + Date.parse(datein) + '" >' + sdaterecord + '</a></div>';
+						var dateid = '<div class="swimcommdate"><a href="" id="fpdate" data-dcommid="' + datestringdayt + '" >' + sdaterecord + '</a></div>';
 						$(dateid).appendTo(".pastfuturecomm");
 
 						// pass the data over for saving

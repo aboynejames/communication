@@ -1,7 +1,7 @@
 /*
 * load, select, range etc date testing
 */
-var baseUrl = "http://localhost/ll/opensportproject/swimtraintimer/communication/src/trainprogramme.html";
+var baseUrl = "http://localhost/ll/opensportproject/swimtraintimer/communication/src/index.html";
 
 casper.test.comment("Scenario: select dates and organisation tests");
 

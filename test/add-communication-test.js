@@ -1,7 +1,7 @@
 /*
 * check a new communication element has been added correclty
 */
-var baseUrl = "http://localhost/ll/opensportproject/swimtraintimer/communication/src/trainprogramme.html";
+var baseUrl = "http://localhost/ll/opensportproject/swimtraintimer/communication/src/index.html";
 var commid = '';
 var testdate = "";
 casper.test.comment("Scenario: start adding communication elements and edit existing element");
@@ -193,7 +193,7 @@ casper.then(function() {
 	
 	this.firstdate = this.getElementAttribute('.swimcommdate:first-child a', 'data-dcommid');
 console.log(this.firstdate);	
-	casper.test.assertEquals(this.firstdate, "1381359600000", "dates are the same");
+	casper.test.assertEquals(this.firstdate, "1381366800000", "dates are the same");
 
 	this.test.assertDoesntExist(this.getElementAttribute('.swimcommdate:nth-child(2)', 'data-dcommid'), 'there is no second child date');
 	

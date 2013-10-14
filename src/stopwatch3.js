@@ -392,8 +392,6 @@
 					
 					if(chartstatus == 'on')
 					{
-						
-						//livepouch.returndatacallback(this.identifer, "chartdatain");
 						$("#historicalbio" + this.identifer).show();			
 						$(".perbioid" + this.identifer ).attr("data-statusanalysis", "off");
 						$(".perbioid" + this.identifer ).css("color", "#090");

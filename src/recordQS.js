@@ -39,22 +39,17 @@ recordQS.prototype.recordLogic = function(recordin, detailin) {
 			$(".liveswimset").empty();
 			$(".recordfeedback").text('');
 			elementliverecid = 0;
-			//load data back from pouchdb
-			// extract fpdate clicked
-//console.log('the clicke fpdate');				
-//console.log($sotgt);			
+	
 			var commdatein = detailin.data("dcommid");
 			
 	
 				localCommcall(commdatein, function(rtmap) {  
 
 				presentcommunication = '';
-//console.log(rtmap);	
+
 				rtmap.rows.forEach(function(rowcomm){
-//console.log('live training set');
-//console.log(rowcomm);
-//console.log(rowcomm.key + 'the key date');
-//console.log(commdatein + 'clicke date');							
+console.log(rowcomm.key + 'the key date');
+console.log(commdatein + 'clicke date');							
 					if(rowcomm.key == commdatein)
 					{
 						// get the index keys of the object

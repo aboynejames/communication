@@ -1,7 +1,7 @@
 /*
 * check the frame section are in order
 */
-var baseUrl = "http://localhost/ll/opensportproject/swimtraintimer/communication/src/trainprogramme.html";
+var baseUrl = "http://localhost/ll/opensportproject/swimtraintimer/communication/src/index.html";
 
 casper.test.comment("Scenario: The framework section layout");
 

@@ -34,8 +34,8 @@ $(document).ready(function(){
 	
 		$("a,#communication,#recordcommunication,#attention").click(function(e) {
 		e.preventDefault(e);
-console.log(this);	
-console.log(e.target);
+//console.log(this);	
+//console.log(e.target);
 		var $sotgt = $(e.target);			
 		liveLogic.frameworklogic(this);	
 
@@ -573,7 +573,7 @@ console.log(valuesel);
 		
 				$("#loadlane").attr("title", "on");
 				selectedswimmernow = $("#theswimmeroptions").val();
-console.log('letter in ' + selectedswimmernow );
+//console.log('letter in ' + selectedswimmernow );
 				//first check local
 					function localDatacall(selectedswimmernow, callback) {  
 						livepouch.mapQueryname(selectedswimmernow, callback);
@@ -627,9 +627,6 @@ console.log('letter in ' + selectedswimmernow );
 */
 	$("#addalpha").change(function (e) {
 			var $tgt = $(e.target);
-console.log('what tgt look like?');
-console.log($tgt.is);	
-//console.log($tgt.attr("value"));	
 		// which name checked?
 		swimnamealpha = $tgt.attr("value");
 		swimidalpha = $tgt.attr("id");
