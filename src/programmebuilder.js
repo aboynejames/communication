@@ -25,12 +25,18 @@ $(document).ready(function(){
 	var day = today.getUTCDate();
 	var year = today.getUTCFullYear();
 	// display date live day month year
-	$("#livetime").html(day + '/' + month + '/' + year);
+	$("#livetime").html(month + '/' + day + '/' + year);
 	
 	// connect to socket.io
   var socketpi = io.connect('http://192.168.1.44:8842');		
 //console.log(socketpi);
 		socketpi.emit('swimmerclient', { swimmerdevice: 'localhitchup' });
+		
+		// datepicker
+	$( "#datepicker" ).datepicker({
+		changeMonth: true,
+		changeYear: true
+	});
 	
 		$("a,#communication,#recordcommunication,#attention").click(function(e) {
 		e.preventDefault(e);
@@ -52,13 +58,6 @@ $(document).ready(function(){
 			// record DS data
 			liveRecord.recordLogic(idclick, $sotgt);			
 		});			
-
-	// datepicker
-	$( "#datepicker" ).datepicker({
-		changeMonth: true,
-		changeYear: true
-	});
-	
 
 // check and see if there is any existing communication dates
 		function localCommcall(commdate, callback) {  

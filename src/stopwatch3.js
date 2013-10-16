@@ -823,6 +823,47 @@ $("#sortable1").sortable( "option", "revert", true );//sortable( "option", "disa
 		
 	};
 
+		/**
+	*  Master record management back one set element
+	* @method backrecordmanagement
+	*/
+	this.backrecordmanagement = function() {
+				// need to keep a counter of element order start if with one
+		var norepetitionsobject = $('#swimrepetition.recordlive');	
+		
+		var totalelementrec = $(".liveswimelement").length -1;
+		// add one to recordcounter
+		var newcounter = parseInt($(".recordcount").text());
+		nextcount = newcounter - 1;
+
+		norepetitionsobject = $('#swimrepetition.recordlive');		
+		var norepetitions = norepetitionsobject[elementliverecid].innerHTML;
+	
+		if(nextcount == 0)
+		{
+console.log(elementliverecid);			
+			if(elementliverecid === 0)
+			{
+				$(".recordfeedback").text('Ready to start recording');
+			}
+			else
+			{
+			// then need to go back one whole set rather than a set element
+			elementliverecid--;
+			$('.recordcount').remove();
+				// add it to the previous set				
+				$('#' + norepetitionsobject[elementliverecid].parentNode.id).append('<div class="recordcount" >1</div>');		
+			//if there is no precious set then, the start of the training set has been reached
+			}
+		}
+		else
+		{
+			$(".recordcount").text(nextcount);
+		}
+		
+	};
+	
+	
 }; // closes master class
 	
 	
@@ -1006,6 +1047,9 @@ var PerSwimmer = function() {
 				
 				// forward on recordlive counter
 				this.startclock.recordmanagement();
+				var recordlivenumber = $(".recordcount").text();
+				// display the recorded data in real time
+				 liveHTML.reatimesplitdisplay(recordlivenumber, spidin, newjsonswim);
 				
 			}
 		}		

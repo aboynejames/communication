@@ -11,6 +11,7 @@
 */
 var ttHTML = function() {
 	this.template = 'default';
+	this.realtimehold = {};
 
 };
 
@@ -275,31 +276,24 @@ ttHTML.prototype.viewdataHeader = function(swimmerlist) {
 *
 */	
 ttHTML.prototype.visualiseme = function(livepouch, swimidin, historicaldata) {
-//console.log(swimidin);
-//console.log('per sswimmier ananlysis data historical');	
-//console.log(historicaldata);	
+
 	var lastdataid = {};
 	var perswimmerdata = {};
 	perswimmersort = {};
 	// give back all data capture locally for now
 	perswimmerdata = Object.keys(historicaldata);
 	perswimmersort = perswimmerdata.sort(function(a,b){return a-b});
-//console.log('the order of time data???order right');
-//console.log(perswimmersort);	
 	var repcounter = '';
 	repcounter = 0;
 	
 	perswimmersort.forEach(function(perswimmersp) {
-//console.log(perswimmersp);		
 		repcounter ++;
 		// setout new divs
 		visualnewdiv = '';
 		visualnewdiv += '<div class="splitviewcompare" id="lastcomparesession' + perswimmersp + swimidin + '"></div>';
 		visualnewdiv += '<div class="splitviewrep" id="lastrep' + perswimmersp + swimidin + '">' + repcounter +'</div>';
 		visualnewdiv += '<div class="splitview" id="splittimeshistorical' + perswimmersp + swimidin + '"></div>';
-//console.log('swimmer id coming through' + perswimmersp);		
 
-		
 		$("#historicalanalysis" + swimidin).prepend(visualnewdiv);
 		
 		var visualdata = '';
@@ -390,6 +384,109 @@ ttHTML.prototype.visualiseme = function(livepouch, swimidin, historicaldata) {
 	});  // closes perswimmer data
 };
 
+/**
+* Display of splits appearing in real time
+* @method reatimesplitdisplay		
+*
+*/	
+ttHTML.prototype.reatimesplitdisplay = function(counterin, swimidin, realtimedatain) {
+console.log(swimidin);
+console.log(realtimedatain);
+	var repcounter = counterin - 1;
+	// setout new divs
+	visualnewdiv = '';
+	visualnewdiv += '<div class="splitviewcompare" id="lastcomparesession' + realtimedatain.session.sessionid + swimidin + '"></div>';
+	visualnewdiv += '<div class="splitviewrep" id="lastrep' + realtimedatain.session.sessionid + swimidin + '">' + repcounter +'</div>';
+	visualnewdiv += '<div class="splitview" id="splittimeshistorical' + realtimedatain.session.sessionid + swimidin + '"></div>';
+	
+	$("#historicalanalysis" + swimidin).prepend(visualnewdiv);
+	
+	// detail of the set being displayed
+	var visualdata = '';
+	visualdata = 'Date:' ;
+	visualdata += realtimedatain.session.swiminfo.swimdate;
+	visualdata += ' '; 
+	visualdata += realtimedatain.session.swiminfo.swimstroke;
+	visualdata += ' ';
+	visualdata += realtimedatain.session.swiminfo.swimtechnique;
+	visualdata += ' ';
+	visualdata += realtimedatain.session.swiminfo.swimstyle;
+	visualdata += ' ';			
+	visualdata += realtimedatain.session.swiminfo.swimdistance;
+	visualdata += ' ';		
+	visualdata += realtimedatain.session.swiminfo.swimsplit;
+	visualdata += '<br />';
+	
+		var thesplitdiff = '';
+		var lastsplitforcompare = '';
+		var lasttimefornextcalc = '';
+		var actualsplitdiff = '';
+		var lasttimelive = this.realtimehold.lasttime;
+					
+		var splitsorder = realtimedatain.session.splittimes.sort(function(a,b){return a-b});	
+console.log(splitsorder);
+		
+			// save the end time for comparison
+			var lengthspiltsdata = splitsorder.length;
+			this.realtimehold.lasttime = splitsorder[lengthspiltsdata-1];
+console.log(this.realtimehold);		
+		// itterate over each array split and format
+			splitsorder.forEach(function (speratesplit) {
+
+				// do some maths to get difference, if higher colour red, lower colour green	
+				thesplitdiff = '';
+				thesplitdiff =  speratesplit - lasttimefornextcalc;
+
+				actualsplitdiff = speratesplit - lasttimefornextcalc;
+				if(thesplitdiff > lastsplitforcompare ) {
+				thecolourdiff = 'red'; }
+				else {
+				thecolourdiff = 'green'; }
+					
+				// last split to keep
+				lastsplitforcompare = actualsplitdiff;
+				lasttimefornextcalc = speratesplit;
+				
+				var shortsplit = starttiming.activetimeclock.startclock.format(actualsplitdiff).slice(4,11);
+				var shortactualtime = starttiming.activetimeclock.startclock.format(speratesplit).slice(3,11);
+				visualdatasph = '<li>' + shortactualtime + ' ' + 'split ' + shortsplit + '</li>';
+				$(visualdatasph).css("color", thecolourdiff).appendTo($(" #splittimeshistorical" + realtimedatain.session.sessionid + swimidin ));
+					
+				thecolourdiff = '';
+				visualdatasph = '';
+				shortsplit = '';
+				
+			});
+		$("#splittimeshistorical" + realtimedatain.session.sessionid + swimidin).prepend(visualdata);
+			
+			var compareshortsplit = '';
+				// visualise the stats between different sessions
+				// need to collect previous time		
+			if(lasttimelive)
+			{
+				// do some analaysis 
+				netsetcompare =  this.realtimehold.lasttime - lasttimelive;
+				if(netsetcompare > 0 ) {
+					lasttimegetting = 'slower';
+					comparecolor = 'red';					
+					compareshortsplit = starttiming.activetimeclock.startclock.format(netsetcompare).slice(3,11);	
+					}
+				else {
+					lasttimegetting = 'faster';
+					comparecolor = 'green';
+					compareshortsplit = (netsetcompare/1000) + ' seconds';
+					}
+
+				$(" #lastcomparesession" +  realtimedatain.session.sessionid + swimidin  ).html(' ' +lasttimegetting + ' by ' + compareshortsplit).css("color", comparecolor);
+			
+			}	
+			else
+			{
+				$(" #lastcomparesession" +  realtimedatain.session.sessionid + swimidin ).html('can only compare itself');
+			}
+			
+
+};
 
 
 /**

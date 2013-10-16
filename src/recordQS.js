@@ -27,9 +27,7 @@ var recordQS = function() {
 recordQS.prototype.recordLogic = function(recordin, detailin) {
 //console.log(recordin + 'from recordQS class');
 //console.log(detailin);
-	function localCommcall(commdatein, callback) {  
-		livepouch.mapQueryCommdate(commdatein, callback);
-	}  
+ 
 
 	
 	if( detailin.attr("id") == "fpdate")
@@ -41,15 +39,39 @@ recordQS.prototype.recordLogic = function(recordin, detailin) {
 			elementliverecid = 0;
 	
 			var commdatein = detailin.data("dcommid");
-			
+			this.recordHTMLset(commdatein);
+		}
+		else if(detailin.attr("id") == "recordme")
+		{
+
+			$(".liveswimset").empty();
+			var todaymasterr = $("#livetime").text();
+			$( "#datepicker" ).datepicker( "setDate", todaymasterr);
+			recorddatelive = $( "#datepicker" ).datepicker( "getDate" );
+			$( "#ui-datepicker-div" ).datepicker( "hide" );
+			redatemaster = Date.parse(recorddatelive) + 7200000;
+			this.recordHTMLset(redatemaster);
+		}
+};
+		
+/**
+* Prepares html code for live set to be recorded
+* @method recordHTMLset		
+*
+*/	
+recordQS.prototype.recordHTMLset = function(commdatein) {
 	
+		function localCommcall(commdatein, callback) {  
+		livepouch.mapQueryCommdate(commdatein, callback);
+		} 
+			
 				localCommcall(commdatein, function(rtmap) {  
 
 				presentcommunication = '';
 
 				rtmap.rows.forEach(function(rowcomm){
-console.log(rowcomm.key + 'the key date');
-console.log(commdatein + 'clicke date');							
+//console.log(rowcomm.key + 'the key date');
+//console.log(commdatein + 'clicke date');							
 					if(rowcomm.key == commdatein)
 					{
 						// get the index keys of the object
@@ -74,8 +96,5 @@ console.log(commdatein + 'clicke date');
 			});
 			// empty the commuication on screen.
 			$(".communicationelement").empty();
-			
-		}
-
 
 };				

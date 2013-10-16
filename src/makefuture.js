@@ -34,10 +34,9 @@ makeProgramme.prototype.makeLogic = function(madeactionin, targetin) {
 	* @method savecommunicationset
 	*/
 	function savecommunicationset (datein, commgroupdata, smlength) {	
-console.log(Date.parse(datein));
+//console.log(commgroupdata);
 		var indate = Date.parse(datein);
 		var datestringday = indate + 7200000;  // account for UK summer time
-console.log(datestringday);
 			swimgroupcomm = {};
 			newjsoncomm = {};
 				
@@ -66,7 +65,7 @@ console.log(datestringday);
 											
 			newjsoncomm.commid = datein;//commgroupdata[dataid].dataset.commid;
 			newjsoncomm.commdate = datestringday;
-			newjsoncomm.swimmerid = [11111111,222222,333333];
+			newjsoncomm.swimmerid = [11111111,222222,333333]; // pick up from list commgroupdata;
 			newjsoncomm.communication = swimgroupcomm;				
 
 			});
@@ -81,6 +80,13 @@ console.log(datestringday);
         if (madeactionin == "newelement")
 				{			
 					var livecurrentDate = $( "#datepicker" ).datepicker( "getDate" );
+					if(livecurrentDate === null )
+					{
+						//take todays date as standard
+						var todaymaster = $("#livetime").text();
+						$( "#datepicker" ).datepicker( "setDate", todaymaster);
+						livecurrentDate = $( "#datepicker" ).datepicker( "getDate" );
+					}				
 					$("#swimdate").text(livecurrentDate);
 					
 					// communication counter id

@@ -122,6 +122,10 @@ llLogic.prototype.frameworklogic = function(intentionin) {
 		starttiming.activetimeclock.startclock.recordmanagement();
 	break;
 		
+	case "backelement":
+		starttiming.activetimeclock.startclock.backrecordmanagement();
+	break;
+		
 	}
 		
 };
