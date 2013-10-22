@@ -8,6 +8,7 @@
 	<meta name="author" content="">
 		<script type="text/javascript" src="pouchdb.alpha.js"></script>
 		<script type="text/javascript" src="IndexedDBShim.min.js"></script>
+		<script type="text/javascript" src="punch.js"></script>
 		<script type="text/javascript" src="pouchdb.js"></script>
 		<script type="text/javascript" src="jquery-1.7.2.min.js"></script>
 		<script src="jquery-ui.min.js"></script>
@@ -32,7 +33,7 @@
 	<nav>
 		<!--<div class="identity">
 			<a id="me" href="" >me</a></div>-->
-			<div class="stream"><a id="stream" href="" >Stream</a></div>
+			<!--<div class="stream"><a id="stream" href="" >Stream</a></div>-->
 			<div class="record"><a id="recordme" href="" >Record</a></div>
 			<div class="make"><a id="make" href="" >Make</a></div>
 	</nav>
@@ -157,7 +158,7 @@
 	</section>
 	
 
-
+<!--
 <section id="meflow">me</section>
 <section id="streamflow">Example:
 	<div class="activity-stream" >
@@ -181,7 +182,7 @@
 		<div id="date">27/08/2013</div>
 	<div>	
 
-</section>
+</section>-->
 <section id="recordflow">
 
 	<div class="recordfeedback"></div>
@@ -317,6 +318,10 @@
 		<option value="16">16</option>
 		<option value="18">18</option>
 		<option value="20">20</option>
+		<option value="20">22</option>
+		<option value="20">24</option>
+		<option value="20">26</option>
+		<option value="20">28</option>
 		<option value="30">30</option>
 		<option value="40">40</option>
 		<option value="50">50</option>
@@ -395,7 +400,7 @@
 					</li>
 				</ul>	
 				<ul>
-					<li class="inmenu-text"><a id="syncdata" href="/sync" title="syncdata" style="display: none;">Sync &amp; Clear data</a></li>
+					<li class="inmenu-text"><a id="syncdata" href="/sync" title="syncdata" style="display: none;">Sync &amp; Clear data</a><span id="syncbackup"></span></li>
 					<li class="inmenu-text"><a id="clearpouchdb" href="#" title="clearpouchdb" style="display: none;">Clear Database</a></li>
 				</ul>
 			</nav>

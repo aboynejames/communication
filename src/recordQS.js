@@ -45,11 +45,12 @@ recordQS.prototype.recordLogic = function(recordin, detailin) {
 		{
 
 			$(".liveswimset").empty();
-			var todaymasterr = $("#livetime").text();
-			$( "#datepicker" ).datepicker( "setDate", todaymasterr);
-			recorddatelive = $( "#datepicker" ).datepicker( "getDate" );
-			$( "#ui-datepicker-div" ).datepicker( "hide" );
-			redatemaster = Date.parse(recorddatelive) + 7200000;
+			var todaymasterrset = $("#livetime").text();
+			var todaymasterr = new Date(todaymasterrset);
+			//$( "#datepicker" ).datepicker( "setDate", todaymasterr);
+			//recorddatelive = $( "#datepicker" ).datepicker( "getDate" );
+
+			redatemaster = Date.parse(todaymasterr) + 7200000;
 			this.recordHTMLset(redatemaster);
 		}
 };

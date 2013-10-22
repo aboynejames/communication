@@ -25,7 +25,6 @@ var makeProgramme = function() {
 *
 */	
 makeProgramme.prototype.makeLogic = function(madeactionin, targetin) {
-//console.log(madeactionin + 'from make class');
 	divcapturelast = '';
 	textmodesettings = '';
 	
@@ -34,7 +33,7 @@ makeProgramme.prototype.makeLogic = function(madeactionin, targetin) {
 	* @method savecommunicationset
 	*/
 	function savecommunicationset (datein, commgroupdata, smlength) {	
-//console.log(commgroupdata);
+
 		var indate = Date.parse(datein);
 		var datestringday = indate + 7200000;  // account for UK summer time
 			swimgroupcomm = {};
@@ -97,10 +96,7 @@ makeProgramme.prototype.makeLogic = function(madeactionin, targetin) {
 					
 					//keep a list of unique ids
 					uniqueelementids.push(cci);
-//console.log(uniqueelementids);
-//					currentliveelementid.push(cci);
-//console.log(currentliveelementid);					
-//console.log('holding ids live in right order?');					
+				
 					// make HTML code for edit and un edit mode
 					var livecommelemcode =liveHTML.commelementbuild(cci);
 					$(".communicationelement").append(livecommelemcode);
@@ -112,7 +108,6 @@ makeProgramme.prototype.makeLogic = function(madeactionin, targetin) {
 					{
 						// hide previous edit element and show it in text mode
 						// work out current position and go back one
-	//console.log(uniqueelementids.length + 'number of element in array');
 						var secondlastid ='';
 						if(uniqueelementids.length == 1)
 						{
@@ -122,19 +117,15 @@ makeProgramme.prototype.makeLogic = function(madeactionin, targetin) {
 						{
 							secondlastid = uniqueelementids[(uniqueelementids.length - 2)];
 						}
-	//console.log(secondlastid);
-	//console.log(uniqueelementids[secondlastid]);
-						// need to collect values set  #setauthored1374308817000 div.swimsettings div.swimsettingslabel select#swimtype.rightselect
+
 					divcapturelast = "#setauthored" + secondlastid + " .swimsettings .swimsettingslabel select";
-//console.log(divcapturelast);						
 						// get all the set element data
 					swimtype = $( divcapturelast + "#swimtype").val();
 					swimstroke = $( divcapturelast + "#swimstroke").val();
 					swimtechnique = $( divcapturelast + "#swimtechnique").val();
 					swimdistance = $( divcapturelast + "#swimdistance").val();
 					swimrepetition = $( divcapturelast + "#swimrepetition").val();
-//console.log('reps=' + swimrepetition);	
-						//now set the text version settings  #editdate1374309051000.editswimelement div#swimrepetition
+
 					textmodesettings = "#editdate" + secondlastid + ".editswimelement ";					
 					$(textmodesettings + "#swimtype").text(swimtype);
 					$(textmodesettings + "#swimstroke").text(swimstroke);
@@ -156,11 +147,9 @@ makeProgramme.prototype.makeLogic = function(madeactionin, targetin) {
 				}
 				else if (targetin.attr("id") == "edit")
 				{
-//console.log($sotgt[0].dataset.editid);					
-					// need to capture edit data id
-					//var emi = $("#edit").attr('data-editid');
+
 					var emi = targetin.data("editid");
-										// set new current id
+					// set new current id
 					currentliveelementid.push(parseInt(emi));
 					// make this text view into form view
 					$("#communicationelement" + emi).show();
@@ -184,23 +173,19 @@ makeProgramme.prototype.makeLogic = function(madeactionin, targetin) {
 					if(uniqueelementids.length > 1)
 					{
 						previousid = currentliveelementid.length - 2;
-						//console.log(currentliveelementid);					
-//console.log(currentliveelementid.length);					
-//console.log(previousid);					
-//console.log(currentliveelementid[previousid] + 'current elementlive ie last in array');					
+				
 					$("#editdate" + currentliveelementid[previousid] ).show();
 					$("#communicationelement" + currentliveelementid[previousid] ).hide();
 					// turn element before to text view
 						divcapturelast = "#setauthored" + currentliveelementid[previousid]  + " .swimsettings .swimsettingslabel select";
-//console.log(divcapturelast);						
+			
 							// get all the set element data
 						swimtype = $( divcapturelast + "#swimtype").val();
 						swimstroke = $( divcapturelast + "#swimstroke").val();
 						swimtechnique = $( divcapturelast + "#swimtechnique").val();
 						swimdistance = $( divcapturelast + "#swimdistance").val();
 						swimrepetition = $( divcapturelast + "#swimrepetition").val();
-//console.log('reps=' + swimrepetition);	
-							//now set the text version settings  #editdate1374309051000.editswimelement div#swimrepetition
+							//now set the text version settings
 						var textmodesettings = "#editdate" + currentliveelementid[previousid]  + ".editswimelement ";					
 						$(textmodesettings + "#swimtype").text(swimtype);
 						$(textmodesettings + "#swimstroke").text(swimstroke);
@@ -210,8 +195,7 @@ makeProgramme.prototype.makeLogic = function(madeactionin, targetin) {
 					}
 					else
 					{
-						previousid =  targetin.data("editid"); //$sotgt[0].dataset.editid;
-//console.log($sotgt[0].dataset.editid + 'in else mode');						
+						previousid =  targetin.data("editid"); 				
 					$("#communicationelement" +  targetin.data("editid")).show();
 					$("#editdate" +  targetin.data("editid") ).hide();
 					}
@@ -227,10 +211,9 @@ makeProgramme.prototype.makeLogic = function(madeactionin, targetin) {
 					
 				}
 				else if (targetin.attr("id") == "remove")
-				{
-//console.log($sotgt[0].dataset.removeid);						
+				{			
 					// need to capture remove id number
-					var rmi = targetin.data("removeid");    // $sotgt[0].dataset.removeid;
+					var rmi = targetin.data("removeid");   
 					// need to remove from tracking arrays
 					newinnumber = parseInt(rmi);
 					var indexunique = uniqueelementids.indexOf(newinnumber);
@@ -240,8 +223,6 @@ makeProgramme.prototype.makeLogic = function(madeactionin, targetin) {
 			
 					$("#communicationelement" + rmi ).remove();
 					$("#editdate" + rmi ).remove();
-//console.log(uniqueelementids);
-//console.log(currentliveelementid);	
 				}
 				else if (madeactionin == "savecommunication")
 				{
@@ -250,11 +231,8 @@ makeProgramme.prototype.makeLogic = function(madeactionin, targetin) {
 console.log(datein);					
 					// get a list of the unique ids and loop through to extract information
 					var smi = $(".communicationelement");
-//console.log(smi);
 					var smic = $(".communicationelement").children();
-//console.log(smic);
 					var smiclength = $(".communicationelement").children().length;
-//console.log(smiclength);	
 					
 				// check to see if a date exists if not, promp to add a date
 					if(datein === null || smiclength === 0)
@@ -292,8 +270,7 @@ console.log(datein);
 						// NEED TO CLEAR UNIQUE AND HISTORY ARRAYS
 						uniqueelementids = [];
 						currentliveelementid = [];
-						
-//console.log('before empty call');
+
 						$(".communicationelement").empty();
 					}
 				}

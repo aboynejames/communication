@@ -217,13 +217,10 @@ pouchdbSettings.prototype.mapQuerySplits = function(lanein, callbackin) {
 pouchdbSettings.prototype.deleteDoc = function(docid) {
 	
 		Pouch(this.account.pouchdbname, function(err, db) {
-//console.log(docid);		
+
 		db.get(docid, function(err, docout) {
-//console.log('docid returned');
-//console.log(docout);			
-			db.remove(docout, function(err, response) {
-//console.log('remove response');
-//console.log(response);				
+			
+				db.remove(docout, function(err, response) {
 				
 			});
 		});
@@ -288,6 +285,7 @@ pouchdbSettings.prototype.deletePouch = function() {
 
 		Pouch.destroy(this.account.pouchdbname, function(err, info) {
 			// database deleted
+			location.reload(); 		
 		});
 
 };

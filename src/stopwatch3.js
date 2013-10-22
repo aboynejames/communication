@@ -28,7 +28,6 @@
 //console.log('title = ' + this.identifer);		
 		this.activetimeclock.startclock.load();	
 			
-		//if(clickid != "start" || clickid != "reset" || clickid != "save" ){
 		if(clickid == "split" || clickid == "stop" || clickid == "peranalysisid" || clickid =="pereditidremove" ){
 		this.activetimeclock.splitswimmerid(this.identifer);
 	}
@@ -123,7 +122,6 @@
 				case "addswimmer":
 								
 					addswimmerstatus = $("#addswimmer").attr("title");
-//console.log(addswimmerstatus);
 					if(addswimmerstatus == 'on') {
 										
 						lanelist = '<select id="thelaneoptionsnew" class="lanewidthnew" name="lanegroupnew" >';
@@ -163,9 +161,7 @@
 					setsavedallowed = '';
 					loadname = '';
 					//setsaveallowed = $.cookie("traintimer");
-//console.log('has cookie been set?' + setsaveallowed);
 					loadname = $("#loadlane").attr("title");
-//console.log('loadlane on off::::' + loadname );
 					if(loadname == 'on') {
 						$("#loadlane").attr("title", "off");
 						$("#thelaneoptions").val(-1);
@@ -204,7 +200,6 @@
 				
 					$("#sortable1").sortable( "option", "disabled", false );	
 					editname = $("#startsort").attr("title");
-//console.log('edit on off::::' + editname );
 					if(editname == 'on') {
 						// need to make live all the edit 
 						$(".peredit").show();
@@ -268,7 +263,6 @@
 				$("#analysistype").show();
 				
 				analysisname = $("#viewdata").attr("title");
-//console.log('analysislane on off::::' + analysisname );
 					if(analysisname == 'on') {
 						// need to make live all the edit / analysis feature options
 						$(".peredit").hide();
@@ -315,10 +309,8 @@
 			case "peranalysisid":
 				// get the swimmer id and then load up historical data
 				historicalanalysisid = this.identifer; //$("#pereditid").attr("title");
-//console.log('ananlysis id caught' + historicalanalysisid);		
 				analysisstatus = $(".peranalysisid"+ historicalanalysisid).attr("data-statusanalysis");
-//console.log('ananlysis status caught' + analysisstatus);		
-					
+
 					if(analysisstatus == 'on')
 					{
 						datacall = livepouch.returndatacallback(idname, "splitdatain");
@@ -340,7 +332,6 @@
 				// gather data per swimmer to build chart from
 				container = 'historicalchart' + this.identifer;
 				chartstatus = $(".perchartid"+ this.identifer).attr("data-statusanalysis");
-//console.log('ananlysis status caught' + analysisstatus);		
 					
 					if(chartstatus == 'on')
 					{
@@ -364,8 +355,7 @@
 				// gather data per swimmer to build chart from
 				container = 'historicalsummary' + this.identifer;
 				chartstatus = $(".persummaryid"+ this.identifer).attr("data-statusanalysis");
-//console.log('ananlysis status caught' + analysisstatus);		
-					
+
 					if(chartstatus == 'on')
 					{
 						
@@ -388,7 +378,6 @@
 				// gather data per swimmer to build chart from
 				container = 'historicalbio' + this.identifer;
 				chartstatus = $(".perbioid"+ this.identifer).attr("data-statusanalysis");
-//console.log('ananlysis status caught' + analysisstatus);		
 					
 					if(chartstatus == 'on')
 					{
@@ -409,7 +398,6 @@
 					
 			case "pereditidremove":
 					// remove swimmer from active list
-//console.log('remove is being called');
 					removeid = this.identifer;
 					$("#sortable1 li#" + removeid + ".ui-state-default").remove();
 					
@@ -418,7 +406,6 @@
 			case "setshow":
 			// hide or show the set settings
 					setshowstatus = $("#setshow").attr("title");
-//console.log(setshowstatus);
 					if(setshowstatus == 'on') {
 						$(".swimsettings").show();
 						$("#setshow").attr("title", "off");
@@ -439,7 +426,6 @@ $("#liveswimset").text('live: ' + currentsetset);
 			case "signupstart":
 				// signup to data services
 					signupstatus = $("#signupstart").attr("title");
-//console.log(signupstatus);
 					if(signupstatus == 'on') {
 						$("#signupspace").show();
 						$("#signupstart").attr("title", "off");
@@ -455,7 +441,6 @@ $("#liveswimset").text('live: ' + currentsetset);
 			break;
 					
 			case "contactin":
-//console.log("internal click contactin");
 				// collect the form data
 				incontact = {};
 				incontact.name = $("#namein").val();
@@ -463,8 +448,6 @@ $("#liveswimset").text('live: ' + currentsetset);
 				incontact.website = $("#websitein").val();
 				incontact.inpassword = $("#inpassword").val();
 				incontact.message = $("#messagein").val();
-//console.log(incontact);
-//console.log('post inconact');
 				// validate there is name, email message
 				if(incontact.name.length > 0  && incontact.email.length > 0 && incontact.message.length > 0)
 				{ 
@@ -475,7 +458,6 @@ $("#liveswimset").text('live: ' + currentsetset);
 				// make a POST call to node.js url
 					$.post("/signupstart/", formdata ,function(resultb){
 						// put a message back to UI to tell of a successful save TODO
-console.log(resultb);
 						
 						$("#signupspace").hide();
 						$("#namein").val("");
@@ -514,7 +496,6 @@ console.log(resultb);
 			case "touchpadmode":
 			// show the touchpad status as on or OFF
 					currenttpstatus = $("#touchpadmode").attr("title");
-//console.log(setshowstatus);
 					if(currenttpstatus == 'on') {
 						$("#touchpadstatus").text('On');
 						$("#touchpadmode").attr("title", "off");
@@ -540,7 +521,6 @@ console.log(resultb);
 * @class MasterWatch
 */
 var MasterWatch = function() {
-//console.log('master class called');
 	// one universal start and reset button
 	this.$start = $('#start');
 	this.$reset = $('#reset');
@@ -635,10 +615,8 @@ $("#sortable1").sortable( "option", "revert", true );//sortable( "option", "disa
 	
 	this.display = function() {
 		if (this.t[2]) {
-//console.log('display function called and if t2');
 			this.t[1] = (new Date()).valueOf();
 		}
-//console.log('display function set timer after formatting time.');		
 		this.$timer.text(this.format(this.t[3] + this.t[1] - this.t[0]));
 	},
 	
@@ -648,7 +626,6 @@ $("#sortable1").sortable( "option", "revert", true );//sortable( "option", "disa
 		this.delaymaster = starttiming.activetimeclock.startclock.t;
 		
 		if (this.delaymaster[2]) {
-//console.log('display function called and if t2');
 			this.delaymaster[1] = (new Date()).valueOf();
 		}
 		
@@ -671,10 +648,8 @@ $("#sortable1").sortable( "option", "revert", true );//sortable( "option", "disa
 
 	// set starting time
 			this.t[this.t[2]] = (+new Date()).valueOf();
-//console.log(this.t);
 
 		this.t[2] = 1 - this.t[2];
-//console.log(this.t);
 			if (this.t[2] === 0)
 			{
 	// a split time being set
@@ -698,23 +673,14 @@ $("#sortable1").sortable( "option", "revert", true );//sortable( "option", "disa
 		// need to pickup set element from the liveswimset div area
 		//first identify liverecord set element
 		this.liverecordelement = $(".recordcount").parent().data('recordid');
-//console.log(this.liverecordelement);			
 		this.swiminterval = '';
 		this.swiminterval = $("#swiminterval").val();
-		//this.swiminterval = $("#swiminterval").val();
-//console.log(this.swiminterval  + 'interval  set');			
+
 		this.swimdistance = '';
-			//#livedate1374329671919.liveswimelement #swimdistance
 			formidentifer = '#livedate' + this.liverecordelement;
-//console.log($(formidentifer).children("#swimdistance").text());
 			this.swimdistance = $(formidentifer).children("#swimdistance").text();
-//console.log(this.swimdistance + 'distance from live record');			
-		//this.swimdistance = $("#swimdistance").val();
 		this.swimsplit = '';
 		this.swimsplit = $("#swimsplit").val();
-//console.log(this.swimsplit + 'split distance set');		
-		//this.swimsplit = $("#swimsplit").val();
-//console.log('dist' + this.swimdistance + 'and split' + this.swimsplit);
 		this.stopsplitstatus = (this.swimdistance/this.swimsplit);
 		// if the swim distance is 50m and split is 50m  change split button to also say stop
 		if(this.stopsplitstatus == 1)
@@ -728,27 +694,20 @@ $("#sortable1").sortable( "option", "revert", true );//sortable( "option", "disa
 		// need to identify active swimmers from UI
 		// what order did the swimmers go off 
 		this.activeswimmers = [];
-		//var noswimmerlive = $("a#stop").length;
 
 		var listactives = [];
 
 		listactives = $('#sortable1').sortable('toArray');
-//console.log(listactives);
-		countswimmers = listactives.length;
-//console.log(countswimmers + 'the count of swiimm');	
+		countswimmers = listactives.length;	
 		
 		this.activeswimmers = listactives;
-//console.log('the starting list');
-//console.log(this.activeswimmers);		
 		// if in touchpad mode
 		starttpstatus = $("#touchpadmode").attr("title");
-//console.log('in master start fuction status of touchpad' + starttpstatus);
 		if(starttpstatus == 'on')
 		{
 			// setup split time capture arrays
 			this.activeswimmers.forEach(function(livetbswimmers) {	
 				// need to setup split arrays/objects to hold data
-				//starttiming.activetimeclock.splitswimmerid(livetbswimmers);
 			});
 
 
@@ -756,13 +715,11 @@ $("#sortable1").sortable( "option", "revert", true );//sortable( "option", "disa
 			this.totalsplitarray = [];
 			notimesperswimmer = this.swimdistance/this.swimsplit;
 			totalnosplits = (this.activeswimmers.length * notimesperswimmer) -1;
-//console.log(notimesperswimmer + 'the no splits per swimer' );
-//console.log(totalnosplits + 'the total no. spliters' );
+
 			si = 0;
 			countswi = 0;
 			for (si=0;si<=totalnosplits;si++)
 			{
-//console.log(si + 'the info');
 				this.totalsplitarray[si] = this.activeswimmers[countswi];
 				countswi++;
 				
@@ -771,9 +728,6 @@ $("#sortable1").sortable( "option", "revert", true );//sortable( "option", "disa
 					countswi = 0;
 				}
 			}
-//console.log(this.totalsplitarray);
-//console.log('the order above');
-				
 				
 			}  // closes if touchpad on
 			
@@ -840,8 +794,7 @@ $("#sortable1").sortable( "option", "revert", true );//sortable( "option", "disa
 		var norepetitions = norepetitionsobject[elementliverecid].innerHTML;
 	
 		if(nextcount == 0)
-		{
-console.log(elementliverecid);			
+		{	
 			if(elementliverecid === 0)
 			{
 				$(".recordfeedback").text('Ready to start recording');
@@ -898,7 +851,6 @@ var PerSwimmer = function() {
 				this.activesplitter.push(this.splitidlive);
 			}
 			
-			
 // need to defin array for all local split stop times array
 			if(!this.spid)
 			{
@@ -908,8 +860,7 @@ var PerSwimmer = function() {
 			}
 			
 // if an individual swimmer id array has not been set set it
-		if(!this.spid[this.splitidlive]){			
-//console.log('should be only first time set of this');			
+		if(!this.spid[this.splitidlive]){					
 		this.spid[this.splitidlive] =  [1,0,0];
 		this.sparray[this.splitidlive] =  [];
 		this.spdiffarray[this.splitidlive] = [];	
@@ -935,13 +886,7 @@ var PerSwimmer = function() {
 	}
 	else
 	{
-//console.log('what t arrays are set start after resetbutton pressed?');
-	// form stop location div
-			
-
 			this.t =  this.startclock.t;
-
-			
 			this.t[this.t[2]] = (+new Date()).valueOf();
 
 	// need to make this stop logic local to this swimmer
@@ -955,7 +900,6 @@ var PerSwimmer = function() {
 
 		if(this.stoppedlist.length == (this.startclock.activeswimmers.length)){
 		// stop the main stopwatch
-//console.log('all watches have been stopped');		
 			clearInterval(this.t[4]);
 		// /reset/clear stoppedlist counter
 			this.stoppedlist = [];
@@ -970,8 +914,6 @@ var PerSwimmer = function() {
 	* @method split
 	*/
 	this.split = function(spidin) {
-//console.log('split clicked');	
-//console.log(spidin + 'incoming splitid');
 	// contorl logic, has the main timer been started? If yes proceed if not do nothing.		
 	if(this.startclock.t[1] === 0) {
 		// nothing start do nothing.
@@ -979,13 +921,11 @@ var PerSwimmer = function() {
 	else
 	{	
 		this.t =  this.startclock.t;	
-//console.log(this.t);
 		// need array to hold each swimmer id along with their times/splits info.
 		this.t[2] = 1;		
 		if (this.t[2] !== 0)
 		{
 			this.spid[spidin][2]++;
-//console.log(this);				
 			liveHTML.realtimesplitsdiff(this, spidin);
 		}
 
@@ -1021,11 +961,6 @@ var PerSwimmer = function() {
 				swimdatastatus.swimtechnique = swimtechnique;
 				swimdatastatus.swimdistance = swimdistance;
 				swimdatastatus.swimsplit = swimsplit;
-
-			// make socket send to get real time display anywhere
-			//var socket = io.connect();
-			//socket.emit('splitsdatalive', stxtstring);	
-//console.log(this.sparray[spidin]);				
 			// save to localpouchdb need to prepare buld array json structure
 				newjsonswim = {};								
 				newjsonswim.swimmerid = '';
@@ -1034,7 +969,7 @@ var PerSwimmer = function() {
 				newjsonswim.session.sessionid = datesplitnumber;	
 				newjsonswim.session.swiminfo = swimdatastatus;	
 				newjsonswim.session.splittimes	= this.sparray[spidin];
-//console.log(newjsonswim);
+
 				livepouch.singleSave(newjsonswim);
 
 

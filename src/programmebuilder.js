@@ -29,7 +29,6 @@ $(document).ready(function(){
 	
 	// connect to socket.io
   var socketpi = io.connect('http://192.168.1.44:8842');		
-//console.log(socketpi);
 		socketpi.emit('swimmerclient', { swimmerdevice: 'localhitchup' });
 		
 		// datepicker
@@ -48,7 +47,6 @@ $(document).ready(function(){
 			var resultord = $('#sortable1').sortable('toArray');
 			idclick = $(this).attr("id");
 			idtitle = $(this).attr("title");	
-//console.log('a link capture' + idclick + idtitle);		
 			// pass on the id of the swimmer  2 pass on the type of click,  start, reset, split, stop	
 			starttiming.identifyswimmer(idtitle, idclick);
 			
@@ -114,17 +112,12 @@ stopwatch jquery code from stopwatch3.js
 	$("#signupspace").hide();		
 	$("#welcomesummary").show();		
 
-
-//console.log(socketpi.emit);
-
 	// welcome summary  call pouch get no. active swimmers
 					function welcomeDatacall(callback) {  
 						livepouch.mapQueryswimmers(callback);
 					}  
       
 						welcomeDatacall(function(wmap) { 
-//console.log('welcome callback');							
-//console.log(wmap.rows.length);
 								if(wmap.rows.length > 0)
 								{
 									welcomedata = wmap.rows.length + " active swimmers";
@@ -141,7 +134,6 @@ stopwatch jquery code from stopwatch3.js
 	$("#siginformarea").hide();
 		
     $("#signinopener").click(function(e) {
-//console.log('time to distroy the cookie please');
         usernamein = '';
         passwordin = '';
         cookieidhash = '';
@@ -194,7 +186,6 @@ success: function( resultback ){
 					this.acceptdetails = JSON.parse(resultback);
 					
 					if(this.acceptdetails.signin == 'passed') {		
-												//passedsigntest("one");
 												$.cookie("traintimer", cookieidhash,  { expires: 7 });
 												$("#ifsignedin").show();	
 												$("#ifsignedin").html('<a class="control-text" text="SignOut" title="signout" href="#"  id="signincloser" >Sign-out</a> ' + usernamein );
@@ -208,7 +199,6 @@ success: function( resultback ){
 																				
 												}
 												else {
-//console.log('failed');
 													$("#responsemessage").html('Signin Failed, try again');
 												}
 
@@ -219,16 +209,10 @@ success: function( resultback ){
 				},
 				complete: function(){
 
-					// When this completes, execute teh
-					// DELETE request.
-					//makeDELETERequest();
-
 				}
 			});
 
 		};
-
-
 
 		// Execute the PUT request.
 		makePUTRequest();
@@ -280,8 +264,10 @@ success: function( resultback ){
 	livepouch.putDoc(designdocjson);
 		}
 		// get all current doc from pouchdb and pass them on to nodejs to couchdb and delete local data (ideally leave 1 month or user directed future todo )
-//console.log('list to sync');	
-		//
+		
+		var syncmessage = '<a  href=""><img  id="syncicon" alt="sync in progress" src="images/sync.png" ></a>';
+		$("#syncbackup").html(syncmessage);
+		
 		localsplitstodelete = [];
 		
 		function localDatalog(callback) {  
@@ -303,47 +289,20 @@ success: function( resultback ){
 						syncdataforsave =  JSON.stringify(buildsyncsplits);
 						$.post("http://www.mepath.co.uk:8833/sync/", syncdataforsave ,function(result){
 					// put a message back to UI to tell of a successful sync
+						
+						$("#syncbackup").html('finished');	
 						livepouch.deleteDoc(rowsswimsplit.doc._id);	
 			
 						});
 					}
 				});
-			
-	
-		/*
-		// same for swimmer names expect do not del but mark last seq no. 
-		trainlog['results'].forEach(function(rowsswimname){
-					
-					if (rowsswimname.doc['name'] )
-					{
-console.log('new names back to couch');						
-console.log(rowsswimname);
-						// form JSON to sync back to couch
-						buildsyncswimmer = {};
-						buildsyncswimmer['lanetrain'] = rowsswimname.doc['lanetrain'];
-						buildsyncswimmer['name'] = rowsswimname.doc['name'];
-						buildsyncswimmer['swimmerid'] = rowsswimname.doc['swimmerid'];
-							syncdataforsave =  JSON.stringify(buildsyncswimmer);
-				$.post("/sync/", syncdataforsave ,function(result){
-					// put a message back to UI to tell of a successful sync
-console.log('callback from sync to couchdb via node is complete');	
-			
-				});
-					}
-				});
-		*/
 		});
 });
 
 	$("#ifsignedin").click(function(e) {
-//console.log('time to distroy the cookie please');
 			e.preventDefault(e);
 			var $sotgt = $(e.target);
-//console.log('what tgt look like?');			
         if ($sotgt.is("#signincloser")) {
-					
-					//starttiming = '';
-					//starttiming.activetimeclock = '';
 
 					$("#ifsignedin").fadeOut("slow");
 						//$("#ifsignedin").hide();	
@@ -373,21 +332,17 @@ console.log('callback from sync to couchdb via node is complete');
 					// has the user signed in?
 					setsaveallowed = '';
 					setsaveallowed = $.cookie("traintimer");
-//console.log('has cookie been set?' + setsaveallowed);		
 				
 				var $tgt = $(e.target);
-//console.log('what tgt look like?');
-//console.log($tgt.attr("name"));				
+	
         if ($tgt.is("#newmasteradd")) {
 					
 					// need to be both a name and a lane number validation
 					newmastnameis = $("#newmasteradd input#newmastid ").val();
 					newlane = $("#thelaneoptionsnew").val();
-//console.log('what are we validatig on' + newmastnameis + 'lane' + newlane );					
+	
 					if(newmastnameis.length > 0 && (newlane.length > 0 && newlane != -1) )
 					{
-//console.log('form validation passed');
-					//newmastidis = $("#newmasteradd input#newmidid ").val();
 												hashCode = function(str){
 												var hash = 0;
 												if (str.length === 0) return hash;
@@ -396,17 +351,16 @@ console.log('callback from sync to couchdb via node is complete');
 														hash = ((hash<<5)-hash)+char;
 														hash = hash & hash; // Convert to 32bit integer
 												}
-//console.log(hash + 'new hasnumber');
+
 												return hash;
 												};
 												var newidnumberstart = new Date();
 												newswimmerguid = Date.parse(newidnumberstart);
-//console.log('date string' + newswimmerguid)	;									
+							
 						newmastidish = hashCode(newmastnameis);
 						newmastidisrand = Math.floor((Math.random()*10000000)+1);
-//console.log(newmastidisrand + 'randon number');												
-						newmastidis = newmastidisrand + '-' + newmastidish;												
-//console.log('new GUID' + newmastidis);				
+									
+						newmastidis = newmastidisrand + '-' + newmastidish;														
 					
 // need to save new master to couch, name and masters id,  validate unique ID number
 					firstsavenewmaster = {};
@@ -416,11 +370,7 @@ console.log('callback from sync to couchdb via node is complete');
 					jsonfirstsavenewmaster =  JSON.stringify(firstsavenewmaster);
 
 						//  make save to poudbfirst
-						livepouch.singleSave(firstsavenewmaster);
-						
-						//$.post("/save/" + setsaveallowed, jsonfirstsavenewmaster ,function(result){
-							// put a message back to UI to tell of a successful save TODO
-						//	});					
+						livepouch.singleSave(firstsavenewmaster);	
 				
 				$("#newmaster").hide();
 // add html code for new swimmer added
@@ -474,10 +424,7 @@ $("select#thelaneoptions").change(function () {
 				$("#splittimeshistorical").empty();
 				$("#loadlane").attr("title", "on");
 				selectedlanenow = $("select#thelaneoptions").val();
-	
-			//$("#changeplace").text(selectedlanenow);
-	
-//console.log('yes lane' + selectedlanenow );
+
 				//first check local
 					function localDatacall(selectedlanenow, callback) {  
 						livepouch.mapQueryname(selectedlanenow, callback);
@@ -515,45 +462,25 @@ $("select#thelaneoptions").change(function () {
 					}  
       
 					localDataSPcall('1', function(spmap) {  
-//console.log('how splits data look after save');
-//console.log(spmap);						
+	
 					});						
 						
 			});  
 							
-				// make post request to get swimmer for this lane and dispaly
-				//$("#sortable1").load("/buildswimmers/lane/" + selectedlanenow + '/' + setsaveallowed);
-				//$("#loadlaneselect").hide();
-				//$("#loadswimmers").hide();
-				//$("#loadclearswimmers").hide();
 				$("#controloptions").hide();
 
 			})
 			.change();	
 
 /*
-	$("select#thelaneoptions").change(function () {
-	//livepouch.deletePouch();
-	
-		valuesel = $("select#thelaneoptions").val();
-console.log(valuesel);		
-		
-		$("#changeplace").text(valuesel);
-		$("#sortable1").text(valuesel);
-		})
-.change();
-*/		
-/*
 * first time start
 */
 	$("#welcomesummary").on("click", function (e) {
-  //  $("a").click(function(e){
 		e.preventDefault(e);
 		var $swtgt = $(e.target);
 		if ($swtgt.is("a")) {
 			idclick = $swtgt.attr("id");
 			idname =$swtgt.attr("title");
-//console.log('first time start' + idclick + idname);			 
 // pass on the id of the swimmer  2 pass on the type of click,  start, reset, split, stop	
 			starttiming.identifyswimmer(idname, idclick);
 		}
@@ -572,7 +499,6 @@ console.log(valuesel);
 		
 				$("#loadlane").attr("title", "on");
 				selectedswimmernow = $("#theswimmeroptions").val();
-//console.log('letter in ' + selectedswimmernow );
 				//first check local
 					function localDatacall(selectedswimmernow, callback) {  
 						livepouch.mapQueryname(selectedswimmernow, callback);
@@ -581,8 +507,7 @@ console.log(valuesel);
 					localDatacall(selectedswimmernow, function(rtmap) {  
 
 						presentswimmer = '';
-						presentswimmer = '<form id="alphaswimmeradd" class="menu-text" action="#" method="post">';
-//console.log(rtmap);								
+						presentswimmer = '<form id="alphaswimmeradd" class="menu-text" action="#" method="post">';					
 					rtmap.rows.forEach(function(rowswimrs){
 						getfirstletter = rowswimrs.value[1].charAt(0);
 						makelettersmall = getfirstletter.toLowerCase();
@@ -591,16 +516,12 @@ console.log(valuesel);
 							{
 								// prepare list box  select and append HTML
 								presentswimmer += liveHTML.checkboxswimmers(rowswimrs.value[1], rowswimrs.value[0]);
-								//pass the lane data to get html ready
-								//presentswimmer += liveHTML.fromswimmers(rowswimrs['value'][1], rowswimrs['value'][0]);
 							
 								}
 								
 					});
 				presentswimmer += '</form>';
-					//presentswimmer += '<a href="" id="aaselectswimmer" >add alpha</a>';
-//console.log('list checkboxes');
-//console.log(presentswimmer);					
+				
 				$("#addalpha").html(presentswimmer);					
 				
 					presentclose = '<br /><br /><a href="" id="closealphalist" class="control-text" >Close</a>';
@@ -609,14 +530,11 @@ console.log(valuesel);
     });  
 							
 				// make post request to get swimmer for this lane and dispaly
-				//$("#sortable1").load("/buildswimmers/lane/" + selectedlanenow + '/' + setsaveallowed);
 				$("#loadlaneselect").hide();
 				$("#loadswimmers").hide();
 				$("#loadclearswimmers").hide();
 				$("#addnewswimmer").hide();
 				$("#loadlane").attr('class', 'control-text');
-
-
 
 			}).change();	
 
@@ -676,14 +594,11 @@ console.log(valuesel);
 */
 	$("#aselectswimmer").click(function (e) {
 		e.preventDefault(e);
-//console.log('alpha add start');			
 			var $tgt = $(e.target);
-//console.log('what tgt look like?');
-//console.log($tgt.attr("name"));				
+
 			if ($tgt.is("#aselectswimmer")) {
 				aselectswimmerlist = $(".demo input#aselectswimmer ").val();			
-//console.log('alpha add swimmers');
-//console.log(aselectswimmerlist);
+
 				}
 	});					
 
@@ -712,7 +627,6 @@ console.log(valuesel);
 
 			idclick = $(this).attr("id");
 			idtitle = $(this).attr("title");	
-//console.log('a link capture' + idclick + idtitle);		
 			// pass on the id of the swimmer  2 pass on the type of click,  start, reset, split, stop	
 			starttiming.identifyswimmer(idtitle, idclick);
 		
@@ -721,7 +635,7 @@ console.log(valuesel);
 	
 	
 	$("#sortable1").on("click", function (e) {
-  //  $("a").click(function(e){
+
 		e.preventDefault(e);
 		var $swtgt = $(e.target);
 		if ($swtgt.is("a")) {
@@ -737,28 +651,18 @@ console.log(valuesel);
 */
  // when you get a serialdata event, do this:
 socketpi.on('serialEvent', function (data) {
-console.log('serial event');
-console.log(data);
-serialin = JSON.parse(data);
-console.log(serialin);
+	serialin = JSON.parse(data);
+	inser = Object.keys(serialin);
+	inser.forEach(function(thein) {
+	textaction = thein;
+	timein = serialin[thein];
 
-        inser = Object.keys(serialin);
-        inser.forEach(function(thein) {
-        textaction = thein;
-        timein = serialin[thein];
-console.log(thein);
-console.log(serialin[thein]);
-        });
+});
 
 
 // whatever the 'value' property of the received data is:
         if(data.value == 1)
         {
-//console.log(starttiming.activetimeclock.startclock.itp);
-//console.log('touchpad ingredients');
-//console.log(starttiming.activetimeclock.startclock.totalsplitarray);
-
-                //buttonidserial = '8959315--1256701539';  // test data
                 // call the split function
                 starttiming.activetimeclock.splitswimmerid(starttiming.activetimeclock.startclock.totalsplitarray[starttiming.activetimeclock.startclock.itp]);
                 starttiming.activetimeclock.split(starttiming.activetimeclock.startclock.totalsplitarray[starttiming.activetimeclock.startclock.itp]);
@@ -782,20 +686,16 @@ console.log(serialin[thein]);
                 starttiming.activetimeclock.startclock.reset();
         }
 
-//console.log('after split class called');
-
 });
 
 
 // listen to server for DUP call over local network data.
 socketpi.on('DUPinfo', function (dataDUP) {
-console.log(dataDUP);
 // whatever the 'value' property of the received data is:
 	if(dataDUP == 'stop')
 	{		
-console.log('stop emit from dup');		
+
 		// call the split function
-console.log('start emit from dup');		
 		starttiming.activetimeclock.splitswimmerid(starttiming.activetimeclock.startclock.totalsplitarray[starttiming.activetimeclock.startclock.itp]);
 		starttiming.activetimeclock.split(starttiming.activetimeclock.startclock.totalsplitarray[starttiming.activetimeclock.startclock.itp]);
 		starttiming.activetimeclock.startclock.itp++; 
@@ -814,7 +714,6 @@ console.log('start emit from dup');
 		starttiming.activetimeclock.startclock.reset();
 
 	}
-//console.log('after split class called');
 	
 });	
 
@@ -825,14 +724,12 @@ console.log('start emit from dup');
 
 
 socketpi.on('startnews', function (startnews) {
-//console.log('what is local status?');
-//console.log(startnews);
 	// whatis status of local connection
 		if( startnews == 'localpi')
 		{		
-console.log('local server is live');
+
 			$("#localpi").text('CONNECTED');
-		setInterval(function() {socketpi.emit('swimmerclient', { swimmerdevice: 'localhitchup' })}, 10000);
+			setInterval(function() {socketpi.emit('swimmerclient', { swimmerdevice: 'localhitchup' })}, 10000);
 		}
 		else
 		{
@@ -846,27 +743,21 @@ console.log('local server is offline');
 
 
 	socketpi.on('repeatnews', function (startnews) {
-console.log('what is local repeat status?');
-console.log(startnews);
 	// whatis status of local connection
 		if( startnews == 'localpilive')
 		{		
-console.log('local server is repeat');		
 		
 		}
 		else
 		{
 		// off local pi network
-console.log('local server is offline');				
+		
 		}
 		
 	});	
 
 
 currentsetset = 'int-' + $("#swiminterval").val() + 'sec ' + $("#swimstyle").val() + ' ' + $("#swimstroke").val() + ' ' + $("#swimtechnique").val() + ' ' + $("#swimdistance").val() + ' ' + $("#swimsplit").val();
-$("#liveswimset").text('live: ' + currentsetset);
-
-//console.log('start whole app');		
-//console.log(starttiming);						
+$("#liveswimset").text('live: ' + currentsetset);				
 
 });

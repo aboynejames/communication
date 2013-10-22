@@ -20,7 +20,6 @@ var llLogic = function() {
 *
 */	
 llLogic.prototype.frameworklogic = function(intentionin) {
-//console.log(intentionin);
 	idclick = $(intentionin).attr("id");
 	
 	switch(idclick){
@@ -73,15 +72,16 @@ llLogic.prototype.frameworklogic = function(intentionin) {
 	case "datecontext": 
 	// need to check for status of button
 	var datesetstatus = $("#datecontext").data("datestatus");
-//console.log(datesetstatus + 'status');	
 		if(datesetstatus == "on")
 		{
 			$(".dateset").show();
+			$("#datecontext").css('background', 'green');		
 			$("#datecontext").data("datestatus", "off");
 		}
 		else
 		{
 			$(".dateset").hide();
+			$("#datecontext").css('background', 'white');		
 			$("#datecontext").data("datestatus", "on");
 		}
 	break;
@@ -89,15 +89,16 @@ llLogic.prototype.frameworklogic = function(intentionin) {
 	case "socialcontext": 
 	// need to check for status of button
 	var socialstatus = $("#socialcontext").data("socialstatus");
-//console.log(socialstatus + 'status');	
 		if(socialstatus == "on")
 		{
 			$(".social").show();
+			$("#socialcontext").css('background', 'green');		
 			$("#socialcontext").data("socialstatus", "off");
 		}
 		else
 		{
 			$(".social").hide();
+			$("#socialcontext").css('background', 'white');		
 			$("#socialcontext").data("socialstatus", "on");
 		}
 	break;
@@ -105,15 +106,16 @@ llLogic.prototype.frameworklogic = function(intentionin) {
 	case "toolscontext": 
 	// need to check for status of button
 	var toolsstatus = $("#toolscontext").data("toolsstatus");
-//console.log(toolsstatus + 'status');	
 		if(toolsstatus == "on")
 		{
 			$(".tools").show();
+			$("#toolscontext").css('background', 'green');		
 			$("#toolscontext").data("toolsstatus", "off");
 		}
 		else
 		{
 			$(".tools").hide();
+			$("#toolscontext").css('background', 'white');		
 			$("#toolscontext").data("toolsstatus", "on");
 		}
 	break;

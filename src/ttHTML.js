@@ -100,7 +100,7 @@ ttHTML.prototype.viewdataHeader = function(swimmerlist) {
 	
 	var swimids = Object.keys(swimmerlist);
 	swimids.forEach(function(swlist) {
-//console.log(swlist);
+	
 		viewdatahead += '<option value="'+ swlist +'">'+ swimmerlist[swlist] +'</option>';
 	
 	});
@@ -116,8 +116,7 @@ ttHTML.prototype.viewdataHeader = function(swimmerlist) {
 *
 */	
 	ttHTML.prototype.realtimesplitsdiff = function(thisin, spidint) {
-//console.log(thisin);
-//console.log('comin into realtiemsplit HTML function' + spidint)		
+	
 				$splive = '#splits'+spidint;
 				$analysislive = '#analysis'+spidint;
 		
@@ -134,11 +133,9 @@ ttHTML.prototype.viewdataHeader = function(swimmerlist) {
 				lastsplitpers = thisin.sparray[thisin.splitidlive].slice(-1)[0];
 				if(lastsplitpers === undefined)
 				{
-	//console.log('if bein called');				
+		
 					lastsplitpers = splittimelive;
 				}
-//console.log('previous split time');				
-//console.log(lastsplitpers);
 				
 				thisin.sparray[thisin.splitidlive].push(thisin.spid[thisin.splitidlive][1]);
 				// display splits
@@ -150,22 +147,16 @@ ttHTML.prototype.viewdataHeader = function(swimmerlist) {
 				// perform analysis & display
 
 				lastsplitper = thisin.sparray[thisin.splitidlive].slice(-1)[0];
-//console.log('current split time');				
-//console.log(lastsplitper);				
 
 				lastdifftocompare = thisin.spdiffarray[thisin.splitidlive].slice(-1)[0];				
 				if(lastdifftocompare === undefined)
 				{
-//console.log('yes if passed');					
+		
 					lastsplitpers = 0;
 				}
-//console.log('last live diff');
-//console.log(lastdifftocompare);
 
 				thedifflive = splittimelive - lastsplitpers;
-//console.log('now diff');
-//console.log(thedifflive);
-//console.log(thedifflive - lastdifftocompare);				
+		
 				thisin.spdiffarray[thisin.splitidlive].push(thedifflive);
 				if(thedifflive > lastdifftocompare ) {
 						thecolourdiff = 'red'; }
@@ -215,16 +206,11 @@ ttHTML.prototype.viewdataHeader = function(swimmerlist) {
 		// for splits
 
 				if(lastsplitpers === undefined)
-				{
-	//console.log('if bein called');				
+				{		
 					lastsplitpers = stoptimelive;
 				}
-//console.log('previous split time');				
-//console.log(lastsplitpers);
-				//thisin.sparray[thisin.splitidlive].push(thisin.spid[thisin.splitidlive][1]);		
-		
-	//console.log('t2 not equal to zero in stop');
-					var shortsplitreal = thisin.startclock.format(thisin.spid[stoploc][1]).slice(3,11);
+				
+				var shortsplitreal = thisin.startclock.format(thisin.spid[stoploc][1]).slice(3,11);
 				$($splitslive).show();
 				$('<li><span>' + thisin.startclock.zero(thisin.spid[stoploc][2]) + '</span> ' + shortsplitreal + '</li>').appendTo($($splitslive)).slideDown('fast');
 				$($splitslive).find('li').removeClass('first last');
@@ -234,23 +220,16 @@ ttHTML.prototype.viewdataHeader = function(swimmerlist) {
 				thisin.stoppedlist.push(stoploc);
 				thisin.startclock.display();
 				
-								lastsplitper = thisin.sparray[stoploc].slice(-1)[0];
-//console.log('current split time');				
-//console.log(lastsplitper);				
-
-
-					lastdifftocompare = thisin.spdiffarray[stoploc].slice(-1)[0];
+				lastsplitper = thisin.sparray[stoploc].slice(-1)[0];
+				lastdifftocompare = thisin.spdiffarray[stoploc].slice(-1)[0];
+				
 				if(lastdifftocompare === undefined)
 				{
 					lastdifftocompare = stoptimelive;
 				}
-//console.log('last live diff');
-//console.log(lastdifftocompare);
 
 				thedifflive = stoptimelive - lastsplitpers;
-//console.log('now diff');
-//console.log(thedifflive);
-//console.log(thedifflive - lastdifftocompare);				
+		
 				thisin.spdiffarray[stoploc].push(thedifflive);
 				if(thedifflive > lastdifftocompare ) {
 						thecolourdiff = 'red'; }
@@ -265,7 +244,6 @@ ttHTML.prototype.viewdataHeader = function(swimmerlist) {
 					$('<li><span>' + thisin.startclock.zero(thisin.spid[stoploc][2]) + '</span> ' + shortsplitreal + '</li>').appendTo($($analysislive)).css("color", thecolourdiff).slideDown('fast');
 					$($analysislive).find('li').removeClass('first last');
 					$($analysislive).find('li:first').addClass('first').end().find('li:last').addClass('last');
-					//.css("color", thecolourdiff)
 		
 };
 	
@@ -321,17 +299,14 @@ ttHTML.prototype.visualiseme = function(livepouch, swimidin, historicaldata) {
 
 			// do some maths to get difference, if higher colour red, lower colour green
 			// if not first number
-	//console.log('incoming split time' + speratesplit);	
-	//console.log('last splitime if not the first' + lastsplitforcompare);	
 			thesplitdiff = '';
 			thesplitdiff =  speratesplit - lasttimefornextcalc;
-	//console.log('the split diff for this run' + thesplitdiff);			
+	
 			actualsplitdiff = speratesplit - lasttimefornextcalc;
 			if(thesplitdiff > lastsplitforcompare ) {
 			thecolourdiff = 'red'; }
 			else {
-			thecolourdiff = 'green'; }
-	//console.log(thecolourdiff);						
+			thecolourdiff = 'green'; }					
 			// last split to keep
 			lastsplitforcompare = actualsplitdiff;
 			lasttimefornextcalc = speratesplit;
@@ -379,8 +354,7 @@ ttHTML.prototype.visualiseme = function(livepouch, swimidin, historicaldata) {
 			//set data session id for mulit data comparison
 			lastdataid.datasessionid = perswimmersp;
 			lastdataid.splitlasttime = lasttimefornextcalc;	
-	//console.log(lastdataid);
-							
+
 	});  // closes perswimmer data
 };
 
@@ -390,8 +364,7 @@ ttHTML.prototype.visualiseme = function(livepouch, swimidin, historicaldata) {
 *
 */	
 ttHTML.prototype.reatimesplitdisplay = function(counterin, swimidin, realtimedatain) {
-console.log(swimidin);
-console.log(realtimedatain);
+
 	var repcounter = counterin - 1;
 	// setout new divs
 	visualnewdiv = '';
@@ -424,12 +397,11 @@ console.log(realtimedatain);
 		var lasttimelive = this.realtimehold.lasttime;
 					
 		var splitsorder = realtimedatain.session.splittimes.sort(function(a,b){return a-b});	
-console.log(splitsorder);
 		
 			// save the end time for comparison
 			var lengthspiltsdata = splitsorder.length;
 			this.realtimehold.lasttime = splitsorder[lengthspiltsdata-1];
-console.log(this.realtimehold);		
+
 		// itterate over each array split and format
 			splitsorder.forEach(function (speratesplit) {
 
@@ -495,42 +467,30 @@ console.log(this.realtimehold);
 *
 */	
 ttHTML.prototype.visualisechart = function(livepouch, swimidin, historicaldata) {
-//console.log(swimidin);
-//console.log('per data for CHART');	
-//console.log(historicaldata);	
 	
 	// need to form x and y axis data array
 	var d1 = [];
 	var  d22 = [ [0, 3], [4, 8], [8, 5], [9, 44]];
-//console.log(d22);
+
 	var lastdataid = {};
 	var perswimmerdata = {};
 	perswimmersort = {};
 	// give back all data capture locally for now
 	perswimmerdata = Object.keys(historicaldata);
 	perswimmersort = perswimmerdata.sort(function(a,b){return a-b});
-//console.log('the order of time data???order right');
-//console.log(perswimmersort);	
+
 	var repcounter = '';
 	repcounter = 0;
 	
 	perswimmersort.forEach(function(perswimmersp) {
-//console.log('chart analysis');
-//console.log(perswimmersp);		
 		// extract last time from each split object
-//console.log(historicaldata[perswimmersp].splittimes);		
 		lasttimetotal = '';
 		lasttimetotal = historicaldata[perswimmersp].splittimes.pop();
-//console.log(lasttimetotal);		
 		d1[repcounter] = [perswimmersp, (lasttimetotal/1000)];
 		repcounter++;
 	});
-//console.log('new d1 array');
-//console.log(d1);
 	
 				(function basic(container, d1) {
-
-//console.log(container);
 						// Draw Graph
 						graph = Flotr.draw(container, [d1], {
 								xaxis: {
@@ -547,8 +507,6 @@ ttHTML.prototype.visualisechart = function(livepouch, swimidin, historicaldata) 
 								title: 'Current Times'
 						});
 						
-//console.log(graph);		
-		
 				})(document.getElementById(container), d1);
 	
 };
@@ -559,10 +517,7 @@ ttHTML.prototype.visualisechart = function(livepouch, swimidin, historicaldata) 
 *
 */	
 ttHTML.prototype.summaryme = function(livepouch, swimidin, historicaldata) {
-//console.log(swimidin);
-//console.log('per data for SUMMARY');	
-//console.log(historicaldata);	
-	
+
 	totaltimearray = [];
 
 	var repcounter = '';
@@ -570,17 +525,11 @@ ttHTML.prototype.summaryme = function(livepouch, swimidin, historicaldata) {
 	// get data info array and sort from there
 		var perswimmerdata = Object.keys(historicaldata);
 		perswimmerdata.forEach(function(perswimmertime) {
-//console.log(repcounter);			
-//console.log(historicaldata[perswimmertime].splittimes.pop());
 				lasttimein = '';
 			lasttimein = historicaldata[perswimmertime].splittimes.pop();	
-//console.log(lasttimein);			
 			totaltimearray.push(lasttimein);
 			repcounter++;
 		});
-
-//console.log('list of last time array');	
-//console.log(totaltimearray);
 		
 	fasttraining = '';
 	slowtraining = '';
@@ -597,7 +546,6 @@ ttHTML.prototype.summaryme = function(livepouch, swimidin, historicaldata) {
 	slowtraining = slowlist.pop();
 	
 	// work out average
-//console.log('lenghtarray==' + notimesin + 'sumvalueis==' + sumoftimes);
 	avgtraining = sumoftimes/notimesin;
 	
 	summaryhtml = '';
