@@ -573,7 +573,7 @@ var MasterWatch = function() {
 	*/
 	this.reset = function() {
 		// re enable the drag and drop sorting
-$("#sortable1").sortable( "option", "revert", true );//sortable( "option", "disabled", false );	
+$("#sortable1").sortable( "option", "revert", true );
 		
 		// this needs updated to clear all splits for multiple active swimmers
 		
@@ -586,7 +586,7 @@ $("#sortable1").sortable( "option", "revert", true );//sortable( "option", "disa
 		this.display();
 		
 		this.$start.text(this.startText);
-		
+		starttiming.activetimeclock.stoppedlist = []; // reset the list of active swimmers 
 		// resets all the split arrays  (NB if NIL will break TODO)
 		starttiming.activetimeclock.activesplitter.forEach(function(restswimid)
 			{
@@ -705,12 +705,6 @@ $("#sortable1").sortable( "option", "revert", true );//sortable( "option", "disa
 		starttpstatus = $("#touchpadmode").attr("title");
 		if(starttpstatus == 'on')
 		{
-			// setup split time capture arrays
-			this.activeswimmers.forEach(function(livetbswimmers) {	
-				// need to setup split arrays/objects to hold data
-			});
-
-
 			// need to build swimmer/order array
 			this.totalsplitarray = [];
 			notimesperswimmer = this.swimdistance/this.swimsplit;
@@ -777,7 +771,7 @@ $("#sortable1").sortable( "option", "revert", true );//sortable( "option", "disa
 		
 	};
 
-		/**
+	/**
 	*  Master record management back one set element
 	* @method backrecordmanagement
 	*/
@@ -828,6 +822,7 @@ $("#sortable1").sortable( "option", "revert", true );//sortable( "option", "disa
 var PerSwimmer = function() {
 
 	this.startclock = new MasterWatch();
+	this.stoppedlist = [];
 //	this.swimmer = swimid;	
 	
 /*
@@ -876,40 +871,6 @@ var PerSwimmer = function() {
 };	
 
 	/**
-	* the last split ie the per stop button 
-	* @method stop
-	*/
-	this.stop = function(stoploc) {
-// contorl logic, has the main timer been started? If you proceed if not do nothing.		
-	if(this.startclock.t[1] === 0) {
-		// nothing start do nothing.
-	}
-	else
-	{
-			this.t =  this.startclock.t;
-			this.t[this.t[2]] = (+new Date()).valueOf();
-
-	// need to make this stop logic local to this swimmer
-			this.spid[stoploc][0] = 1 - this.spid[this.splitidlive][0];
-			
-				if (this.spid[stoploc][0] === 0)
-				{
-					liveHTML.realtimestop(this, stoploc);
-
-				}
-
-		if(this.stoppedlist.length == (this.startclock.activeswimmers.length)){
-		// stop the main stopwatch
-			clearInterval(this.t[4]);
-		// /reset/clear stoppedlist counter
-			this.stoppedlist = [];
-			}	
-
-		}
-		
-	},
-
-	/**
 	*  Splits and calculations	
 	* @method split
 	*/
@@ -929,11 +890,9 @@ var PerSwimmer = function() {
 			liveHTML.realtimesplitsdiff(this, spidin);
 		}
 
-
 		// if the second last split then change button to say stop for the last
 		stopsplitstatuslast = '';
 		stopsplitstatuslast = (this.startclock.stopsplitstatus - this.spid[spidin][2]);
-//console.log(this.startclock.stopsplitstatus + 'start  and  live ' + this.spid[spidin][2] + 'difference' + stopsplitstatuslast);
 		// if the swim distance is 50m and split is 50m  change split button to also say stop
 		if(stopsplitstatuslast == 1)
 		{
@@ -974,6 +933,8 @@ var PerSwimmer = function() {
 
 
 			// need to stop the master stopwatch if all swimmers have finished
+console.log(this.stoppedlist);
+console.log(this.startclock.activeswimmers);					
 			if(this.stoppedlist.length == (this.startclock.activeswimmers.length)){
 		// stop the main stopwatch
 				clearInterval(this.t[4]);
