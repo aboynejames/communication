@@ -10,7 +10,7 @@ casper.start(baseUrl, function() {
 	casper.test.assertExists('#framework', 'the element exists');
 
 });
-
+/*
 casper.then(function() {
 	this.test.comment('placer for identity information');
 	casper.test.assertExists('.identity', 'the element exists');
@@ -22,7 +22,7 @@ casper.then(function() {
 	casper.test.assertExists('.stream', 'the element exists');
 	
 });
-
+*/
 casper.then(function() {
 	this.test.comment('UI for recording life');
 	casper.test.assertExists('.record', 'the element exists');
@@ -75,7 +75,7 @@ casper.then(function() {
 	casper.test.assertExists('.lifestyle', 'the element exists');
 	
 });
-
+/*
 casper.then(function() {
 	this.test.comment('identity content');
 	casper.test.assertExists('#meflow', 'the element exists');
@@ -87,7 +87,7 @@ casper.then(function() {
 	casper.test.assertExists('#streamflow', 'the element exists');
 	
 });
-
+*/
 casper.then(function() {
 	this.test.comment('record live content');
 	casper.test.assertExists('#recordflow', 'the element exists');
