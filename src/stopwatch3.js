@@ -156,46 +156,6 @@
 					}			
 				break;
 				
-				case "loadlane":
-				
-					setsavedallowed = '';
-					loadname = '';
-					//setsaveallowed = $.cookie("traintimer");
-					loadname = $("#loadlane").attr("title");
-					if(loadname == 'on') {
-						$("#loadlane").attr("title", "off");
-						$("#thelaneoptions").val(-1);
-						$("#theswimmeroptions").val(-1);
-						$("#welcomesummary").hide();
-						$("#loadlaneselect").show();
-						$("#loadswimmers").show();
-						$("#addnewswimmer").show();
-						$("#loadclearswimmers").show();
-						$("#controloptions").show();
-						$(".ui-state-default").css("width", "100%");
-						$("#loadlane").attr('class', 'control-textpressed');
-						
-						$("#startsort").attr("title", "on");
-						$("#viewdata").attr("title", "on");
-						$("#viewdata").attr('class', 'control-text');
-						$("#startsort").attr('class', 'control-text');
-
-					}
-					else
-					{
-					// close the load	
-						$("#loadlaneselect").hide();
-						$("#loadswimmers").hide();
-						$("#addnewswimmer").hide();
-						$("#loadclearswimmers").hide();
-						$("#controloptions").hide();
-						$("#addalpha").hide();
-						$("#addalpha2").hide();
-						$("#loadlane").attr("title", "on");
-						$("#loadlane").attr('class', 'control-text');
-					}
-				break;
-				
 				case "startsort":
 				
 					$("#sortable1").sortable( "option", "disabled", false );	

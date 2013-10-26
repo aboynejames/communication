@@ -94,12 +94,40 @@ llLogic.prototype.frameworklogic = function(intentionin) {
 			$(".social").show();
 			$("#socialcontext").css('background', 'green');		
 			$("#socialcontext").data("socialstatus", "off");
+			
+			$("#thelaneoptions").val(-1);
+			$("#theswimmeroptions").val(-1);
+			$("#welcomesummary").hide();
+			$("#loadlaneselect").show();
+			$("#loadswimmers").show();
+			$("#addnewswimmer").show();
+			$("#loadclearswimmers").show();
+			$("#controloptions").show();
+			$(".ui-state-default").css("width", "100%");
+			$("#loadlane").attr('class', 'control-textpressed');
+			
+			$("#startsort").attr("title", "on");
+			$("#viewdata").attr("title", "on");
+			$("#viewdata").attr('class', 'control-text');
+			$("#startsort").attr('class', 'control-text');
+
 		}
 		else
 		{
 			$(".social").hide();
 			$("#socialcontext").css('background', 'white');		
 			$("#socialcontext").data("socialstatus", "on");
+			
+			$("#loadlaneselect").hide();
+			$("#loadswimmers").hide();
+			$("#addnewswimmer").hide();
+			$("#loadclearswimmers").hide();
+			$("#controloptions").hide();
+			$("#addalpha").hide();
+			$("#addalpha2").hide();
+			$("#loadlane").attr("title", "on");
+			$("#loadlane").attr('class', 'control-text');
+			
 		}
 	break;
 		

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en"> <!--manifest="communication.appcache"--> 
+<html lang="en" > <!--manifest="communication.appcache"--> 
   <head>
 	<meta charset="utf-8">
 	<title>Open Sport Project - self engine</title>
@@ -47,7 +47,7 @@
 			<div class="lifestyle">Swimming</div>
 		</li>
 		<li>
-			<a href="" id="socialcontext" data-socialstatus="on" >Social</a>
+			<a href="" id="socialcontext" data-socialstatus="on" >Swimmers</a>
 		</li>
 		<li>
 			<a href="" id="toolscontext" data-toolsstatus="on" >Tools</a>
@@ -68,7 +68,7 @@
 	<section class="social">
 				<div class="demo">
 				<h2>
-					<a class="control-text" href="#" id="loadlane" title="on" >Swimmers</a><span id="loadlanediv" ></span>
+				<!--<a class="control-text" href="#" id="loadlane" title="on" >Swimmers</a>--><span id="loadlanediv" ></span>
 				</h2> 
 			</div> <!-- closes demo class -->
 <!--<input type="text" id="postOrder" name="postOrder" value="" size="30"><br /></div>-->
@@ -187,37 +187,43 @@
 
 	<div class="recordfeedback"></div>
 
-<div class="liveswimset"></div>
-		<a href="" id="skipelement" >Skip</a> <a href="" id="backelement" >back</a>
-<div id="recordcommunication">
+	<div class="liveswimset"></div>
+	
 
-<div class="recordswimsettingslabel">
-			<label>Split:</label><select class="rightselect" id="swimsplit">
-		<option value="25">25</option>
-		<option value="50">50</option>
-		<option value="100">100</option>
-		<option value="200">200</option>
-		</select>
+	<div id="recordcommunication">
+		<div class="editcount">
+					<a href="" id="skipelement" >Skip</a> <a href="" id="backelement" >back</a>
 		</div>
 		<div class="recordswimsettingslabel">
-		<label>Interval:</label><select class="rightselect" id="swiminterval">
-			<option value="5">5 secs</option>
-			<option value="0">Race</option>
-			<option value="10">10 secs</option>
-			<option value="15">15 secs</option>
-		</select>
+			<label>Split:</label>
+			<select class="poolselect" id="swimsplit">
+				<option value="25">25</option>
+				<option value="50">50</option>
+				<option value="5">5</option>
+				<option value="10">50</option>
+				<option value="100">100</option>
+				<option value="200">200</option>
+			</select>
 		</div>
-<div class="container">
-
-	<div id="masterclock">	
-		<div id="thecontrols">
-			<ul id="controls">
+		<div class="recordswimsettingslabel">
+		<label>Interval:</label>
+			<select class="poolselect" id="swiminterval">
+				<option value="5">5 secs</option>
+				<option value="0">Race</option>
+				<option value="10">10 secs</option>
+				<option value="15">15 secs</option>
+			</select>
+		</div>
+	<div class="container">
+		<div id="masterclock">	
+			<div id="thecontrols">
+				<ul id="controls">
 						<li><a href="#" id="start" title="Stop">Start</a></li>
 						<li><a href="#" id="reset">Reset</a></li>
 						<!--<li><a href="/save" id="save">Save</a></li>-->
 						<li><span id="confirmsave"></span></li>
-			</ul>
-		</div>
+				</ul>
+			</div>
 		<div id="theclock">
 			<h2 id="timer">00:00:00.00</h2>
 			<small id="labels">HOUR<span>MIN</span><span>SEC</span><span>1/100</span></small>
