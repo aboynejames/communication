@@ -25,34 +25,37 @@ var recordQS = function() {
 *
 */	
 recordQS.prototype.recordLogic = function(recordin, detailin) {
-//console.log(recordin + 'from recordQS class');
-//console.log(detailin);
  
-
+	if(detailin ==  "pfdate")
+	{
+		var attentiontypein = detailin;
+		$(".liveswimset").empty();
+		$(".recordfeedback").text('');
+		elementliverecid = 0;
 	
-	if( detailin.attr("id") == "fpdate")
-		{
-			// playback a communication programme
-					// empty the existing live communication
-			$(".liveswimset").empty();
-			$(".recordfeedback").text('');
-			elementliverecid = 0;
-	
-			var commdatein = detailin.data("dcommid");
-			this.recordHTMLset(commdatein);
-		}
-		else if(detailin.attr("id") == "recordme")
+		var commdatein = $( "#datepicker" ).datepicker( "getDate" );
+		var redatemaster = Date.parse(commdatein) + 7200000;		
+		this.recordHTMLset(redatemaster);
+	}
+	else
+	{
+		if(detailin.attr("id") == "recordme")
 		{
 
 			$(".liveswimset").empty();
-			var todaymasterrset = $("#livetime").text();
+			var todaymasterrset = $( "#datepicker" ).datepicker( "getDate" );	
 			var todaymasterr = new Date(todaymasterrset);
-			//$( "#datepicker" ).datepicker( "setDate", todaymasterr);
-			//recorddatelive = $( "#datepicker" ).datepicker( "getDate" );
 
 			redatemaster = Date.parse(todaymasterr) + 7200000;
 			this.recordHTMLset(redatemaster);
 		}
+	
+		else
+		{
+			var attentiontypein = detailin.attr("id"); 
+		}
+	}
+
 };
 		
 /**

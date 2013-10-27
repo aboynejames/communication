@@ -24,18 +24,21 @@ $(document).ready(function(){
 	var month = today.getUTCMonth() + 1;
 	var day = today.getUTCDate();
 	var year = today.getUTCFullYear();
-	// display date live day month year
-	$("#livetime").html(month + '/' + day + '/' + year);
 	
 	// connect to socket.io
   var socketpi = io.connect('http://192.168.1.44:8842');		
 		socketpi.emit('swimmerclient', { swimmerdevice: 'localhitchup' });
 		
-		// datepicker
+		// datepicker 
 	$( "#datepicker" ).datepicker({
 		changeMonth: true,
-		changeYear: true
+		changeYear: true,
+		onSelect: 		function() {
+			liveRecord.recordLogic("pfdate", "pfdate")}
 	});
+
+	$( "#datepicker" ).datepicker( "setDate", today );
+	liveRecord.recordLogic("pfdate", "pfdate");	
 	
 		$("a,#communication,#recordcommunication,#attention").click(function(e) {
 		e.preventDefault(e);

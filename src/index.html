@@ -31,9 +31,6 @@
 <body>
 <header id="framework">
 	<nav>
-		<!--<div class="identity">
-			<a id="me" href="" >me</a></div>-->
-			<!--<div class="stream"><a id="stream" href="" >Stream</a></div>-->
 			<div class="record"><a id="recordme" href="" >Record</a></div>
 			<div class="make"><a id="make" href="" >Make</a></div>
 	</nav>
@@ -41,7 +38,7 @@
 <section id="attention">
 	<nav id="timetext">
 		<li>
-			<div class="time"><time id="livetime" ></time> <a href="" id="datecontext" data-datestatus="on" >Set date</a></div>
+			<div class="time"> <input type="text" id="datepicker" /> <a href="" id="datecontext" data-datestatus="on" >Saved sets</a></div>
 		</li>
 		<li>
 			<div class="lifestyle">Swimming</div>
@@ -58,7 +55,6 @@
 			<!-- placer for forming text context e.g. word cloud, chaining words, selet tweet, blog post or other content to set context-->
 			</section>
 		<section class="dateset">
-			<div id="newdate" >Select date: <input type="text" id="datepicker" /></div>
 			<div id="existingdates">Existing
 				<div class="pastfuturecomm"></div>
 			</div>	
@@ -154,35 +150,9 @@
 
 	<section class="tools">
 		<a class="control-text"  href="/viewsplits" id="viewdata" title="on" >Analysis</a>
-		<a class="control-text" href="#"  id="startsort" title="on" >Edit</a>
+		<a class="control-text" href="#"  id="startsort" title="on" >Edit order</a>
 	</section>
-	
 
-<!--
-<section id="meflow">me</section>
-<section id="streamflow">Example:
-	<div class="activity-stream" >
-		<div id="actor" data-actorid="123456">James Coach</div>
-		<div id="activity" >New swim programme</div>
-		<div id="date">24/08/2013</div>
-	<div>
-	<div class="activity-stream" >
-		<div id="actor" data-actorid="7890">Swimmer Jane</div>
-		<div id="activity" >Completed training</div>
-		<div id="date">25/08/2013</div>
-	<div>
-	<div class="activity-stream" >
-		<div id="actor" data-actorid="7890">SwimNewsBlog</div>
-		<div id="activity" >New breaststroke pull technique</div>
-		<div id="date">26/08/2013</div>
-	<div>		
-	<div class="activity-stream" >
-		<div id="actor" data-actorid="7890">Analysis Engine</div>
-		<div id="activity" >Statistics suggest: more kick in sets</div>
-		<div id="date">27/08/2013</div>
-	<div>	
-
-</section>-->
 <section id="recordflow">
 
 	<div class="recordfeedback"></div>
@@ -194,6 +164,8 @@
 		<div class="editcount">
 					<a href="" id="skipelement" >Skip</a> <a href="" id="backelement" >back</a>
 		</div>
+
+		<div id="pooltrainsettings">
 		<div class="recordswimsettingslabel">
 			<label>Split:</label>
 			<select class="poolselect" id="swimsplit">
@@ -214,6 +186,9 @@
 				<option value="15">15 secs</option>
 			</select>
 		</div>
+		</div>
+	</div>
+	<div style="clear:both"></div>
 	<div class="container">
 		<div id="masterclock">	
 			<div id="thecontrols">
