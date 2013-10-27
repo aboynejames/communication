@@ -218,6 +218,68 @@
 				
 				break;
 					
+
+				case "startremove":
+				
+					editname = $("#startremove").attr("title");
+					if(editname == 'on') {
+						// need to make live all the edit 
+						$(".peredit").show();
+						$(".peranalysis").hide();
+						$("#startremove").attr("title", "off");
+						$("#viewdata").attr("title", "on");
+											
+						$("#analysistype").hide();
+						$(".historicalplace").hide();
+						$(".historicalchart").hide();						
+						$(".historicalsummary").hide();
+						$(".historicalbio").hide();
+						$("#viewdatalive").empty();
+						$("#visualisedata").empty();
+						$(".splitviewrep").remove();
+						$(".splitview").remove();
+						$(".splitviewcompare").remove();
+							$("[class^='peranalysisid']").attr("data-statusanalysis", "on");
+							$("[class^='peranalysisid']").css("color", "#1c94c4");
+							$("[class^='pereditidremove']").attr("data-statusanalysis", "on");
+							$("[class^='perchartid']").attr("data-statusanalysis", "on");
+							$("[class^='perchartid']").css("color", "#1c94c4");
+							$("[class^='persummaryid']").attr("data-statusanalysis", "on");
+							$("[class^='persummaryid']").css("color", "#1c94c4");
+							$("[class^='perbioid']").attr("data-statusanalysis", "on");
+							$("[class^='perbioid']").css("color", "#1c94c4");
+						$(".ui-state-default").css("width", "50%");
+						$("#startremove").attr('class', 'control-textpressed');
+						$("#viewdata").attr('class', 'control-text');
+					}
+					else
+					{
+						$(".peredit").hide();
+							$(".peranalysis").hide();
+							$(".analysislabel").hide();
+							$(".historicalplace").hide();
+							$(".historicalchart").hide();						
+							$(".historicalsummary").hide();
+							$(".historicalbio").hide();
+
+						
+						$("#startremove").attr("title", "on");
+							$("[class^='peranalysisid']").attr("data-statusanalysis", "on");
+							$("[class^='peranalysisid']").css("color", "#1c94c4");
+							$("[class^='pereditidremove']").attr("data-statusanalysis", "on");
+							$("[class^='perchartid']").attr("data-statusanalysis", "on");
+							$("[class^='perchartid']").css("color", "#1c94c4");
+							$("[class^='persummaryid']").attr("data-statusanalysis", "on");
+							$("[class^='persummaryid']").css("color", "#1c94c4");
+							$("[class^='perbioid']").attr("data-statusanalysis", "on");
+							$("[class^='perbioid']").css("color", "#1c94c4");
+						$("#sortable1").sortable( "option", "disabled", true );
+						$(".ui-state-default").css("width", "100%");						
+						$("#startremove").attr('class', 'control-text');
+					}
+				
+				break;					
+					
 				case "viewdata":
 			// needs swimmerids and names
 				$("#analysistype").show();
