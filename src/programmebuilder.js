@@ -525,7 +525,7 @@ $("select#thelaneoptions").change(function () {
 								
 					});
 				presentswimmer += '</form>';
-				
+				$("#addalpha").show();
 				$("#addalpha").html(presentswimmer);					
 				
 					presentclose = '<br /><br /><a href="" id="closealphalist" class="control-text" >Close</a>';
