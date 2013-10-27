@@ -732,7 +732,7 @@ socketpi.on('startnews', function (startnews) {
 		{		
 
 			$("#localpi").text('CONNECTED');
-			setInterval(function() {socketpi.emit('swimmerclient', { swimmerdevice: 'localhitchup' })}, 10000);
+			setInterval(function() {socketpi.emit('swimmerclient', { swimmerdevice: 'localhitchup' })}, 100000);
 		}
 		else
 		{
