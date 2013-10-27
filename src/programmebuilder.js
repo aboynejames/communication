@@ -571,8 +571,8 @@ $("select#thelaneoptions").change(function () {
 */
 	$("#addalphatwo").click(function (e) {
 		e.preventDefault(e);
-		$("#addalpha").empty();
-		$("#addalphatwo").empty();
+		$("#addalpha").hide();
+		$("#addalphatwo").hide();
 		
 	});
 

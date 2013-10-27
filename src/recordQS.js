@@ -25,7 +25,6 @@ var recordQS = function() {
 *
 */	
 recordQS.prototype.recordLogic = function(recordin, detailin) {
- 
 	if(detailin ==  "pfdate")
 	{
 		var attentiontypein = detailin;
@@ -50,9 +49,19 @@ recordQS.prototype.recordLogic = function(recordin, detailin) {
 			this.recordHTMLset(redatemaster);
 		}
 	
+		else if(detailin.attr("id") == "fpdate")
+		{
+			$(".liveswimset").empty();
+			$(".recordfeedback").text('');
+			elementliverecid = 0;
+			var attentiontypein = detailin.attr("id"); 
+			var commdatein = $(detailin).data("dcommid");		
+			var redatemaster = commdatein;		
+			this.recordHTMLset(redatemaster);
+		}
 		else
 		{
-			var attentiontypein = detailin.attr("id"); 
+			
 		}
 	}
 
