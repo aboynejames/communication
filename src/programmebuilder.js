@@ -37,8 +37,9 @@ $(document).ready(function(){
 			liveRecord.recordLogic("pfdate", "pfdate")}
 	});
 
-	$( "#datepicker" ).datepicker( "setDate", today );
-	liveRecord.recordLogic("pfdate", "pfdate");	
+	$("#datepicker" ).datepicker( "setDate", today );
+	$('#ui-datepicker-div').css('display','none');
+	liveRecord.recordLogic("pfdate", "pfdate");		
 	
 		$("a,#communication,#recordcommunication,#attention").click(function(e) {
 		e.preventDefault(e);
@@ -761,6 +762,6 @@ console.log('local server is offline');
 
 
 currentsetset = 'int-' + $("#swiminterval").val() + 'sec ' + $("#swimstyle").val() + ' ' + $("#swimstroke").val() + ' ' + $("#swimtechnique").val() + ' ' + $("#swimdistance").val() + ' ' + $("#swimsplit").val();
-$("#liveswimset").text('live: ' + currentsetset);				
+$("#liveswimset").text('live: ' + currentsetset);		
 
 });
