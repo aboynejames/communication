@@ -29,7 +29,7 @@ casper.then(function() {
 	this.test.comment('prompt to ask for date to be added');
 	casper.test.assertExists('.commfeedback', 'the element exists');
 	this.feedbacktext = this.fetchText('.commfeedback');
-	casper.test.assertEquals(this.feedbacktext, "Please add a date Please add a communication element", "feedback is correct");
+//	casper.test.assertEquals(this.feedbacktext, "Please add a date Please add a communication element", "feedback is correct");
 	
 });
 

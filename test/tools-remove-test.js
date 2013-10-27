@@ -3,7 +3,7 @@
 */
 var baseUrl = "http://localhost/ll/opensportproject/swimtraintimer/communication/src/index.html";
 
-casper.test.comment("Scenario: select the tools menu to edit order of the swimmers");
+casper.test.comment("Scenario: select the tools menu to remove a swimmer from the active list");
 
 casper.start(baseUrl, function() {
 	this.test.comment('ensure the tools menu button exists');
@@ -18,14 +18,14 @@ casper.then(function() {
 });
 
 casper.then(function() {
-	this.test.comment('check the sub tools edit order option is live');
-	casper.test.assertExist('#startsort', 'element exists');
+	this.test.comment('check the sub tools remove button is live');
+	casper.test.assertExist('#startremove', 'element exists');
 	
 });
 
 casper.then(function() {
-	this.test.comment('click on the edit order button');
-	this.mouseEvent('click', '#startsort');
+	this.test.comment('click on the re move order button');
+	this.mouseEvent('click', '#startremove');
 	
 });
 
