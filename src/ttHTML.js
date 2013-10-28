@@ -51,7 +51,7 @@ ttHTML.prototype.fromswimmers = function(swname, swid) {
 	swimstarters += '</div>';
 
 	swimstarters += '<div class="peredit">';
-	swimstarters += '<form class="biostats-form" id="' + swid + '" ><label>HR</label><input id="hrin' + swid + '" type="number" title="heartrate"  size="4" /><label>SC</label><input id="scin' + swid + '" type="number" title="strokecount"  size="4" /><label>Lane</label><input id="lanein' + swid + '" type="number" title="changelane"  size="4" /></form>';
+	swimstarters += '<form class="biostats-form" id="' + swid + '" ><label>HR</label><input id="hrin' + swid + '" type="number" title="heartrate"  size="4" /><label>SC</label><input id="scin' + swid + '" type="number" title="strokecount"  size="4" /><label>Group</label><input id="lanein' + swid + '" type="number" title="changelane"  size="4" /></form>';
 	
 	swimstarters +=	'<div class="perdetails" >';
 	swimstarters += '<a href="" id="pereditidremove" title="' + swid + '" class="pereditidremove'+ swid + '">Remove</a>';

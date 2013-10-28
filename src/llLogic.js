@@ -107,10 +107,11 @@ llLogic.prototype.frameworklogic = function(intentionin) {
 			$("#loadlane").attr('class', 'control-textpressed');
 			
 			$("#startsort").attr("title", "on");
+			$("#startremove").attr("title", "on");
 			$("#viewdata").attr("title", "on");
 			$("#viewdata").attr('class', 'control-text');
 			$("#startsort").attr('class', 'control-text');
-
+			$("#startremove").attr('class', 'control-text');
 		}
 		else
 		{

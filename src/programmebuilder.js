@@ -398,6 +398,10 @@ success: function( resultback ){
 				$("#startsort").attr("title", "on");
 				$("#loadlane").attr("title", "on");
 				$("#loadlane").attr("class", "control-text");
+				
+				$(".social").hide();
+				$("#socialcontext").css('background', 'white');		
+				$("#socialcontext").data("socialstatus", "on");		
 
 				}
 				else
@@ -449,6 +453,10 @@ $("select#thelaneoptions").change(function () {
 						});
 
 				$("#sortable1").html(presentswimmer);	
+				$(".social").hide();
+				$("#socialcontext").css('background', 'white');		
+				$("#socialcontext").data("socialstatus", "on");		
+						
 				$(".peredit").hide();
 				$(".peranalysis").hide();
 				$(".historicalplace").hide();
@@ -590,6 +598,9 @@ $("select#thelaneoptions").change(function () {
 			$("#loadclearswimmers").hide();
 			$("#loadlane").attr("title", "on");
 			$("#loadlane").attr('class', 'control-text');
+				$(".social").hide();
+				$("#socialcontext").css('background', 'white');		
+				$("#socialcontext").data("socialstatus", "on");		
 
 	});	
 	
