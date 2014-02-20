@@ -36,11 +36,28 @@ recordQS.prototype.recordLogic = function(recordin, detailin) {
 		var redatemaster = Date.parse(commdatein) + 7200000;		
 		this.recordHTMLset(redatemaster);
 	}
+	else if ($(detailin).attr("id") ==  "liveswimelementstart")
+	{
+		$(".recordcount").remove();
+		$('<div class="recordcount" >1</div>').appendTo("#livedate" + $(detailin).data("recordid"));
+		// which elemement number is live?
+		var settotalelementrec = $(".liveswimelement");
+		var settotalelementreclength = $(".liveswimelement").length;
+		//find which element is live
+		for (var i=0; i<settotalelementreclength; i++)
+		{		
+			if( $(settotalelementrec[i]).data("recordid") == $(detailin).data("recordid"))
+			{
+				elementliverecid = i;				
+			}
+			
+		}
+		
+	}
 	else
 	{
 		if(detailin.attr("id") == "recordme")
 		{
-
 			$(".liveswimset").empty();
 			var todaymasterrset = $( "#datepicker" ).datepicker( "getDate" );	
 			var todaymasterr = new Date(todaymasterrset);
@@ -83,20 +100,24 @@ recordQS.prototype.recordHTMLset = function(commdatein) {
 				presentcommunication = '';
 
 				rtmap.rows.forEach(function(rowcomm){
-//console.log(rowcomm.key + 'the key date');
-//console.log(commdatein + 'clicke date');							
+						
 					if(rowcomm.key == commdatein)
 					{
 						// get the index keys of the object
 						var setgroupcomm = Object.keys(rowcomm.value[1]);
 						
 						setgroupcomm.forEach(function(seteldata) {
-//console.log('start of interation of setgruop elements');
-//console.log(seteldata);									
+					
 						// get the communication data and display programme
 						presentcommunication += 1;
-					
-							$(".liveswimset").append('<div class="liveswimelement" id="livedate' + seteldata + '" data-recordid="' + seteldata + '"><div id="swimrepetition" class="recordlive" >' + rowcomm.value[1][seteldata].commrepetition + '</div> ' + '<div id="swimtype">' + rowcomm.value[1][seteldata].commtype + '</div> <div id="swimstroke">' + rowcomm.value[1][seteldata].commstroke + '</div> <div id="swimdistance">' + rowcomm.value[1][seteldata].commdistance + '</div> <div id="swimtechnique">' + rowcomm.value[1][seteldata].commtechnique + '</div></div>' );
+						if( typeof rowcomm.value[1][seteldata].commrepetition === "undefined")
+						{
+						}
+						else
+						{					
+								$(".liveswimset").append('<div class="liveswimelement" id="livedate' + seteldata + '" data-recordid="' + seteldata + '"><div class="liveselect" id="" data-recordid="' + seteldata + '"><a href="" id="liveswimelementstart" data-recordid="' + seteldata + '" >##</a></div><div id="swimrepetition" class="recordlive" >' + rowcomm.value[1][seteldata].commrepetition + '</div> ' + '<div id="swimtype">' + rowcomm.value[1][seteldata].commtype + '</div> <div id="swimstroke">' + rowcomm.value[1][seteldata].commstroke + '</div> <div id="swimdistance">' + rowcomm.value[1][seteldata].commdistance + '</div> <div id="swimtechnique">' + rowcomm.value[1][seteldata].commtechnique + '</div></div>' );
+							}
+								
 						});
 								
 					}

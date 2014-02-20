@@ -133,7 +133,6 @@ ttHTML.prototype.viewdataHeader = function(swimmerlist) {
 				lastsplitpers = thisin.sparray[thisin.splitidlive].slice(-1)[0];
 				if(lastsplitpers === undefined)
 				{
-		
 					lastsplitpers = splittimelive;
 				}
 				
@@ -525,7 +524,7 @@ ttHTML.prototype.summaryme = function(livepouch, swimidin, historicaldata) {
 	// get data info array and sort from there
 		var perswimmerdata = Object.keys(historicaldata);
 		perswimmerdata.forEach(function(perswimmertime) {
-				lasttimein = '';
+			lasttimein = '';
 			lasttimein = historicaldata[perswimmertime].splittimes.pop();	
 			totaltimearray.push(lasttimein);
 			repcounter++;

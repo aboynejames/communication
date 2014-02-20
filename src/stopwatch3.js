@@ -18,6 +18,11 @@
  function SwimtimeController () {
 //console.log('the swimmer controller');	 
 	this.activetimeclock = new PerSwimmer();
+
+	this.setsocket = function(socketlive) {
+		
+		this.classSocket = socketlive;
+	};
 	 
 // need to set id of the swimmer thats split or stop has been click on the UI
 	this.identifyswimmer = function(swimtitle, clickid) {
@@ -942,21 +947,26 @@ var PerSwimmer = function() {
 				swimdatastatus.swimtechnique = swimtechnique;
 				swimdatastatus.swimdistance = swimdistance;
 				swimdatastatus.swimsplit = swimsplit;
-			// save to localpouchdb need to prepare buld array json structure
+			// save to localpouchdb need to prepare buld array json structure 
 				newjsonswim = {};								
 				newjsonswim.swimmerid = '';
+				newjsonswim.swimmername = '';					
 				newjsonswim.session = {};
 				newjsonswim.swimmerid = spidin;
+				newjsonswim.swimmername = liveLogic.nameholder[spidin];					
 				newjsonswim.session.sessionid = datesplitnumber;	
 				newjsonswim.session.swiminfo = swimdatastatus;	
-				newjsonswim.session.splittimes	= this.sparray[spidin];
+				newjsonswim.session.splittimes = this.sparray[spidin];
 
 				livepouch.singleSave(newjsonswim);
+					
+				// emitt socket back to pi server
+				starttiming.classSocket.emit('contextMixer', newjsonswim);
+				// emitt identity timing event trigger
+				starttiming.classSocket.emit('checkSplitID', newjsonswim);			
 
 
-			// need to stop the master stopwatch if all swimmers have finished
-console.log(this.stoppedlist);
-console.log(this.startclock.activeswimmers);					
+			// need to stop the master stopwatch if all swimmers have finished			
 			if(this.stoppedlist.length == (this.startclock.activeswimmers.length)){
 		// stop the main stopwatch
 				clearInterval(this.t[4]);

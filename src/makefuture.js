@@ -228,7 +228,7 @@ makeProgramme.prototype.makeLogic = function(madeactionin, targetin) {
 				{
 					// collect the date
 					datein = $( "#datepicker" ).datepicker( "getDate" );	
-console.log(datein);					
+//console.log(datein);					
 					// get a list of the unique ids and loop through to extract information
 					var smi = $(".communicationelement");
 					var smic = $(".communicationelement").children();

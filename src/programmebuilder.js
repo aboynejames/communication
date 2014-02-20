@@ -6,9 +6,9 @@ $(document).ready(function(){
 	
 	$("#setsettings").hide();
 	$("#canvasDiv").hide();
-		// create pouchdb object
-		livepouch = new pouchdbSettings();	
-// delete local pouchdb database		
+	// create pouchdb object
+	livepouch = new pouchdbSettings();	
+	// delete local pouchdb database		
 	//livepouch.deletePouch();
 	livellHTML = new llHTML();
 	liveLogic = new llLogic();
@@ -26,8 +26,12 @@ $(document).ready(function(){
 	var year = today.getUTCFullYear();
 	
 	// connect to socket.io
-  var socketpi = io.connect('http://192.168.1.44:8842');		
-		socketpi.emit('swimmerclient', { swimmerdevice: 'localhitchup' });
+	var socketpi = io.connect('http://192.168.1.44:8881');
+	//var socketpi = io.connect('http://localhost:8881');	
+	// make socket available to timing classes
+	starttiming.setsocket(socketpi);	
+	
+	socketpi.emit('swimmerclient', { swimmerdevice: 'localhitchup' });
 		
 		// datepicker 
 	$( "#datepicker" ).datepicker({
@@ -41,7 +45,7 @@ $(document).ready(function(){
 	$('#ui-datepicker-div').css('display','none');
 	liveRecord.recordLogic("pfdate", "pfdate");		
 	
-		$("a,#communication,#recordcommunication,#attention").click(function(e) {
+		$("a,#communication,#recordcommunication,#attention,.liveswimset").click(function(e) {
 		e.preventDefault(e);
 //console.log(this);	
 //console.log(e.target);
@@ -292,7 +296,7 @@ success: function( resultback ){
 						buildsyncsplits.swimmerid =rowsswimsplit.doc.swimmerid;
 						syncdataforsave =  JSON.stringify(buildsyncsplits);
 						$.post("http://www.mepath.co.uk:8833/sync/", syncdataforsave ,function(result){
-					// put a message back to UI to tell of a successful sync
+						// put a message back to UI to tell of a successful sync
 						
 						$("#syncbackup").html('finished');	
 						livepouch.deleteDoc(rowsswimsplit.doc._id);	
@@ -379,7 +383,8 @@ success: function( resultback ){
 				$("#newmaster").hide();
 // add html code for new swimmer added
 					newswimcode = '';		
-					newswimcode = liveHTML.fromswimmers(newmastnameis, newmastidis);			
+					newswimcode = liveHTML.fromswimmers(newmastnameis, newmastidis);
+					liveLogic.setNameID(newmastnameis, newmastidis);	
 							
 				$("#sortable1").append(newswimcode);
 				$("#saveconfirmswimmer").text('new master added');
@@ -448,7 +453,7 @@ $("select#thelaneoptions").change(function () {
 							{
 								//pass the lane data to get html ready
 								presentswimmer += liveHTML.fromswimmers(rowswimrs.value[1], rowswimrs.value[0]);
-							
+								liveLogic.setNameID(rowswimrs.value[1], rowswimrs.value[0]);
 								}
 						});
 
@@ -516,7 +521,8 @@ $("select#thelaneoptions").change(function () {
 						livepouch.mapQueryname(selectedswimmernow, callback);
 					}  
       
-					localDatacall(selectedswimmernow, function(rtmap) {  
+					localDatacall(selectedswimmernow, function(rtmap) 
+					{  
 
 						presentswimmer = '';
 						presentswimmer = '<form id="alphaswimmeradd" class="menu-text" action="#" method="post">';					
@@ -539,7 +545,7 @@ $("select#thelaneoptions").change(function () {
 					presentclose = '<br /><br /><a href="" id="closealphalist" class="control-text" >Close</a>';
 					$("#addalphatwo").html(presentclose);
 
-    });  
+				});  
 							
 				// make post request to get swimmer for this lane and dispaly
 				$("#loadlaneselect").hide();
@@ -561,6 +567,7 @@ $("select#thelaneoptions").change(function () {
 		swimidalpha = $tgt.attr("id");
 		// prepare list box  select and append HTML
 		presentswimmeralpha = liveHTML.fromswimmers(swimnamealpha, swimidalpha);
+		liveLogic.setNameID(swimnamealpha, swimidalpha);
 
 		$("#sortable1").append(presentswimmeralpha);
 	
@@ -661,47 +668,47 @@ $("select#thelaneoptions").change(function () {
 		}
 	});
 	
-/*
-* Touchpad listening socket
-*/
- // when you get a serialdata event, do this:
-socketpi.on('serialEvent', function (data) {
-	serialin = JSON.parse(data);
-	inser = Object.keys(serialin);
-	inser.forEach(function(thein) {
-	textaction = thein;
-	timein = serialin[thein];
+	/*
+	* Touchpad listening socket
+	*/
+	 // when you get a serialdata event, do this:
+	socketpi.on('stopwatchEvent', function (data) {
+console.log(data);	
+		serialin = JSON.parse(data.value);
+		inser = Object.keys(serialin);
+		inser.forEach(function(thein) {
+		textaction = thein;
+		timein = serialin[thein];
 
-});
+	});
 
+	// whatever the 'value' property of the received data is:
+		if(data.value == 1)
+		{
+			// call the split function
+			starttiming.activetimeclock.splitswimmerid(starttiming.activetimeclock.startclock.totalsplitarray[starttiming.activetimeclock.startclock.itp]);
+			starttiming.activetimeclock.split(starttiming.activetimeclock.startclock.totalsplitarray[starttiming.activetimeclock.startclock.itp]);
+			starttiming.activetimeclock.startclock.itp++;
 
-// whatever the 'value' property of the received data is:
-        if(data.value == 1)
-        {
-                // call the split function
-                starttiming.activetimeclock.splitswimmerid(starttiming.activetimeclock.startclock.totalsplitarray[starttiming.activetimeclock.startclock.itp]);
-                starttiming.activetimeclock.split(starttiming.activetimeclock.startclock.totalsplitarray[starttiming.activetimeclock.startclock.itp]);
-                starttiming.activetimeclock.startclock.itp++;
+		}
+		else if(textaction == 'lap')
+		{
+			starttiming.activetimeclock.splitswimmerid(starttiming.activetimeclock.startclock.totalsplitarray[starttiming.activetimeclock.startclock.itp]);
+			starttiming.activetimeclock.split(starttiming.activetimeclock.startclock.totalsplitarray[starttiming.activetimeclock.startclock.itp]);
+			starttiming.activetimeclock.startclock.itp++;
+		}
 
-        }
-        else if(textaction == 'lap')
-        {
-                starttiming.activetimeclock.splitswimmerid(starttiming.activetimeclock.startclock.totalsplitarray[starttiming.activetimeclock.startclock.itp]);
-                starttiming.activetimeclock.split(starttiming.activetimeclock.startclock.totalsplitarray[starttiming.activetimeclock.startclock.itp]);
-                starttiming.activetimeclock.startclock.itp++;
-        }
+		else if(textaction == "Start")
+		{
+			starttiming.activetimeclock.startclock.startStop();
 
-        else if(textaction == "Start")
-        {
-                starttiming.activetimeclock.startclock.startStop();
+		}
+		else if (textaction == 'Reset')
+		{
+			starttiming.activetimeclock.startclock.reset();
+		}
 
-        }
-        else if (textaction == 'Reset')
-        {
-                starttiming.activetimeclock.startclock.reset();
-        }
-
-});
+	});
 
 
 // listen to server for DUP call over local network data.
@@ -735,27 +742,49 @@ socketpi.on('DUPinfo', function (dataDUP) {
 	
 	socketpi.emit('swimmerclientstart', { swimmerdevice: 'localhitchupstart' });
 
-	
-
-
-socketpi.on('startnews', function (startnews) {
+	socketpi.on('startnews', function (startnews) {
 	// whatis status of local connection
 		if( startnews == 'localpi')
 		{		
 
 			$("#localpi").text('CONNECTED');
-			setInterval(function() {socketpi.emit('swimmerclient', { swimmerdevice: 'localhitchup' })}, 100000);
+			//setInterval(function() {socketpi.emit('swimmerclient', { swimmerdevice: 'localhitchup' })}, 100000);
 		}
 		else
 		{
 		// off local pi network
-console.log('local server is offline');
+//console.log('local server is offline');
 		$("#localpi").text('DIS--CONNECTED');
 			
 		}
 	
 	});
 
+	socketpi.on('startSwimmers', function (startSwimmerID) {
+		// produce starting swimmers
+		var startswimmers = '';
+		startSwimmerID.forEach(function(idswimmer){
+
+			//pass the lane data to get html ready
+			startswimmers += liveHTML.fromswimmers(idswimmer, idswimmer);
+			
+		});
+		$("#sortable1").html(startswimmers);
+		$(".social").hide();
+		$("#socialcontext").css('background', 'white');		
+		$("#socialcontext").data("socialstatus", "on");		
+				
+		$(".peredit").hide();
+		$(".peranalysis").hide();
+		$(".historicalplace").hide();
+		$(".historicalchart").hide();
+		$(".historicalsummary").hide();
+		$(".historicalbio").hide();						
+		$("#analysistype").hide();
+		$("#viewdata").attr("title", "on");
+			
+	});	
+	
 
 	socketpi.on('repeatnews', function (startnews) {
 	// whatis status of local connection

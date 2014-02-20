@@ -11,7 +11,8 @@
 */
 var llLogic = function() {
 	this.status = 'default';
-	//this.llHTMLcode = new llLogic();
+	this.nameholder = {};
+
 };
 
 /**
@@ -161,3 +162,13 @@ llLogic.prototype.frameworklogic = function(intentionin) {
 		
 };
 
+/**
+* Set the ids and names of swimmers live
+* @method setNameID		
+*
+*/	
+llLogic.prototype.setNameID = function(namein, idin) {
+		
+	this.nameholder[idin] = namein;
+	
+};

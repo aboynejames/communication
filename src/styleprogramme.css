@@ -354,12 +354,13 @@ nav {
 	float:right;
 }
 
-#newelements {
+#newelement  {
 	display:block;
 	text-align:left;
-	margin-top: 30px;
+	margin-top: 20px;
 	margin-left: 20px;
-	width:200px;	
+	width:200px;
+	height:30px;
 	background-color: #68b12f;
 	background: -webkit-gradient(linear, left top, left bottom, from(#68b12f), to(#50911e));
 	background: -webkit-linear-gradient(top, #68b12f, #50911e);
@@ -380,8 +381,9 @@ nav {
 	-ms-box-shadow: 0 1px 0 0 #9fd574 inset;
 	-o-box-shadow: 0 1px 0 0 #9fd574 inset;
 	color: white;
+	font-size:1.5em;
 	font-weight: bold;
-	padding: 6px 20px;
+	padding: 10px 20px;
 	text-shadow: 0 -1px 0 #396715;
 }
 
@@ -594,7 +596,7 @@ label {
 }
 
 .liveswimelement {
-	margin:12px;
+	margin:20px;
 	border:0px solid blue;
 	font-size:1.8em;
 	clear:both;
@@ -606,11 +608,20 @@ label {
 	font-size:1.0em;
 }
 
+.liveselect {
+	display:inline;
+	border:1px solid green;
+	background: #F6F6F6;
+	font-size:1.0em;
+	margin-right:10px;
+
+}
+
 .recordcount {
 	display:inline;
 	border:1px solid blue;
 	background: #F6F6F6;
-	font-size:2em;
+	font-size:1.8em;
 }
 
 
