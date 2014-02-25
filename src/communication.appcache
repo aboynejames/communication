@@ -1,5 +1,5 @@
 CACHE MANIFEST
-# v0.1.52 2014-02-14
+# v0.1.54 2014-02-25
 # This is another comment
 dragdrop3.css
 stopwatch3.css
@@ -13,6 +13,7 @@ ttHTML.js
 socket.io.js
 stopwatch3.js
 programmebuilder.js
+serverclock.js
 index.html
 pouchdb.alpha.js
 pouchdb.js

@@ -13,6 +13,7 @@ $(document).ready(function(){
 	livellHTML = new llHTML();
 	liveLogic = new llLogic();
 	liveMake = new makeProgramme();
+	liveServerclock = new serverClock();
 	liveRecord = new recordQS();
 	liveHTML = new ttHTML();	
 	elementliverecid = 0;
@@ -72,7 +73,7 @@ $(document).ready(function(){
       
 		localCommcall('133', function(rtmap) {  
 
-		var livecommcode =liveHTML.livecommunicationset(rtmap.rows);
+		var livecommcode = liveHTML.livecommunicationset(rtmap.rows);
 			
 		$(".pastfuturecomm").html(livecommcode);	
 			
@@ -668,6 +669,49 @@ $("select#thelaneoptions").change(function () {
 		}
 	});
 	
+	
+	/*
+	*  Listens for live bluetooth tags and display on start or refresh button on UI
+	*/
+	socketpi.on('startSwimmers', function (startSwimmerID) {
+		// produce starting swimmers
+		var startswimmers = '';
+		startSwimmerID.forEach(function(idswimmer){
+//console.log(idswimmer);			
+			if(idswimmer != '9059af0b879c' &&  idswimmer != '9059af0b86e2' &&  idswimmer != '9059af0b8744' )
+			{
+			//pass the lane data to get html ready
+				startswimmers += liveHTML.fromswimmers(idswimmer, idswimmer);
+			}
+		});
+		$("#sortable1").html(startswimmers);
+		$(".social").hide();
+		$("#socialcontext").css('background', 'white');		
+		$("#socialcontext").data("socialstatus", "on");		
+				
+		$(".peredit").hide();
+		$(".peranalysis").hide();
+		$(".historicalplace").hide();
+		$(".historicalchart").hide();
+		$(".historicalsummary").hide();
+		$(".historicalbio").hide();						
+		$("#analysistype").hide();
+		$("#viewdata").attr("title", "on");
+			
+	});	
+		
+	
+	/*
+	*  Event based stopwatch times coming from the SERVER
+	*/
+	socketpi.on('startEventout', function (tEventin) {
+//console.log(JSON.parse(tEventin));
+		//liveServerclock.startClock(tEventin);
+		liveServerclock.IDtimeController(tEventin);		
+	
+	});
+	
+	
 	/*
 	* Touchpad listening socket
 	*/
@@ -760,31 +804,6 @@ socketpi.on('DUPinfo', function (dataDUP) {
 	
 	});
 
-	socketpi.on('startSwimmers', function (startSwimmerID) {
-		// produce starting swimmers
-		var startswimmers = '';
-		startSwimmerID.forEach(function(idswimmer){
-
-			//pass the lane data to get html ready
-			startswimmers += liveHTML.fromswimmers(idswimmer, idswimmer);
-			
-		});
-		$("#sortable1").html(startswimmers);
-		$(".social").hide();
-		$("#socialcontext").css('background', 'white');		
-		$("#socialcontext").data("socialstatus", "on");		
-				
-		$(".peredit").hide();
-		$(".peranalysis").hide();
-		$(".historicalplace").hide();
-		$(".historicalchart").hide();
-		$(".historicalsummary").hide();
-		$(".historicalbio").hide();						
-		$("#analysistype").hide();
-		$("#viewdata").attr("title", "on");
-			
-	});	
-	
 
 	socketpi.on('repeatnews', function (startnews) {
 	// whatis status of local connection

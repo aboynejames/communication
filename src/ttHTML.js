@@ -173,6 +173,50 @@ ttHTML.prototype.viewdataHeader = function(swimmerlist) {
 };
 
 /**
+* ServerClock version Display of splilt and diffence color coded
+* @method displaySeverClockdata
+*
+*/	
+ttHTML.prototype.displaySeverClockdata = function(spidint, timedata) {
+
+	$splive = '#splits'+spidint;
+	$analysislive = '#analysis'+spidint;
+
+	// display splits
+	var shortsplitreal = liveHTML.formatTime(timedata['accumtime']);
+	$($splive).show();
+	$('<li><span>' + starttiming.activetimeclock.startclock.zero(timedata['splitno']) + '</span> ' + shortsplitreal + '</li>').appendTo($($splive)).slideDown('fast');
+	$($splive).find('li').removeClass('first last');
+	$($splive).find('li:first').addClass('first').end().find('li:last').addClass('last');
+	// perform analysis & display
+
+		
+	shortsplitreal = liveHTML.formatTime(timedata['splitdifftime']);
+	$($analysislive).show();
+	$('<li><span>' + starttiming.activetimeclock.startclock.zero(timedata['splitno']) + '</span> ' + shortsplitreal + '</li>').appendTo($($analysislive)).css("color", timedata['colortime']).slideDown('fast');
+	$($analysislive).find('li').removeClass('first last');
+	$($analysislive).find('li:first').addClass('first').end().find('li:last').addClass('last');
+	//.css("color", thecolourdiff)
+						
+
+};
+
+/**
+* Clear the display for this swimmer
+* @method clearIDdisplay
+*
+*/	
+ttHTML.prototype.clearIDdisplay = function(spidint) {
+
+	$splive = '#splits'+spidint;
+	$analysislive = '#analysis'+spidint;
+
+	$($splive).empty();
+	$($analysislive).empty();
+	
+};
+	
+/**
 * Display of splilt and diffence color coded FROM STOP BUTTON
 * @method realtimestop		
 *
@@ -458,6 +502,25 @@ ttHTML.prototype.reatimesplitdisplay = function(counterin, swimidin, realtimedat
 			
 
 };
+
+/**
+* format a digital number string to time format presentation
+* @method formatTime
+*/
+ttHTML.prototype.formatTime = function(ms) {
+
+	function leading0(number){ return number < 10 ? "0" : "";}
+
+	var hundredths = ms;
+	mins = parseInt((hundredths / 1000) / 60);
+	secs = parseInt((hundredths / 1000) % 60);
+	huns = parseInt(hundredths % 1000);
+	
+	output = leading0(mins) + mins + ":" + leading0(secs) + secs + "." + leading0(huns) + huns;
+	
+	return output;
+};	
+
 
 
 /**

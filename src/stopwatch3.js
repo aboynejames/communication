@@ -651,7 +651,7 @@ $("#sortable1").sortable( "option", "revert", true );
 	this.displaymaster = function() {
 		
 		this.delaymaster = starttiming.activetimeclock.startclock.t;
-		
+//console.log(this.delaymaster);		
 		if (this.delaymaster[2]) {
 			this.delaymaster[1] = (new Date()).valueOf();
 		}
@@ -672,7 +672,7 @@ $("#sortable1").sortable( "option", "revert", true );
 	this.startStop = function() {
 
 		this.itp = 0;  // clear touchpad counter
-
+//console.log(this.t);
 	// set starting time
 			this.t[this.t[2]] = (+new Date()).valueOf();
 
@@ -704,8 +704,8 @@ $("#sortable1").sortable( "option", "revert", true );
 		this.swiminterval = $("#swiminterval").val();
 
 		this.swimdistance = '';
-			formidentifer = '#livedate' + this.liverecordelement;
-			this.swimdistance = $(formidentifer).children("#swimdistance").text();
+		formidentifer = '#livedate' + this.liverecordelement;
+		this.swimdistance = $(formidentifer).children("#swimdistance").text();
 		this.swimsplit = '';
 		this.swimsplit = $("#swimsplit").val();
 		this.stopsplitstatus = (this.swimdistance/this.swimsplit);
@@ -856,30 +856,30 @@ var PerSwimmer = function() {
 * need to identify swimmer split or stop that has been clicked on the UI
 */	
 	this.splitswimmerid = function(splitid) {
-	this.splitidlive = splitid;			
+		this.splitidlive = splitid;			
 
 // keep track of the live split swimmers that are active
-			if(!this.activesplitter)
-			{
+		if(!this.activesplitter)
+		{
 			this.activesplitter = [];
-			}
+		}
 // keep track of how many times the stop button has been click
-			if(!this.stoppedlist)
-			{
+		if(!this.stoppedlist)
+		{
 			this.stoppedlist = [];
-			}
+		}
 			
-			if(!this.activesplitter[this.splitidlive]){
-				this.activesplitter.push(this.splitidlive);
-			}
+		if(!this.activesplitter[this.splitidlive]){
+			this.activesplitter.push(this.splitidlive);
+		}
 			
 // need to defin array for all local split stop times array
-			if(!this.spid)
-			{
+		if(!this.spid)
+		{
 			this.spid = {};	
 			this.sparray = {};	
 			this.spdiffarray = {};
-			}
+		}
 			
 // if an individual swimmer id array has not been set set it
 		if(!this.spid[this.splitidlive]){					
