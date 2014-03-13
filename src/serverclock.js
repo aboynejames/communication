@@ -1,5 +1,5 @@
 /**
-* Train Timer
+* Communication contex mixer
 *
 * Server clock  timing on the server
 * @class serverClock
@@ -18,6 +18,21 @@ var serverClock = function() {
 	this.spliteventcounter = 0;
 	this.starteventcounter = 1;	
 	this.elementHolder = {};
+		
+	/*
+	 * inner structure inherieted from serverClock object 
+	 * I found this code on a few sites and am unsure of the original author.
+	 * If you know please inform me so I can credit them here.
+	 *
+	 * 0 = start time
+	 * 1 = accumulative time / end time
+	 * 2 = state (stopped or counting)
+	 * 3 = total elapsed time in ms
+	 * 4 = spit time / timer (interval object)
+	 * 5 = epoch (January 1, 1970)
+	 * 6 = element (not used here, normally stores the DOM element to update with the time)
+	 * 7 = split count
+	 */
 };
 
 /**
@@ -128,7 +143,10 @@ serverClock.prototype.IDtimeController = function(eventdataIN) {
 		liveHTML.clearIDdisplay(IDin[0]);
 		
 		// save the previous element and broadcastout via pi
-		
+		this.saveLocal(IDin[0]);
+		// TODO  need to localise to per ID
+		this.recordmanagement();
+		liveLogic.setNameID(IDin[0], IDin[0]);
 				
 	}
 	else if(inEvent[IDin[0]][0] == "secondpress")
@@ -227,6 +245,7 @@ serverClock.prototype.presentationPrepare = function(timeINid, startcounter, ele
 		var previousSettime = timePrepared['accumtime'] = this.elementHolder[timeINid][startcounter][elementcounter][0];
 		// setup split calculate
 		timePrepared['accumtime'] = this.elementHolder[timeINid][startcounter][elementcounter][3] - previousSettime;
+		 this.elementHolder[timeINid][startcounter][elementcounter][1] = timePrepared['accumtime'];
 //console.log(timePrepared['accumtime']);	
 	}
 	else
@@ -236,6 +255,7 @@ serverClock.prototype.presentationPrepare = function(timeINid, startcounter, ele
 		lastcounterelement = elementcounter -1;
 		var previousSettime = this.elementHolder[timeINid][startcounter][lastcounterelement][3];
 		timePrepared['accumtime'] = this.elementHolder[timeINid][startcounter][elementcounter][3] - this.elementHolder[timeINid][startcounter][elementcounter][0];
+		this.elementHolder[timeINid][startcounter][elementcounter][1] = timePrepared['accumtime'];		
 //console.log(timePrepared['accumtime']);		
 
 	}
@@ -272,7 +292,168 @@ serverClock.prototype.presentationPrepare = function(timeINid, startcounter, ele
 
 };
 
+/**
+* holding the split difference for future comparision
+* @method saveLocal
+*/
+serverClock.prototype.saveLocal = function(statusin) {
+console.log('savelocal called');
+	// first workout previous elements data
+	var fixedOnData = this.elementHolder[statusin];
+	
+	var StartcounterNumbers = Object.keys(fixedOnData);
+//console.log(StartcounterNumbers);
+	// need to sort object low to highest and extract the highest number
+	var orderedStartnos = StartcounterNumbers.sort(function(a,b){return b-a});
+	var StartcounterValue =  parseInt((orderedStartnos[0] ),10) - 1;
+	if(StartcounterValue > 0)
+
+	{
+console.log(this.elementHolder[statusin][StartcounterValue]);	
+
+		var splitaccTime = this.splitDataextract(this.elementHolder[statusin][StartcounterValue]);
+//console.log(splitaccTime);
+	
+		//var sptoday = new Date();
+		var datesplitnumber = fixedOnData[StartcounterValue][0][0]; //Date.parse(sptoday);
+	console.log(datesplitnumber);		
+
+		swimdatastatus = {};		
+		
+		// need to identify live swim element
+		var liveelementrecord = $(".recordcount").parent().attr('id');		
+		swimtype = $("#" + liveelementrecord + ".liveswimelement #swimtype").text();
+		swimstroke = $("#" + liveelementrecord + ".liveswimelement #swimstroke").text();
+		swimtechnique = $("#" + liveelementrecord + ".liveswimelement #swimtechnique").text();
+		swimdistance = $("#" + liveelementrecord + ".liveswimelement #swimdistance").text();
+		swimsplit = $("#swimsplit").val();
+		// form swim data
+		var d = new Date(datesplitnumber);
+		swimdatastatus.swimdate = d.toString(); 
+		swimdatastatus.swimtype = swimtype;
+		swimdatastatus.swimstroke = swimstroke;
+		swimdatastatus.swimtechnique = swimtechnique;
+		swimdatastatus.swimdistance = swimdistance;
+		swimdatastatus.swimsplit = swimsplit;
+	
+		// save to localpouchdb need to prepare buld array json structure 
+		newjsonswim = {};								
+		newjsonswim.swimmerid = '';
+		newjsonswim.swimmername = '';					
+		newjsonswim.session = {};
+		newjsonswim.swimmerid = statusin;
+		newjsonswim.swimmername = statusin;					
+		newjsonswim.session.sessionid = datesplitnumber;	
+		newjsonswim.session.swiminfo = swimdatastatus;	
+		newjsonswim.session.splittimes = splitaccTime;
+console.log(newjsonswim);
+		livepouch.singleSave(newjsonswim);
+			
+		// emitt socket back to pi server
+		starttiming.classSocket.emit('contextMixer', newjsonswim);
+		// emitt identity timing event trigger
+		starttiming.classSocket.emit('checkSplitID', newjsonswim);			
+
+	}
+};
+
+/**
+* extract out the accumaltive times and splits
+* @method splitDataextract
+*/
+serverClock.prototype.splitDataextract = function(liveTimedata) {
+//console.log(liveTimedata);
+	var timeData = [];
+	var ElemeantcounterNumbers = Object.keys(liveTimedata);
+	
+	
+	ElemeantcounterNumbers.forEach(function(elemID) {
+		
+		timeData.push(liveTimedata[elemID][1]);
+		
+	});
+	
+	return timeData;
+};
 
 
+/**
+*  Master record management
+* @method recordmanagement
+*/
+serverClock.prototype.recordmanagement = function() {
+			// need to keep a counter of element order start if with one
+	var norepetitionsobject = $('#swimrepetition.recordlive');	
+	
+	var totalelementrec = $(".liveswimelement").length -1;
+	// add one to recordcounter
+	var newcounter = parseInt($(".recordcount").text());
+	nextcount = newcounter + 1;
 
+	norepetitionsobject = $('#swimrepetition.recordlive');		
+	var norepetitions =norepetitionsobject[elementliverecid].innerHTML;
+	
+	if(nextcount > norepetitions)
+	{	
+		// check if more record element or time to finish recording
+		if(elementliverecid == totalelementrec)
+		{
+		$(".recordfeedback").text('Finished recording');
+			// need to reset / clear record variables
+			elementliverecid = 0;
 
+		}
+		else
+		{
+			elementliverecid++;
+			//remove record live from current element and add it to the next
+			$('.recordcount').remove();
+			// add it to the next item				
+			$('#' + norepetitionsobject[elementliverecid].parentNode.id).append('<div class="recordcount" >1</div>');		
+		}
+	}
+	else
+	{
+		$(".recordcount").text(nextcount);
+	}
+	
+};
+
+/**
+*  Master record management back one set element
+* @method backrecordmanagement
+*/
+serverClock.prototype.backrecordmanagement = function() {
+			// need to keep a counter of element order start if with one
+	var norepetitionsobject = $('#swimrepetition.recordlive');	
+	
+	var totalelementrec = $(".liveswimelement").length -1;
+	// add one to recordcounter
+	var newcounter = parseInt($(".recordcount").text());
+	nextcount = newcounter - 1;
+
+	norepetitionsobject = $('#swimrepetition.recordlive');		
+	var norepetitions = norepetitionsobject[elementliverecid].innerHTML;
+
+	if(nextcount == 0)
+	{	
+		if(elementliverecid === 0)
+		{
+			$(".recordfeedback").text('Ready to start recording');
+		}
+		else
+		{
+		// then need to go back one whole set rather than a set element
+		elementliverecid--;
+		$('.recordcount').remove();
+			// add it to the previous set				
+			$('#' + norepetitionsobject[elementliverecid].parentNode.id).append('<div class="recordcount" >1</div>');		
+		//if there is no precious set then, the start of the training set has been reached
+		}
+	}
+	else
+	{
+		$(".recordcount").text(nextcount);
+	}
+	
+};

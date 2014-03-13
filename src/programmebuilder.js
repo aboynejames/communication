@@ -700,7 +700,6 @@ $("select#thelaneoptions").change(function () {
 			
 	});	
 		
-	
 	/*
 	*  Event based stopwatch times coming from the SERVER
 	*/

@@ -953,6 +953,7 @@ var PerSwimmer = function() {
 				newjsonswim.swimmername = '';					
 				newjsonswim.session = {};
 				newjsonswim.swimmerid = spidin;
+console.log(liveLogic.nameholder);					
 				newjsonswim.swimmername = liveLogic.nameholder[spidin];					
 				newjsonswim.session.sessionid = datesplitnumber;	
 				newjsonswim.session.swiminfo = swimdatastatus;	
