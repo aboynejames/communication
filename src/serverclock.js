@@ -120,13 +120,13 @@ serverClock.prototype.formatDisplay = function(ms) {
 * @method IDtimeController
 */
 serverClock.prototype.IDtimeController = function(eventdataIN) {
-	
+console.log(eventdataIN);
 	var inEvent = JSON.parse(eventdataIN);
-//console.log(inEvent);
+console.log(inEvent);
 	// get ID key
 	var IDin = Object.keys(inEvent);
-//console.log(IDin[0]);	
-//console.log(inEvent[IDin[0]][0]);	
+console.log(IDin[0]);	
+console.log(inEvent[IDin[0]][0]);	
 	var holdtempory = {};
 		
 	if(inEvent[IDin[0]][0] == "startpress")
@@ -142,6 +142,12 @@ serverClock.prototype.IDtimeController = function(eventdataIN) {
 		this.elementHolder[IDin[0]].push(holdtempory);
 		liveHTML.clearIDdisplay(IDin[0]);
 		
+		$(".splitbutton" + IDin[0]).css("background", 'green');
+		// $(".splitbutton" + IDin[0]).fadeTo( 500, 1, function() {
+		//	$(".splitbutton" + IDin[0]).css( "background", "blue" );
+		
+		//});
+		
 		// save the previous element and broadcastout via pi
 		this.saveLocal(IDin[0]);
 		// TODO  need to localise to per ID
@@ -151,6 +157,9 @@ serverClock.prototype.IDtimeController = function(eventdataIN) {
 	}
 	else if(inEvent[IDin[0]][0] == "secondpress")
 	{
+console.log('second press client');
+console.log(this.elementHolder);
+console.log(IDin[0]);		
 		// need to add elementholder for this idtime event
 		var StartcounterNow = this.elementHolder[IDin[0]];  //.slice(-1)[0];
 //console.log(StartcounterNow);		
@@ -206,6 +215,8 @@ serverClock.prototype.IDtimeController = function(eventdataIN) {
 		// inform the UI of the data need to present
 		presentationData = this.presentationPrepare(IDin[0], StartcounterValue, ElementcounterValue);
 		liveHTML.displaySeverClockdata(IDin[0], presentationData);
+		
+		$(".splitbutton" + IDin[0]).css("background", 'blue');
 		
 	}
 	
@@ -352,7 +363,7 @@ console.log(newjsonswim);
 		// emitt socket back to pi server
 		starttiming.classSocket.emit('contextMixer', newjsonswim);
 		// emitt identity timing event trigger
-		starttiming.classSocket.emit('checkSplitID', newjsonswim);			
+		//starttiming.classSocket.emit('checkSplitID', newjsonswim);			
 
 	}
 };

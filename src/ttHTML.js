@@ -22,7 +22,7 @@ var ttHTML = function() {
 */	
 ttHTML.prototype.fromswimmers = function(swname, swid) {
 				
-	var swimstarters = '<li class="ui-state-default"  id="' + swid + '">';
+	var swimstarters = '<li class="ui-state-default"  id="n' + swid + '">';
 
 	swimstarters +=	'<div id="perswimmerset" >';
 	swimstarters +=	'<ul id="percontrols">';
@@ -178,10 +178,10 @@ ttHTML.prototype.viewdataHeader = function(swimmerlist) {
 *
 */	
 ttHTML.prototype.displaySeverClockdata = function(spidint, timedata) {
-
+console.log(timedata);
 	$splive = '#splits'+spidint;
 	$analysislive = '#analysis'+spidint;
-
+console.log($analysislive);
 	// display splits
 	var shortsplitreal = liveHTML.formatTime(timedata['accumtime']);
 	$($splive).show();
@@ -640,7 +640,8 @@ ttHTML.prototype.summaryme = function(livepouch, swimidin, historicaldata) {
 */	
 ttHTML.prototype.checkboxswimmers = function(swname, swid) {
 				
-				var swimliststarters =  '<input type = "checkbox"   id = "'+swid+'"  class="check-style" value = "'+swname+'"  />'+swname + ' <br >';
+				//var swimliststarters =  '<input type = "checkbox"   id = "'+swid+'"  class="check-style" value = "'+swname+'"  />'+swname + ' <br >';
+				var swimliststarters =  '<a href=""   id = "'+ swid +'"  class="identity-name" >'+swname + ' </a>';
 	
 				return swimliststarters;
 };			

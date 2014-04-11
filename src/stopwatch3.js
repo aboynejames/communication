@@ -425,6 +425,7 @@
 					
 			case "pereditidremove":
 					// remove swimmer from active list
+console.log('remove id stopwatch cllasss');					
 					removeid = this.identifer;
 					$("#sortable1 li#" + removeid + ".ui-state-default").remove();
 					
@@ -615,7 +616,9 @@ $("#sortable1").sortable( "option", "revert", true );
 		this.$start.text(this.startText);
 		starttiming.activetimeclock.stoppedlist = []; // reset the list of active swimmers 
 		// resets all the split arrays  (NB if NIL will break TODO)
-		starttiming.activetimeclock.activesplitter.forEach(function(restswimid)
+		if(starttiming.activetimeclock.activesplitter)
+		{
+			starttiming.activetimeclock.activesplitter.forEach(function(restswimid)
 			{
 				starttiming.activetimeclock.spid[restswimid][0] = 1;
 				starttiming.activetimeclock.spid[restswimid][1] = 0;
@@ -631,12 +634,31 @@ $("#sortable1").sortable( "option", "revert", true );
 				$diffreset.empty();
 				$diffreset.append("<li></li>");
 
-		});
+			});
+		}	
 		// and this needs move to per swimmer basis
 		this.t[7] = 0;
 
 		starttiming.activetimeclock.splitswimmerid(0);
 		
+		// manual reset over BT ID tags display
+		if(liveServerclock.contextcontroller)
+		{
+			// get UID for object keys
+			var btbuttonids = Object.keys(liveServerclock.contextcontroller);
+			btbuttonids.forEach(function(restswimid){
+		
+				$splivereset = $('#splits'+restswimid);
+				$splivereset.empty();
+				$splivereset.append("<li></li>");
+				$diffreset = $('#analysis'+restswimid);
+				$diffreset.empty();
+				$diffreset.append("<li></li>");
+
+			});			
+			
+		}	
+			
 		return false;
 	},
 	

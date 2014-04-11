@@ -557,15 +557,16 @@ $("select#thelaneoptions").change(function () {
 
 			}).change();	
 
-/*
-*
-* Add swimmer to active live list
-*/
-	$("#addalpha").change(function (e) {
-			var $tgt = $(e.target);
+	/*
+	*  Take name clicke form a to z listing and display them in live area
+	*/
+	$("#addalpha").click(function (e) {
+		e.preventDefault(e);
+		var $tgt = $(e.target);		
 		// which name checked?
-		swimnamealpha = $tgt.attr("value");
+		swimnamealpha = $tgt.text();
 		swimidalpha = $tgt.attr("id");
+
 		// prepare list box  select and append HTML
 		presentswimmeralpha = liveHTML.fromswimmers(swimnamealpha, swimidalpha);
 		liveLogic.setNameID(swimnamealpha, swimidalpha);
@@ -580,8 +581,27 @@ $("select#thelaneoptions").change(function () {
 		$("#viewdata").attr("title", "on");
 		$("#startsort").attr("title", "on");
 		
-	}).change();	
-			
+		
+	});
+
+	/*
+	*  To pickup new appended content within the recordflow UI
+	*/
+	$("#recordflow").click(function (e) {	
+		e.preventDefault(e);
+					
+//console.log('record flow master capture');		
+		var $tgt = $(e.target);		
+//console.log($tgt.attr('title'));	
+		var removeid = $tgt.attr('title');
+		// html body section#recordflow div.container ul#sortable1.droptrue li#2222985--1618959307.ui-state-default
+		var stringtoremove = "#sortable1 li#n" + removeid + ".ui-state-default";
+//console.log(stringtoremove);		
+		$(stringtoremove).remove();
+		
+		
+	});
+
 /*
 * Close alphalist
 */
@@ -658,7 +678,7 @@ $("select#thelaneoptions").change(function () {
 	
 	
 	$("#sortable1").on("click", function (e) {
-
+console.log('sortable area div');
 		e.preventDefault(e);
 		var $swtgt = $(e.target);
 		if ($swtgt.is("a")) {
@@ -678,12 +698,13 @@ $("select#thelaneoptions").change(function () {
 		var startswimmers = '';
 		startSwimmerID.forEach(function(idswimmer){
 //console.log(idswimmer);			
-			if(idswimmer != '9059af0b879c' &&  idswimmer != '9059af0b86e2' &&  idswimmer != '9059af0b8744' )
+			if(idswimmer != '9059af0b879c' &&  idswimmer != '9059af0b86e2' &&  idswimmer != '9059af0b8744' &&  idswimmer != '9059af0b869c' )
 			{
 			//pass the lane data to get html ready
 				startswimmers += liveHTML.fromswimmers(idswimmer, idswimmer);
 			}
 		});
+console.log('first socket callfor loading id tags automaticaly');		
 		$("#sortable1").html(startswimmers);
 		$(".social").hide();
 		$("#socialcontext").css('background', 'white');		

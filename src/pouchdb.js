@@ -1,5 +1,5 @@
 /**
-* Train TImer
+* Train TImer - communication mixer
 *
 * Train Timer settings, pouchDB
 * @class pouchdbSettings
@@ -9,111 +9,120 @@
 * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 * @version    $Id$
 */
+
+/**
+* pouchdb utility class
+* @class pouchdbSettings
+*/
 var pouchdbSettings = function() {
   this.account = {};
-	this.account.pouchdbname = 'idb://traintimer';
-	this.account.pouch = 'traintimer';
-	this.lanein = '';
+	this.account.pouchdbname = 'traintimer';
+	this.livepouch = this.createPouchdb();
 
 };
 
 /**
-* save more than one document
-* @method builkSave
+* create or make live pouchdb database
+* @method createPouchdb		
+*
+*/	
+pouchdbSettings.prototype.createPouchdb = function() {
+	
+	db = new PouchDB('traintimer');
+	return db;
+
+};
+
+/**
+* save more than one documents to pouchdb
+* @method bulkSave		
+*
 */
 pouchdbSettings.prototype.bulkSave = function(datain) {
 	
-		Pouch(this.account.pouchdbname, function(err, db) {
-			// Opened a new database
-			db.bulkDocs({docs: datain}, function(err, results) {
-				// Saved the documents into the database
-
-			});
-		});
-
-};
-
-/**
-* save one document
-* @method singleSave
-*/
-pouchdbSettings.prototype.singleSave = function(datain) {
-		
-	Pouch(this.account.pouchdbname, function(err, db) {
-		
-		db.post(datain, function(err, response) {
-		
-		});
+	this.livepouch.bulkDocs({docs: datain}, function(err, response) {
+//console.log(response);
 	});
+
 };
 
 /**
-* update one document
-* @method updateSingle
-*/
+* save data to a single document
+* @method singleSave		
+*
+*/	
+pouchdbSettings.prototype.singleSave = function(datain) {
+	
+	this.livepouch.post(datain, function (err, response) {
+
+	});
+
+};
+
 pouchdbSettings.prototype.updateSingle = function(datain) {
 		
-	Pouch(this.account.pouchdbname, function(err, db) {
-		
-		db.post(datain, function(err, response) {
-		
-		});
-	});
+
 };
 
-
 /**
-* get list of all doc ids
-* @method allDocs
-*/
+* get list of all pouchdb documents
+* @method allDocs		
+*
+*/	
 pouchdbSettings.prototype.allDocs = function() {
+
+		this.livepouch.allDocs({include_docs: true}, function(err, response) { 
 	
-		Pouch(this.account.pouchdbname, function(err, db) {
-			
-					db.allDocs(function(err, response) {
-//console.log(response);	
-						
-					});
-		});
+console.log(response);	
+	});
+		
 
 };
 
 /**
-* get data for speicific document ID
-* @method getDoc
-*/
+* get data on one pouchdb document
+* @method getDoc		
+*
+*/	
 pouchdbSettings.prototype.getDoc = function(docid) {
-	
-		Pouch(this.account.pouchdbname, function(err, db) {
-			
-			db.get(docid, function(err, doc) {
 
-//console.log(doc);	
-				syncdataforsave =  JSON.stringify(doc);
-				$.post("/sync/", syncdataforsave ,function(result){
-					// put a message back to UI to tell of a successful sync
-//console.log('callback from sync to couchdb via node is complete');	
-			
-				});
+		this.livepouch.get(docid, function(err, response) {
+//console.log(response);
+
 			});
-		});
 
 };
 
 /**
-* update a document
-* @method putDoc
-*/
+*  Update specific document if ID provided
+* @method putDoc		
+*
+*/	
 pouchdbSettings.prototype.putDoc = function(designdoc) {
 	
-		Pouch(this.account.pouchdbname, function(err, db) {
-			
-			db.put( designdoc ,  function(err, doc) {
+	/*this.livepouch.put({
+		_id: 'mydoc',
+		_rev: '1-A6157A5EA545C99B00FF904EEF05FD9F',
+		title: 'Lets Dance',
+	}, function(err, response) { })*/
 
-//console.log(doc);	
-				
-			});
+	this.livepouch.put(designdoc, function(err, response) {
+
+//console.log(response);
 		});
+	
+};
+
+/**
+* delete one pouchdb document
+* @method deleteDoc		
+*
+*/	
+pouchdbSettings.prototype.deleteDoc = function(docid) {
+	
+	this.livepouch.get(docid, function(err, doc) {
+		db.remove(doc, function(err, response) { });
+	});
 
 };
 
@@ -123,19 +132,17 @@ pouchdbSettings.prototype.putDoc = function(designdoc) {
 */
 pouchdbSettings.prototype.mapQueryswimmers = function(callbackin) {
 //console.log('lane number in' + lanein);		
-		Pouch(this.account.pouchdbname, function(err, db) {
-//console.log('lane number in pouch' + lanein);				
-				function map(swimquery) {
-					if(swimquery.name) {
-						emit(swimquery.lanetrain, [swimquery.swimmerid, swimquery.name]);
-					}
-				}
+				
+	function map(swimquery) {
+		if(swimquery.name) {
+			emit(swimquery.lanetrain, [swimquery.swimmerid, swimquery.name]);
+		}
+	}
 
-				db.query({map: map}, {reduce: false}, function(err, response) {
+	db.query({map: map}, {reduce: false}, function(err, response) {
 //console.log(response);		
-				callbackin(response);
-			});
-		});
+	callbackin(response);
+});
 
 };
 
@@ -146,21 +153,18 @@ pouchdbSettings.prototype.mapQueryswimmers = function(callbackin) {
 */
 pouchdbSettings.prototype.mapQueryname = function(lanein, callbackin) {
 //console.log('lane number in' + lanein);		
-		Pouch(this.account.pouchdbname, function(err, db) {
-//console.log('lane number in pouch' + lanein);				
-				function map(lanequery) {
+			
+	function map(lanequery) {
 //console.log('lane number in map' + lanequery['lanein']);			
-					if(lanequery.lanetrain) {
-					emit(lanequery.lanetrain, [lanequery.swimmerid, lanequery.name]);
-					}
-				}
+		if(lanequery.lanetrain) {
+			emit(lanequery.lanetrain, [lanequery.swimmerid, lanequery.name]);
+		}
+	}
 
-				db.query({map: map}, {reduce: false}, function(err, response) {
+	db.query({map: map}, {reduce: false}, function(err, response) {
 //console.log(response);		
-				callbackin(response);
-			});
-		});
-
+		callbackin(response);
+	});
 };
 
 /**
@@ -168,125 +172,97 @@ pouchdbSettings.prototype.mapQueryname = function(lanein, callbackin) {
 * @method mapQueryCommdate
 */
 pouchdbSettings.prototype.mapQueryCommdate = function(commdatein, callbackin) {
-//console.log('lane number in' + lanein);		
-		Pouch(this.account.pouchdbname, function(err, db) {
-//console.log('lane number in pouch' + lanein);				
-				function map(commquery) {
-		
-					if(commquery.commdate) {
-					emit(commquery.commdate, [commquery.swimmerid, commquery.communication, commquery.commid]);
-					}
-				}
+//console.log('lane number in' + lanein);					
+	function map(commquery) {
 
-				db.query({map: map}, {reduce: false}, function(err, response) {
+		if(commquery.commdate) {
+		emit(commquery.commdate, [commquery.swimmerid, commquery.communication, commquery.commid]);
+		}
+	}
+
+	db.query({map: map}, {reduce: false}, function(err, response) {
 //console.log(response);		
-				callbackin(response);
-			});
-		});
-
+		callbackin(response);
+	});
 };
-
 
 /**
 * get splits data
 * @method mapQuerySplits
 */
 pouchdbSettings.prototype.mapQuerySplits = function(lanein, callbackin) {
-//console.log('lane number in' + lanein);		
-		Pouch(this.account.pouchdbname, function(err, db) {
-//console.log('lane number in pouch' + lanein);				
-				function map(splitsquery) {
+//console.log('lane number in' + lanein);						
+	function map(splitsquery) {
 //console.log('lane number in map' + lanequery['lanein']);			
-					if(splitsquery.session) {
-					emit(splitsquery.swimmerid, splitsquery.session);
-					}
-				}
+		if(splitsquery.session) {
+			emit(splitsquery.swimmerid, splitsquery.session);
+		}
+	}
 
-				db.query({map: map}, {reduce: false}, function(err, response) {
+	db.query({map: map}, {reduce: false}, function(err, response) {
 //console.log(response);		
-				callbackin(response);
-			});
-		});
-
-};
-
-/**
-* delete a document
-* @method deleteDoc
-*/
-pouchdbSettings.prototype.deleteDoc = function(docid) {
-	
-		Pouch(this.account.pouchdbname, function(err, db) {
-
-		db.get(docid, function(err, docout) {
-			
-				db.remove(docout, function(err, response) {
-				
-			});
-		});
+		callbackin(response);
 	});
 
 };
 
+
 /**
-* view change log
-* @method changeLog
-*/
-pouchdbSettings.prototype.changeLog = function(synccallback) {
+* list changes on pouchdb log
+* @method changeLog		
+*
+*/	
+pouchdbSettings.prototype.changeLog = function() {
+
+	this.livepouch.changes({complete: function(err, response) {
+		
+		
+		}
+		
+	});
 	
-		Pouch(this.account.pouchdbname, function(err, db) {
-			
-		db.changes(function(err, response) {
-//console.log(response);
-				synccallback(response);
-			});
-
-		});
-
 };
 
 /**
-* changelog by name
+* filter applied to pouchdb logs data
 * @method filterchangeLog
-*/
+*
+*/	
 pouchdbSettings.prototype.filterchangeLog = function(callbackin) {
 	
-		Pouch(this.account.pouchdbname, function(err, db) {
-			
 		db.changes( {filter : 'swimmers/justname'}, function(err, response) {
 //console.log(response);
 			callbackin(response);
-			
-			
-			});
+		
+		});	
 
-		});
 
 };
 
 /**
-* internal pouchDB replication function (not working)
-* @method replicate
-*/
+* copy pouchdb locally or to couchdb?
+* @method replicate		
+*
+*/	
 pouchdbSettings.prototype.replicate = function() {
-//console.log('replication started ouside');	
-			Pouch.replicate(this.account.pouchdbname, 'http://localhost:5984/traintimer/', function(err, changes) {
-  //
-//console.log('replication started');				
-			});			
+
+PouchDB.replicate(this.account.pouchdbname, 'traintimercloud', {
+  onChange: onChange,
+  complete: onComplete
+});
+	
 
 };
 
 /**
-* Delete the pouchDB database
-* @method deletePouch
-*/
+* Delete a whole database 
+* @method deletePouch		
+*
+*/	
 pouchdbSettings.prototype.deletePouch = function() {
 
-		Pouch.destroy(this.account.pouchdbname, function(err, info) {
-			// database deleted
-			location.reload(); 		
-		});
+	PouchDB.destroy(this.account.pouchdbname, function(err, info) { });
+
 
 };
 
@@ -394,3 +370,5 @@ console.log(newobjecttes);
 							}
 					});
 };
+
+
