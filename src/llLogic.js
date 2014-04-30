@@ -12,6 +12,8 @@
 var llLogic = function() {
 	this.status = 'default';
 	this.nameholder = {};
+	this.idname = '';
+	this.tokenid = '';
 
 };
 
@@ -170,5 +172,18 @@ llLogic.prototype.frameworklogic = function(intentionin) {
 llLogic.prototype.setNameID = function(namein, idin) {
 		
 	this.nameholder[idin] = namein;
+	
+};
+
+/**
+* Set token user for REST calls
+* @method setToken		
+*
+*/	
+llLogic.prototype.setToken = function(setIDname, settokenin) {
+//console.log('set token function' + settokenin);
+	this.idname = setIDname;
+	this.tokenid = settokenin;
+//console.log(this.tokenid + 'from within function');	
 	
 };

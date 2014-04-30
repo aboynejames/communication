@@ -1,5 +1,5 @@
 CACHE MANIFEST
-# v0.1.58t 2014-04-10
+# v0.1.68t 2014-04-29
 # This is another comment
 dragdrop3.css
 stopwatch3.css
@@ -15,12 +15,13 @@ stopwatch3.js
 programmebuilder.js
 serverclock.js
 index.html
-pouchdb-25-08-2013.min.js
+pouchdb-2.1.0.min.js
 pouchdb.js
 IndexedDBShim.min.js
-jquery-1.7.2.min.js
-jquery-ui.min.js
+jquery-2.0.3.min.js
+jquery-ui-1.10.3.custom.min.js
 jquerycookie.js
+jquery-BBQ-1.2.1.js
 punch.js
 
 # Use from network if available

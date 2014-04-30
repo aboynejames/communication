@@ -8,7 +8,7 @@ $(document).ready(function(){
 	$("#canvasDiv").hide();
 	// create pouchdb object
 	livepouch = new pouchdbSettings();	
-	// delete local pouchdb database		
+	//delete local pouchdb database		
 	//livepouch.deletePouch();
 	livellHTML = new llHTML();
 	liveLogic = new llLogic();
@@ -33,6 +33,24 @@ $(document).ready(function(){
 	starttiming.setsocket(socketpi);	
 	
 	socketpi.emit('swimmerclient', { swimmerdevice: 'localhitchup' });
+	
+	var qs = $.param.querystring();
+	var qsobject = $.deparam(qs, true);
+//console.log(qs);	
+//console.log(qsobject);
+//console.log(qsobject.token);
+	
+	if(qsobject.token)
+	{
+	// signin authorised, change to signout button
+		liveLogic.setToken(qsobject.swimmer, qsobject.token);
+		$("#twitterin").text('Sign-out');
+		$("#twitterin").attr('id', 'twitterout');
+		$("#syncdata").show();
+		$("#clearpouchdb").show();
+		
+	}
+	
 		
 		// datepicker 
 	$( "#datepicker" ).datepicker({
@@ -113,8 +131,6 @@ stopwatch jquery code from stopwatch3.js
 	$("#addnewswimmer").hide();
 	$("#loadclearswimmers").hide();
 	$(".swimsettings").hide();
-	$("#syncdata").hide();
-	$("#clearpouchdb").hide();
 	$("#analysistype").hide();
 	$(".peredit").hide();
 	$(".historicalplace").hide();
@@ -214,7 +230,7 @@ success: function( resultback ){
 				},
 				error: function( error ){
 					// Log any error.
-					console.log( "ERROR:", error );
+//console.log( "ERROR:", error );
 				},
 				complete: function(){
 
@@ -264,47 +280,92 @@ success: function( resultback ){
 	*
 	*/
 	$("#syncdata").click(function(e) {
-		
-		designdoc = 0;
-		// need to set a design document (but only needed once)
-		if(designdoc != 1 ) {
+	
+		// ToDO need to query pouch to see if design docs have been set
+				
+		function checkdesigndocStatus(callback) {  
+			livepouch.getDoc(callback, "_design/swimmers");
+		}  
+
+		checkdesigndocStatus( function(deisgnlog) {
+//console.log('design docu response');
+//console.log(deisgnlog);			
+			if(!deisgnlog)
+			{
+				designdocjson = {"_id": "_design/swimmers",  "filters" : {"nameslist" : "function(doc) { return doc.name}"}};
+				livepouch.putDoc(designdocjson);
+				
+				// for session training data
+				designdocjson = {"_id": "_design/session",  "filters" : {"sessionlist" : "function(doc) { return doc.session}"}};
+				livepouch.putDoc(designdocjson);
+							
+				// for commuication training set authored
+				designdocjson = {"_id": "_design/communication",  "filters" : {"commlist" : "function(doc) { return doc.communication}"}};
+				livepouch.putDoc(designdocjson);				
 			
-			designdocjson = {"_id": "_design/swimmers",  "filters" : {"justname" : "function(traintimer) {if(traintimer.name == '_design/swimmers' ) { emit (traintimer.changes, traintimer.changes)} }" }};
-	livepouch.putDoc(designdocjson);
-		}
+			}
+			else if (deisgnlog.filters)
+			{
+//console.log('yes design doc set');	
+			}	
+				
+			
+		
+		});
+		
+
+
 		// get all current doc from pouchdb and pass them on to nodejs to couchdb and delete local data (ideally leave 1 month or user directed future todo )
 		
 		var syncmessage = '<a  href=""><img  id="syncicon" alt="sync in progress" src="images/sync.png" ></a>';
-		$("#syncbackup").html(syncmessage);
 		
 		localsplitstodelete = [];
 		
 		function localDatalog(callback) {  
-			livepouch.filterchangeLog(callback);
-			//livepouch.mapQueryname(selectedlanenow, callback);
-			
+			livepouch.changeLog();
+			livepouch.filterchangeLog(callback, 'swimmers/nameslist');
+			livepouch.filterchangeLog(callback, 'session/sessionlist');
+			livepouch.filterchangeLog(callback, 'communication/commlist');			
 		}  
 
 		localDatalog( function(trainlog) {
-
+//console.log('whats being saved');
+//console.log(trainlog);	
+			// need to differenciate between the type
+			if(trainlog.results[0].doc.session)
+			{
+				// save the training data and delete ready for next batch of data
+//console.log('training data save');	
+				$("#syncbackup").html(syncmessage);				
 				trainlog.results.forEach(function(rowsswimsplit){
-		
-					if (rowsswimsplit.doc.session && (rowsswimsplit.deleted != 1))
+
+					if (rowsswimsplit.doc.session)
 					{
 						// form JSON to sync back to couch
 						buildsyncsplits = {};
 						buildsyncsplits.session = rowsswimsplit.doc.session;
 						buildsyncsplits.swimmerid =rowsswimsplit.doc.swimmerid;
-						syncdataforsave =  JSON.stringify(buildsyncsplits);
-						$.post("http://www.mepath.co.uk:8833/sync/", syncdataforsave ,function(result){
-						// put a message back to UI to tell of a successful sync
-						
-						$("#syncbackup").html('finished');	
-						livepouch.deleteDoc(rowsswimsplit.doc._id);	
-			
-						});
+						//syncdataforsave =  JSON.stringify(buildsyncsplits);
+						liveRecord.swimdataCloud(buildsyncsplits);	
+						livepouch.deleteDoc(rowsswimsplit.doc._id);
 					}
 				});
+			
+			}
+			else if(trainlog.results[0].doc.commdate)
+			{
+				// save the training test authored and keep a local copy
+//console.log('training set authored');				
+				
+			}
+			else if (trainlog.results[0].doc.name)
+			{
+				// do nothing, keep all identity info local copy
+//console.log('training id swimmmers');				
+			}
+		//  TODO should get a cloud update of average, summary statistics and save/update locally
+			
+
 		});
 });
 
@@ -591,14 +652,18 @@ $("select#thelaneoptions").change(function () {
 		e.preventDefault(e);
 					
 //console.log('record flow master capture');		
-		var $tgt = $(e.target);		
-//console.log($tgt.attr('title'));	
-		var removeid = $tgt.attr('title');
-		// html body section#recordflow div.container ul#sortable1.droptrue li#2222985--1618959307.ui-state-default
-		var stringtoremove = "#sortable1 li#n" + removeid + ".ui-state-default";
-//console.log(stringtoremove);		
-		$(stringtoremove).remove();
+		var $tgt = $(e.target);
+//console.log($tgt);	
+		if($tgt.attr('id') == "pereditidremove")
+		{
 		
+//console.log($tgt.attr('title'));	
+			var removeid = $tgt.attr('title');
+			// html body section#recordflow div.container ul#sortable1.droptrue li#2222985--1618959307.ui-state-default
+			var stringtoremove = "#sortable1 li#n" + removeid + ".ui-state-default";
+//console.log(stringtoremove);		
+			$(stringtoremove).remove();
+		}
 		
 	});
 
@@ -678,7 +743,7 @@ $("select#thelaneoptions").change(function () {
 	
 	
 	$("#sortable1").on("click", function (e) {
-console.log('sortable area div');
+//console.log('sortable area div');
 		e.preventDefault(e);
 		var $swtgt = $(e.target);
 		if ($swtgt.is("a")) {
@@ -702,9 +767,10 @@ console.log('sortable area div');
 			{
 			//pass the lane data to get html ready
 				startswimmers += liveHTML.fromswimmers(idswimmer, idswimmer);
+				liveLogic.setNameID(idswimmer, idswimmer);
 			}
 		});
-console.log('first socket callfor loading id tags automaticaly');		
+//console.log('first socket callfor loading id tags automaticaly');		
 		$("#sortable1").html(startswimmers);
 		$(".social").hide();
 		$("#socialcontext").css('background', 'white');		
@@ -737,7 +803,7 @@ console.log('first socket callfor loading id tags automaticaly');
 	*/
 	 // when you get a serialdata event, do this:
 	socketpi.on('stopwatchEvent', function (data) {
-console.log(data);	
+//console.log(data);	
 		serialin = JSON.parse(data.value);
 		inser = Object.keys(serialin);
 		inser.forEach(function(thein) {

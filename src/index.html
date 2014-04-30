@@ -1,17 +1,18 @@
 <!DOCTYPE html>
-<html lang="en"  > <!--manifest="communication.appcache"--> 
+<html lang="en"  manifest="communication.appcache" > <!--manifest="communication.appcache"--> 
   <head>
 	<meta charset="utf-8">
 	<title>Open Sport Project - Communication Mixer</title>
-	<meta content='width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=no;' name='viewport' />
+	<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, ' name='viewport' />
 	<meta name="description" content="">
 	<meta name="author" content="">
-		<script type="text/javascript" src="pouchdb-25-08-2013.min.js"></script>	
+		<script type="text/javascript" src="pouchdb-2.1.0.min.js"></script>	
 		<script type="text/javascript" src="IndexedDBShim.min.js"></script>
 		<script type="text/javascript" src="pouchdb.js"></script>
-		<script type="text/javascript" src="jquery-1.7.2.min.js"></script>
-		<script type="text/javascript" src="jquery-ui.min.js"></script>
+		<script type="text/javascript" src="jquery-2.0.3.min.js"></script>
+		<script type="text/javascript" src="jquery-ui-1.10.3.custom.min.js"></script>
 		<script type="text/javascript" src="jquerycookie.js"></script>
+		<script type="text/javascript" src="jquery-BBQ-1.2.1.js"></script>
 		<script type="text/javascript" src="makefuture.js"></script>
 		<script type="text/javascript" src="recordQS.js"></script>		
 		<script type="text/javascript" src="llHTML.js"></script>
@@ -330,7 +331,8 @@
 			<ul>
 				<li></li>
 				<li>
-					<a id="signinopener" href="/signin" title="signin" class="control-text">Sign-in to store data</a>
+					<a id="twitterin" href="/twitterin" title="/twitterin" class="control-text">Twitter Sign-in</a>
+					<!--<a id="signinopener" href="/signin" title="signin" class="control-text">Sign-in to store data</a>-->
 			<div id="ifsignedin"></div>
 	<div id="siginformarea" style="display: none;">
 	<div>Welcome, to Train Timer </div>
@@ -341,7 +343,7 @@
 	<div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix"> <div class="ui-dialog-buttonset"><button aria-disabled="false" role="button" type="button" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only"><span class="ui-button-text">Sign me in</span></button></div></div><div id="responsemessage"></div>
 	</div>
 				</li>
-				<li>
+				<!--<li>
 					<a title="on" id="signupstart" href="" class="control-text">Sign-up</a>
 					<div id="signupform"></div>
 					<div id="signupspace" style="display: none;">
@@ -382,18 +384,18 @@
 
 		</div>
 			<div id="signupspacereply"></div>
-					</li>
+				</li>-->
 				</ul>	
 				<ul>
 					<li class="inmenu-text"><a id="syncdata" href="/sync" title="syncdata" style="display: none;">Sync &amp; Clear data</a><span id="syncbackup"></span></li>
-					<li class="inmenu-text"><a id="clearpouchdb" href="#" title="clearpouchdb" style="display: none;">Clear Database</a></li>
+					<li class="inmenu-text"><a id="clearpouchdb" href="#" title="clearpouchdb" style="display: none;">Clear Local Database</a></li>
 				</ul>
 			</nav>
 		</header>
 	</div>
 	</section>
 	<footer id="footer" class="body">
-		<p>2014-v0.1.58t <a href="">Communication Builder and Mixer - open sport project</a></p>
+		<p>2014-v0.1.68t <a href="">Communication Builder and Mixer - open sport project</a></p>
 	</footer>
 </body>
 </html>

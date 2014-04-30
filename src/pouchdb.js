@@ -73,7 +73,7 @@ pouchdbSettings.prototype.allDocs = function() {
 
 		this.livepouch.allDocs({include_docs: true}, function(err, response) { 
 	
-console.log(response);	
+//console.log(response);	
 	});
 		
 
@@ -84,12 +84,12 @@ console.log(response);
 * @method getDoc		
 *
 */	
-pouchdbSettings.prototype.getDoc = function(docid) {
+pouchdbSettings.prototype.getDoc = function(callbackin, docid) {
 
 		this.livepouch.get(docid, function(err, response) {
 //console.log(response);
-
-			});
+			callbackin(response);
+		});
 
 };
 
@@ -107,7 +107,7 @@ pouchdbSettings.prototype.putDoc = function(designdoc) {
 	}, function(err, response) { })*/
 
 	this.livepouch.put(designdoc, function(err, response) {
-
+//console.log(err);
 //console.log(response);
 		});
 	
@@ -214,13 +214,23 @@ pouchdbSettings.prototype.mapQuerySplits = function(lanein, callbackin) {
 */	
 pouchdbSettings.prototype.changeLog = function() {
 
+	var options = {};
+	options.include_docs = true;		
+	options.complete = function(err, response) {
+//console.log('returned data');		
+//console.log(response);		
+//console.log(err);		
+		}
+		
+ 	this.livepouch.changes(options);
+/*	
 	this.livepouch.changes({complete: function(err, response) {
 		
-		
+console.log(response);		
 		}
 		
 	});
-	
+*/	
 };
 
 /**
@@ -228,13 +238,20 @@ pouchdbSettings.prototype.changeLog = function() {
 * @method filterchangeLog
 *
 */	
-pouchdbSettings.prototype.filterchangeLog = function(callbackin) {
-	
-		db.changes( {filter : 'swimmers/justname'}, function(err, response) {
-//console.log(response);
-			callbackin(response);
-		
-		});	
+pouchdbSettings.prototype.filterchangeLog = function(callbackin, filterin) {
+//console.log('filtered change log started');  // 
+	var options = {};
+	options.filter = filterin;//'swimmers/nameslist';
+	options.include_docs = true;
+
+	options.complete = function(err, response) {
+//console.log('returned data');		
+//console.log(response);		
+//console.log(err);		
+		callbackin(response);
+	};
+
+	this.livepouch.changes(options); 
 
 
 };

@@ -131,4 +131,51 @@ recordQS.prototype.recordHTMLset = function(commdatein) {
 			// empty the commuication on screen.
 			$(".communicationelement").empty();
 
-};				
+};	
+
+/**
+* save data back to cloud
+* @method swimdataCloud		
+*
+*/	
+recordQS.prototype.swimdataCloud = function(cloudsave) {
+//console.log(cloudsave);	
+		var cloudready = JSON.stringify(cloudsave);
+	
+		var formdataurl = 'http://www.mepath.co.uk:8882' + '/swimdatasave/' + liveLogic.idname + '/token/' + liveLogic.tokenid;
+//console.log(formdataurl);	
+            // Make the PUT request.
+		$.ajax({
+			type: "POST",
+			url: formdataurl,
+			contentType: "application/json",
+			dataType: "text",
+			data: cloudready,
+						
+						success: function( saveback ){
+//console.log('success from data');							
+							// pass on markup and add data to live data model
+							var serverdatain = JSON.parse(saveback);
+//console.log(serverdatain);		
+							// does this individual have data?  If not provide links enter data or sportsBOX
+							if(serverdatain.save ==  "passed")
+							{
+								$("#syncbackup").html('finished');	
+	
+								
+							}
+							else
+							{
+								
+							}
+						},
+						error: function( error ){
+					// Log any error.
+//console.log( "ERROR:", error );
+						},
+						complete: function(){
+
+						}
+			});
+			
+};

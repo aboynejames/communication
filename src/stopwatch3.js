@@ -425,7 +425,7 @@
 					
 			case "pereditidremove":
 					// remove swimmer from active list
-console.log('remove id stopwatch cllasss');					
+//console.log('remove id stopwatch cllasss');					
 					removeid = this.identifer;
 					$("#sortable1 li#" + removeid + ".ui-state-default").remove();
 					
@@ -534,9 +534,21 @@ $("#liveswimset").text('live: ' + currentsetset);
 						$("#touchpadmode").attr("title", "on");
 					}
 					
-			break;			
+			break;	
 
-						
+			case "twitterin":
+			window.open('http://www.mepath.co.uk:8882' + "/auth/twitter2", "_self");
+
+			break;
+
+			case "twitterout":
+				
+				window.open('http://www.aboynejames.co.uk/opensportprojecttest/index.html', "_self");
+
+			break;
+
+
+					
 			} // closes switch		
 			
  }; // closes id function
@@ -600,6 +612,7 @@ var MasterWatch = function() {
 	* @method reset
 	*/
 	this.reset = function() {
+//console.log('reset being called');		
 		// re enable the drag and drop sorting
 $("#sortable1").sortable( "option", "revert", true );
 		
@@ -644,6 +657,7 @@ $("#sortable1").sortable( "option", "revert", true );
 		// manual reset over BT ID tags display
 		if(liveServerclock.contextcontroller)
 		{
+//console.log('bt reset new code');		
 			// get UID for object keys
 			var btbuttonids = Object.keys(liveServerclock.contextcontroller);
 			btbuttonids.forEach(function(restswimid){
@@ -748,7 +762,7 @@ $("#sortable1").sortable( "option", "revert", true );
 
 		listactives = $('#sortable1').sortable('toArray');
 		countswimmers = listactives.length;	
-		
+//console.log(listactives);
 		this.activeswimmers = listactives;
 		// if in touchpad mode
 		starttpstatus = $("#touchpadmode").attr("title");
@@ -1000,7 +1014,7 @@ console.log(liveLogic.nameholder);
 				this.startclock.recordmanagement();
 				var recordlivenumber = $(".recordcount").text();
 				// display the recorded data in real time
-				 liveHTML.reatimesplitdisplay(recordlivenumber, spidin, newjsonswim);
+				//liveHTML.reatimesplitdisplay(recordlivenumber, spidin, newjsonswim);
 				
 			}
 		}		

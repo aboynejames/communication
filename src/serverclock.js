@@ -120,13 +120,13 @@ serverClock.prototype.formatDisplay = function(ms) {
 * @method IDtimeController
 */
 serverClock.prototype.IDtimeController = function(eventdataIN) {
-console.log(eventdataIN);
+//console.log(eventdataIN);
 	var inEvent = JSON.parse(eventdataIN);
-console.log(inEvent);
+//console.log(inEvent);
 	// get ID key
 	var IDin = Object.keys(inEvent);
-console.log(IDin[0]);	
-console.log(inEvent[IDin[0]][0]);	
+//console.log(IDin[0]);	
+//console.log(inEvent[IDin[0]][0]);	
 	var holdtempory = {};
 		
 	if(inEvent[IDin[0]][0] == "startpress")
@@ -140,26 +140,23 @@ console.log(inEvent[IDin[0]][0]);
 //console.log(IDin[0]);		
 //console.log(this.elementHolder[IDin[0]]);
 		this.elementHolder[IDin[0]].push(holdtempory);
-		liveHTML.clearIDdisplay(IDin[0]);
+
 		
 		$(".splitbutton" + IDin[0]).css("background", 'green');
 		// $(".splitbutton" + IDin[0]).fadeTo( 500, 1, function() {
 		//	$(".splitbutton" + IDin[0]).css( "background", "blue" );
 		
 		//});
-		
-		// save the previous element and broadcastout via pi
-		this.saveLocal(IDin[0]);
-		// TODO  need to localise to per ID
-		this.recordmanagement();
-		liveLogic.setNameID(IDin[0], IDin[0]);
+				
+		liveHTML.clearIDdisplay(IDin[0]);
+
 				
 	}
 	else if(inEvent[IDin[0]][0] == "secondpress")
 	{
-console.log('second press client');
-console.log(this.elementHolder);
-console.log(IDin[0]);		
+//console.log('second press client');
+//console.log(this.elementHolder);
+//console.log(IDin[0]);		
 		// need to add elementholder for this idtime event
 		var StartcounterNow = this.elementHolder[IDin[0]];  //.slice(-1)[0];
 //console.log(StartcounterNow);		
@@ -205,7 +202,7 @@ console.log(IDin[0]);
 //console.log(ElementcounterNumber); 
 		var elementCounter = ElementcounterNumber.slice(-1)[0];
 //console.log(elementCounter);		
-		var ElementcounterValue =  parseInt((elementCounter),10)  + 1;
+		var ElementcounterValue =  parseInt((elementCounter),10) + 1;
 //console.log(ElementcounterValue + 'element counter now');
 		
 		holdtempory = inEvent[IDin[0]][1];
@@ -215,8 +212,14 @@ console.log(IDin[0]);
 		// inform the UI of the data need to present
 		presentationData = this.presentationPrepare(IDin[0], StartcounterValue, ElementcounterValue);
 		liveHTML.displaySeverClockdata(IDin[0], presentationData);
-		
+
 		$(".splitbutton" + IDin[0]).css("background", 'blue');
+		
+		// save the element and broadcastout via pi
+		this.saveLocal(IDin[0]);
+		// TODO  need to localise to per ID
+		this.recordmanagement();
+		liveLogic.setNameID(IDin[0], IDin[0]);
 		
 	}
 	
@@ -263,7 +266,7 @@ serverClock.prototype.presentationPrepare = function(timeINid, startcounter, ele
 	{
 		// get the previous split time
 		timePrepared['splitno'] = elementcounter;
-		lastcounterelement = elementcounter -1;
+		lastcounterelement = elementcounter;// -1;
 		var previousSettime = this.elementHolder[timeINid][startcounter][lastcounterelement][3];
 		timePrepared['accumtime'] = this.elementHolder[timeINid][startcounter][elementcounter][3] - this.elementHolder[timeINid][startcounter][elementcounter][0];
 		this.elementHolder[timeINid][startcounter][elementcounter][1] = timePrepared['accumtime'];		
@@ -308,7 +311,7 @@ serverClock.prototype.presentationPrepare = function(timeINid, startcounter, ele
 * @method saveLocal
 */
 serverClock.prototype.saveLocal = function(statusin) {
-console.log('savelocal called');
+//console.log('savelocal called');
 	// first workout previous elements data
 	var fixedOnData = this.elementHolder[statusin];
 	
@@ -316,18 +319,18 @@ console.log('savelocal called');
 //console.log(StartcounterNumbers);
 	// need to sort object low to highest and extract the highest number
 	var orderedStartnos = StartcounterNumbers.sort(function(a,b){return b-a});
-	var StartcounterValue =  parseInt((orderedStartnos[0] ),10) - 1;
+	var StartcounterValue =  parseInt((orderedStartnos[0] ),10);// - 1;
 	if(StartcounterValue > 0)
 
 	{
-console.log(this.elementHolder[statusin][StartcounterValue]);	
+//console.log(this.elementHolder[statusin][StartcounterValue]);	
 
 		var splitaccTime = this.splitDataextract(this.elementHolder[statusin][StartcounterValue]);
 //console.log(splitaccTime);
 	
 		//var sptoday = new Date();
 		var datesplitnumber = fixedOnData[StartcounterValue][0][0]; //Date.parse(sptoday);
-	console.log(datesplitnumber);		
+//console.log(datesplitnumber);		
 
 		swimdatastatus = {};		
 		
@@ -357,7 +360,7 @@ console.log(this.elementHolder[statusin][StartcounterValue]);
 		newjsonswim.session.sessionid = datesplitnumber;	
 		newjsonswim.session.swiminfo = swimdatastatus;	
 		newjsonswim.session.splittimes = splitaccTime;
-console.log(newjsonswim);
+//console.log(newjsonswim);
 		livepouch.singleSave(newjsonswim);
 			
 		// emitt socket back to pi server
