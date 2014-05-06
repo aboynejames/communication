@@ -181,9 +181,9 @@ llLogic.prototype.setNameID = function(namein, idin) {
 *
 */	
 llLogic.prototype.setToken = function(setIDname, settokenin) {
-//console.log('set token function' + settokenin);
+	
 	this.idname = setIDname;
 	this.tokenid = settokenin;
-//console.log(this.tokenid + 'from within function');	
+	
 	
 };

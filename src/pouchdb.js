@@ -41,7 +41,7 @@ pouchdbSettings.prototype.createPouchdb = function() {
 pouchdbSettings.prototype.bulkSave = function(datain) {
 	
 	this.livepouch.bulkDocs({docs: datain}, function(err, response) {
-//console.log(response);
+
 	});
 
 };
@@ -72,8 +72,7 @@ pouchdbSettings.prototype.updateSingle = function(datain) {
 pouchdbSettings.prototype.allDocs = function() {
 
 		this.livepouch.allDocs({include_docs: true}, function(err, response) { 
-	
-//console.log(response);	
+		
 	});
 		
 
@@ -87,7 +86,7 @@ pouchdbSettings.prototype.allDocs = function() {
 pouchdbSettings.prototype.getDoc = function(callbackin, docid) {
 
 		this.livepouch.get(docid, function(err, response) {
-//console.log(response);
+
 			callbackin(response);
 		});
 
@@ -99,16 +98,9 @@ pouchdbSettings.prototype.getDoc = function(callbackin, docid) {
 *
 */	
 pouchdbSettings.prototype.putDoc = function(designdoc) {
-	
-	/*this.livepouch.put({
-		_id: 'mydoc',
-		_rev: '1-A6157A5EA545C99B00FF904EEF05FD9F',
-		title: 'Lets Dance',
-	}, function(err, response) { })*/
 
 	this.livepouch.put(designdoc, function(err, response) {
-//console.log(err);
-//console.log(response);
+
 		});
 	
 };
@@ -130,8 +122,7 @@ pouchdbSettings.prototype.deleteDoc = function(docid) {
 *  query all swimmer data in pouch
 * @method mapQueryswimmers
 */
-pouchdbSettings.prototype.mapQueryswimmers = function(callbackin) {
-//console.log('lane number in' + lanein);		
+pouchdbSettings.prototype.mapQueryswimmers = function(callbackin) {		
 				
 	function map(swimquery) {
 		if(swimquery.name) {
@@ -140,9 +131,9 @@ pouchdbSettings.prototype.mapQueryswimmers = function(callbackin) {
 	}
 
 	db.query({map: map}, {reduce: false}, function(err, response) {
-//console.log(response);		
-	callbackin(response);
-});
+		
+		callbackin(response);
+	});
 
 };
 
@@ -151,18 +142,17 @@ pouchdbSettings.prototype.mapQueryswimmers = function(callbackin) {
 * list of all swimmers by name
 * @method mapQueryname
 */
-pouchdbSettings.prototype.mapQueryname = function(lanein, callbackin) {
-//console.log('lane number in' + lanein);		
+pouchdbSettings.prototype.mapQueryname = function(lanein, callbackin) {	
 			
 	function map(lanequery) {
-//console.log('lane number in map' + lanequery['lanein']);			
+			
 		if(lanequery.lanetrain) {
 			emit(lanequery.lanetrain, [lanequery.swimmerid, lanequery.name]);
 		}
 	}
 
 	db.query({map: map}, {reduce: false}, function(err, response) {
-//console.log(response);		
+		
 		callbackin(response);
 	});
 };
@@ -172,7 +162,7 @@ pouchdbSettings.prototype.mapQueryname = function(lanein, callbackin) {
 * @method mapQueryCommdate
 */
 pouchdbSettings.prototype.mapQueryCommdate = function(commdatein, callbackin) {
-//console.log('lane number in' + lanein);					
+					
 	function map(commquery) {
 
 		if(commquery.commdate) {
@@ -181,7 +171,7 @@ pouchdbSettings.prototype.mapQueryCommdate = function(commdatein, callbackin) {
 	}
 
 	db.query({map: map}, {reduce: false}, function(err, response) {
-//console.log(response);		
+		
 		callbackin(response);
 	});
 };
@@ -191,16 +181,16 @@ pouchdbSettings.prototype.mapQueryCommdate = function(commdatein, callbackin) {
 * @method mapQuerySplits
 */
 pouchdbSettings.prototype.mapQuerySplits = function(lanein, callbackin) {
-//console.log('lane number in' + lanein);						
+						
 	function map(splitsquery) {
-//console.log('lane number in map' + lanequery['lanein']);			
+			
 		if(splitsquery.session) {
 			emit(splitsquery.swimmerid, splitsquery.session);
 		}
 	}
 
 	db.query({map: map}, {reduce: false}, function(err, response) {
-//console.log(response);		
+	
 		callbackin(response);
 	});
 
@@ -217,9 +207,7 @@ pouchdbSettings.prototype.changeLog = function() {
 	var options = {};
 	options.include_docs = true;		
 	options.complete = function(err, response) {
-//console.log('returned data');		
-//console.log(response);		
-//console.log(err);		
+		
 		}
 		
  	this.livepouch.changes(options);
@@ -239,15 +227,13 @@ console.log(response);
 *
 */	
 pouchdbSettings.prototype.filterchangeLog = function(callbackin, filterin) {
-//console.log('filtered change log started');  // 
+
 	var options = {};
 	options.filter = filterin;//'swimmers/nameslist';
 	options.include_docs = true;
 
 	options.complete = function(err, response) {
-//console.log('returned data');		
-//console.log(response);		
-//console.log(err);		
+		
 		callbackin(response);
 	};
 
@@ -288,7 +274,7 @@ pouchdbSettings.prototype.deletePouch = function() {
 * @method returndatacallback
 */
 pouchdbSettings.prototype.returndatacallback = function(swimidin, datatypein) {
-//console.log(datatypein + 'what id going to pouchclass');
+
 historicalswimdata = {};
 	// need to query pouch for the data
 	// test splits data recall						
@@ -310,11 +296,10 @@ historicalswimdata = {};
 						swimsetlive.swimtype =	$("#" + liveelementrecord + ".liveswimelement #swimtype").text();
 						swimsetlive.swimstroke = $("#" + liveelementrecord + ".liveswimelement #swimstroke").text();
 						swimsetlive.swimtechnique =  $("#" + liveelementrecord + ".liveswimelement #swimtechnique").text();
-						swimsetlive.swimdistance = $("#" + liveelementrecord + ".liveswimelement #swimdistance").text();
-//console.log(spmap);							
+						swimsetlive.swimdistance = $("#" + liveelementrecord + ".liveswimelement #swimdistance").text();							
 					// itterate over results and pick out the one required	
 						spmap.rows.forEach(function(rowswimrs){
-//console.log(rowswimrs['key']);
+
 							if(rowswimrs.key == swimidin )
 							{
 								// need to set time interval to retrieve
@@ -330,10 +315,9 @@ historicalswimdata = {};
 								{
 									endswimdateperiod = startswimdate - 315360000000;  // go back 10 years from todays date
 								}	
-//console.log(endswimdateperiod + 'go back three hours' + startswimdate + 'current time' + 'saveactual time' + rowswimrs['value']['sessionid']);								
+							
 								if( rowswimrs.value.sessionid < startswimdate && rowswimrs.value.sessionid > endswimdateperiod)
-								{
-//console.log('time filter passed');								
+								{							
 									// need a set of filters for time period and swim setting e.g. stroke distance etc
 									if( swimsetlive.swimstroke ==  rowswimrs.value.swiminfo.swimstroke  && swimsetlive.swimtechnique ==  rowswimrs.value.swiminfo.swimtechnique && swimsetlive.swimdistance ==  rowswimrs.value.swiminfo.swimdistance )
 									{
@@ -344,23 +328,7 @@ historicalswimdata = {};
 								}
 							}	
 						});
-//console.log( historicalswimdata);		
-/*						
-console.log('test object');
-		alivepouch = {"1":"1"};
-		aswimidin = '3865253--554494698';
-		ahistoricalswimdata = {};
-		ahistoricalswimdata['sessionid'] = 1364553195000;
-		ahistoricalswimdata['splittimes'] = [1074, 2399];	
-		ahistoricalswimdata['swiminfo'] = {"swimdate":"2013-03-29T10:33:15.109Z", "swimdistance":"100", "swimsplit":"50", "swimstroke":"freestyle", "swimstyle":"training", "swimtechnique":"swim"};
-
-console.log(alivepouch);
-console.log(aswimidin);
-console.log(ahistoricalswimdata);
-newobjecttes = {};
-newobjecttes['1364553195000'] = ahistoricalswimdata;
-console.log(newobjecttes);
-*/		
+			
 							// what is data for
 							if(datatypein == "splitdatain")
 							{

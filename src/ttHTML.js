@@ -123,16 +123,13 @@ ttHTML.prototype.realtimesplitsdiff = function(thisin, spidint) {
 	// what order did this swimmer go off?  nb  n added for jquery compatiblity
 	var naddedspid = 'n' + spidint
 	swimpos = thisin.startclock.activeswimmers.indexOf(naddedspid);
-//console.log(swimpos);
-//console.log(thisin.startclock.activeswimmers);
+
 	// order position times interval time period
 	splitlag = swimpos * (thisin.startclock.swiminterval * 1000);
-//console.log(splitlag);
 	splittimelive = thisin.t[3] + thisin.t[1] - thisin.t[0] - splitlag;
-	
 	thisin.spid[thisin.splitidlive][1] = splittimelive;
-	
 	lastsplitpers = thisin.sparray[thisin.splitidlive].slice(-1)[0];
+	
 	if(lastsplitpers === undefined)
 	{
 		lastsplitpers = splittimelive;
@@ -180,10 +177,9 @@ ttHTML.prototype.realtimesplitsdiff = function(thisin, spidint) {
 *
 */	
 ttHTML.prototype.displaySeverClockdata = function(spidint, timedata) {
-//console.log(timedata);
+
 	$splive = '#splits'+spidint;
 	$analysislive = '#analysis'+spidint;
-//console.log($analysislive);
 	// display splits
 	var shortsplitreal = liveHTML.formatTime(timedata['accumtime']);
 	$($splive).show();
@@ -679,12 +675,13 @@ ttHTML.prototype.livecommunicationset = function(commlive) {
 *
 */			
 ttHTML.prototype.commelementbuild = function(cci) {
+	
 	commelemhtml = '';
 						
-								commelemhtml += '<div class="commlistitem" id="communicationelement' + cci +'" data-commid="' + cci +'"><div id="comel' + cci + '" ><div id="elementcounter">' + cci + '</div><div class="communicationpool"><div id="setauthored' + cci + '"></div></div></div><div class="communicationedit"><div class="sketchpadel"><a href="" id="sketchpad" data-sketchid="' + cci + '"></a></div><div class="saveel"><a href="" id="save"  data-saveid="' + cci + '"></a></div><div class="removeel"><a href="" id="remove" data-removeid ="' + cci + '">remove</a></div></div></div>';
+	commelemhtml += '<div class="commlistitem" id="communicationelement' + cci +'" data-commid="' + cci +'"><div id="comel' + cci + '" ><div id="elementcounter">' + cci + '</div><div class="communicationpool"><div id="setauthored' + cci + '"></div></div></div><div class="communicationedit"><div class="sketchpadel"><a href="" id="sketchpad" data-sketchid="' + cci + '"></a></div><div class="saveel"><a href="" id="save"  data-saveid="' + cci + '"></a></div><div class="removeel"><a href="" id="remove" data-removeid ="' + cci + '">remove</a></div></div></div>';
 	
 	// first get the input data 
-					commelemhtml += '<div class="editswimelement" id="editdate' + cci + '"><div id="swimrepetition" ></div> ' + '<div id="swimtype"></div> <div id="swimstroke"></div> <div id="swimdistance"></div> <div id="swimtechnique"></div><a href="" id="edit" data-editid="' + cci + '">edit</a></div>';
+	commelemhtml += '<div class="editswimelement" id="editdate' + cci + '"><div id="swimrepetition" ></div> ' + '<div id="swimtype"></div> <div id="swimstroke"></div> <div id="swimdistance"></div> <div id="swimtechnique"></div><a href="" id="edit" data-editid="' + cci + '">edit</a></div>';
 
 	return commelemhtml;
 };

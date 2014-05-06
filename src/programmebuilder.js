@@ -28,6 +28,8 @@ $(document).ready(function(){
 	
 	// connect to socket.io
 	var socketpi = io.connect('http://192.168.1.44:8881');
+	cloudurl = 'http://localhost:8881';
+	homeurl = 'http://localhost/ll/opensportproject/swimtraintimer/communication/src/index.html';//'http://www.aboynejames.co.uk/opensportprojecttest/index.html'
 	//var socketpi = io.connect('http://localhost:8881');	
 	// make socket available to timing classes
 	starttiming.setsocket(socketpi);	
@@ -36,9 +38,6 @@ $(document).ready(function(){
 	
 	var qs = $.param.querystring();
 	var qsobject = $.deparam(qs, true);
-//console.log(qs);	
-//console.log(qsobject);
-//console.log(qsobject.token);
 	
 	if(qsobject.token)
 	{
@@ -102,8 +101,6 @@ stopwatch jquery code from stopwatch3.js
 *
 *
 */
-//console.log('start new timer object');	
-
 	$(window).unload( function () { 
 	
 			passwordin = '';
@@ -288,8 +285,7 @@ success: function( resultback ){
 		}  
 
 		checkdesigndocStatus( function(deisgnlog) {
-//console.log('design docu response');
-//console.log(deisgnlog);			
+			
 			if(!deisgnlog)
 			{
 				designdocjson = {"_id": "_design/swimmers",  "filters" : {"nameslist" : "function(doc) { return doc.name}"}};
@@ -306,7 +302,7 @@ success: function( resultback ){
 			}
 			else if (deisgnlog.filters)
 			{
-//console.log('yes design doc set');	
+
 			}	
 				
 			
@@ -329,13 +325,12 @@ success: function( resultback ){
 		}  
 
 		localDatalog( function(trainlog) {
-//console.log('whats being saved');
-//console.log(trainlog);	
+	
 			// need to differenciate between the type
 			if(trainlog.results[0].doc.session)
 			{
 				// save the training data and delete ready for next batch of data
-//console.log('training data save');	
+
 				$("#syncbackup").html(syncmessage);				
 				trainlog.results.forEach(function(rowsswimsplit){
 
@@ -354,14 +349,13 @@ success: function( resultback ){
 			}
 			else if(trainlog.results[0].doc.commdate)
 			{
-				// save the training test authored and keep a local copy
-//console.log('training set authored');				
+				// save the training test authored and keep a local copy			
 				
 			}
 			else if (trainlog.results[0].doc.name)
 			{
 				// do nothing, keep all identity info local copy
-//console.log('training id swimmmers');				
+			
 			}
 		//  TODO should get a cloud update of average, summary statistics and save/update locally
 			
@@ -650,18 +644,14 @@ $("select#thelaneoptions").change(function () {
 	*/
 	$("#recordflow").click(function (e) {	
 		e.preventDefault(e);
-					
-//console.log('record flow master capture');		
+							
 		var $tgt = $(e.target);
-//console.log($tgt);	
+	
 		if($tgt.attr('id') == "pereditidremove")
 		{
-		
-//console.log($tgt.attr('title'));	
 			var removeid = $tgt.attr('title');
 			// html body section#recordflow div.container ul#sortable1.droptrue li#2222985--1618959307.ui-state-default
-			var stringtoremove = "#sortable1 li#n" + removeid + ".ui-state-default";
-//console.log(stringtoremove);		
+			var stringtoremove = "#sortable1 li#n" + removeid + ".ui-state-default";	
 			$(stringtoremove).remove();
 		}
 		
@@ -681,8 +671,7 @@ $("select#thelaneoptions").change(function () {
 * Clear all swimmer from sort div
 */
 	$("#clearallswimmers").click(function (e) {
-		e.preventDefault(e);
-//console.log('clearswimmer click call');		
+		e.preventDefault(e);		
 
 			$("#sortable1").empty();
 			$("#loadlaneselect").hide();
@@ -743,7 +732,6 @@ $("select#thelaneoptions").change(function () {
 	
 	
 	$("#sortable1").on("click", function (e) {
-//console.log('sortable area div');
 		e.preventDefault(e);
 		var $swtgt = $(e.target);
 		if ($swtgt.is("a")) {
@@ -762,7 +750,7 @@ $("select#thelaneoptions").change(function () {
 		// produce starting swimmers
 		var startswimmers = '';
 		startSwimmerID.forEach(function(idswimmer){
-//console.log(idswimmer);			
+			
 			if(idswimmer != '9059af0b879c' &&  idswimmer != '9059af0b86e2' &&  idswimmer != '9059af0b8744' &&  idswimmer != '9059af0b869c' )
 			{
 			//pass the lane data to get html ready
@@ -770,7 +758,7 @@ $("select#thelaneoptions").change(function () {
 				liveLogic.setNameID(idswimmer, idswimmer);
 			}
 		});
-//console.log('first socket callfor loading id tags automaticaly');		
+		
 		$("#sortable1").html(startswimmers);
 		$(".social").hide();
 		$("#socialcontext").css('background', 'white');		
@@ -791,8 +779,7 @@ $("select#thelaneoptions").change(function () {
 	*  Event based stopwatch times coming from the SERVER
 	*/
 	socketpi.on('startEventout', function (tEventin) {
-//console.log(JSON.parse(tEventin));
-		//liveServerclock.startClock(tEventin);
+
 		liveServerclock.IDtimeController(tEventin);		
 	
 	});
@@ -803,7 +790,7 @@ $("select#thelaneoptions").change(function () {
 	*/
 	 // when you get a serialdata event, do this:
 	socketpi.on('stopwatchEvent', function (data) {
-//console.log(data);	
+	
 		serialin = JSON.parse(data.value);
 		inser = Object.keys(serialin);
 		inser.forEach(function(thein) {
@@ -883,7 +870,6 @@ socketpi.on('DUPinfo', function (dataDUP) {
 		else
 		{
 		// off local pi network
-//console.log('local server is offline');
 		$("#localpi").text('DIS--CONNECTED');
 			
 		}

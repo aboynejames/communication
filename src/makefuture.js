@@ -227,8 +227,7 @@ makeProgramme.prototype.makeLogic = function(madeactionin, targetin) {
 				else if (madeactionin == "savecommunication")
 				{
 					// collect the date
-					datein = $( "#datepicker" ).datepicker( "getDate" );	
-//console.log(datein);					
+					datein = $( "#datepicker" ).datepicker( "getDate" );					
 					// get a list of the unique ids and loop through to extract information
 					var smi = $(".communicationelement");
 					var smic = $(".communicationelement").children();

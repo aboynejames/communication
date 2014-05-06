@@ -16,7 +16,7 @@
 * @class SwimtimeController
 */
  function SwimtimeController () {
-//console.log('the swimmer controller');	 
+
 	this.activetimeclock = new PerSwimmer();
 
 	this.setsocket = function(socketlive) {
@@ -424,8 +424,7 @@
 			break;										
 					
 			case "pereditidremove":
-					// remove swimmer from active list
-//console.log('remove id stopwatch cllasss');					
+					// remove swimmer from active list					
 					removeid = this.identifer;
 					$("#sortable1 li#" + removeid + ".ui-state-default").remove();
 					
@@ -537,13 +536,13 @@ $("#liveswimset").text('live: ' + currentsetset);
 			break;	
 
 			case "twitterin":
-			window.open('http://www.mepath.co.uk:8882' + "/auth/twitter2", "_self");
+			window.open(cloudurl + "/auth/twitter2", "_self");
 
 			break;
 
 			case "twitterout":
 				
-				window.open('http://www.aboynejames.co.uk/opensportprojecttest/index.html', "_self");
+				window.open(homeurl, "_self");
 
 			break;
 
@@ -611,8 +610,7 @@ var MasterWatch = function() {
 	* reset the master stopwatch to ZERO
 	* @method reset
 	*/
-	this.reset = function() {
-//console.log('reset being called');		
+	this.reset = function() {	
 		// re enable the drag and drop sorting
 $("#sortable1").sortable( "option", "revert", true );
 		
@@ -656,8 +654,7 @@ $("#sortable1").sortable( "option", "revert", true );
 		
 		// manual reset over BT ID tags display
 		if(liveServerclock.contextcontroller)
-		{
-//console.log('bt reset new code');		
+		{	
 			// get UID for object keys
 			var btbuttonids = Object.keys(liveServerclock.contextcontroller);
 			btbuttonids.forEach(function(restswimid){
@@ -686,8 +683,7 @@ $("#sortable1").sortable( "option", "revert", true );
 	
 	this.displaymaster = function() {
 		
-		this.delaymaster = starttiming.activetimeclock.startclock.t;
-//console.log(this.delaymaster);		
+		this.delaymaster = starttiming.activetimeclock.startclock.t;	
 		if (this.delaymaster[2]) {
 			this.delaymaster[1] = (new Date()).valueOf();
 		}
@@ -708,7 +704,6 @@ $("#sortable1").sortable( "option", "revert", true );
 	this.startStop = function() {
 
 		this.itp = 0;  // clear touchpad counter
-//console.log(this.t);
 	// set starting time
 			this.t[this.t[2]] = (+new Date()).valueOf();
 
@@ -762,7 +757,6 @@ $("#sortable1").sortable( "option", "revert", true );
 
 		listactives = $('#sortable1').sortable('toArray');
 		countswimmers = listactives.length;	
-//console.log(listactives);
 		this.activeswimmers = listactives;
 		// if in touchpad mode
 		starttpstatus = $("#touchpadmode").attr("title");
@@ -989,7 +983,7 @@ var PerSwimmer = function() {
 				newjsonswim.swimmername = '';					
 				newjsonswim.session = {};
 				newjsonswim.swimmerid = spidin;
-console.log(liveLogic.nameholder);					
+					
 				newjsonswim.swimmername = liveLogic.nameholder[spidin];					
 				newjsonswim.session.sessionid = datesplitnumber;	
 				newjsonswim.session.swiminfo = swimdatastatus;	

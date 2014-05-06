@@ -49,8 +49,7 @@ serverClock.prototype.setupHolders = function(startIDin) {
 	{
 		//this.elementHolder = {};
 		this.elementHolder[this.splitidlive] = [];
-//console.log('start setup');
-//console.log(this.elementHolder);			
+		
 		this.activesplitter = [];
 	}
 	// keep track of how many times the stop button has been click
@@ -88,14 +87,13 @@ serverClock.prototype.displayClock = function() {
 	this.delaymaster = this.mastertime;
 	
 	this.delaymaster[2] = 1;
-//console.log(this.delaymaster);		
+		
 	if (this.delaymaster[2]) {
-//console.log('new timer interval value');		
+		
 		this.delaymaster[1] = (new Date()).valueOf();
-//console.log(this.delaymaster[1]);		
+
 	}
-//console.log(this.delaymaster);	
-//console.log(this.delaymaster[3] + this.delaymaster[1] - this.delaymaster[0]);	
+
 	$("#timer").text(this.formatDisplay(this.delaymaster[3] + this.delaymaster[1] - this.delaymaster[0]));
 		
 };
@@ -120,25 +118,18 @@ serverClock.prototype.formatDisplay = function(ms) {
 * @method IDtimeController
 */
 serverClock.prototype.IDtimeController = function(eventdataIN) {
-//console.log(eventdataIN);
+
 	var inEvent = JSON.parse(eventdataIN);
-//console.log(inEvent);
 	// get ID key
 	var IDin = Object.keys(inEvent);
-//console.log(IDin[0]);	
-//console.log(inEvent[IDin[0]][0]);	
 	var holdtempory = {};
 		
 	if(inEvent[IDin[0]][0] == "startpress")
 	{
-//console.log('start event');
 		this.setupHolders(IDin[0]);
 
 		this.contextcontroller[IDin[0]] = this.starteventcounter;	
-//console.log(inEvent[IDin[0]][1]);
 		holdtempory[this.spliteventcounter] = inEvent[IDin[0]][1];
-//console.log(IDin[0]);		
-//console.log(this.elementHolder[IDin[0]]);
 		this.elementHolder[IDin[0]].push(holdtempory);
 
 		
@@ -153,31 +144,20 @@ serverClock.prototype.IDtimeController = function(eventdataIN) {
 				
 	}
 	else if(inEvent[IDin[0]][0] == "secondpress")
-	{
-//console.log('second press client');
-//console.log(this.elementHolder);
-//console.log(IDin[0]);		
+	{	
 		// need to add elementholder for this idtime event
-		var StartcounterNow = this.elementHolder[IDin[0]];  //.slice(-1)[0];
-//console.log(StartcounterNow);		
+		var StartcounterNow = this.elementHolder[IDin[0]];  //.slice(-1)[0];	
 		var StartcounterNumbers = Object.keys(StartcounterNow);
-//console.log(StartcounterNumbers);
 		// need to sort object low to highest and extract the highest number
 		orderedStartnos = StartcounterNumbers.sort(function(a,b){return b-a});
 			
-		var StartcounterValue =  parseInt((orderedStartnos[0] ),10);
-//console.log(StartcounterValue + 'start counter');		
-//console.log(this.elementHolder[IDin[0]][StartcounterValue]);	
+		var StartcounterValue =  parseInt((orderedStartnos[0] ),10);	
 		var ElementcounterNumber = Object.keys(this.elementHolder[IDin[0]][StartcounterValue]);		
-//console.log(ElementcounterNumber); 
-		var elementCounter = ElementcounterNumber.slice(-1)[0];
-//console.log(elementCounter);		
+		var elementCounter = ElementcounterNumber.slice(-1)[0];	
 		var ElementcounterValue =  parseInt((elementCounter),10)  + 1;
-//console.log(ElementcounterValue + 'element counter now');
 		
 		holdtempory = inEvent[IDin[0]][1];
-//console.log(IDin[0]);		
-//console.log(this.elementHolder[IDin[0]]);
+
 		this.elementHolder[IDin[0]][StartcounterValue][ElementcounterValue] = holdtempory;	
 
 		// inform the UI of the data need to present
@@ -189,25 +169,20 @@ serverClock.prototype.IDtimeController = function(eventdataIN) {
 	{
 		// need to add elementholder for this idtime event
 		var StartcounterNow = this.elementHolder[IDin[0]];  //.slice(-1)[0];
-//console.log(StartcounterNow);		
 		var StartcounterNumbers = Object.keys(StartcounterNow);
-//console.log(StartcounterNumbers);
 		// need to sort object low to highest and extract the highest number
 		orderedStartnos = StartcounterNumbers.sort(function(a,b){return b-a});
 			
 		var StartcounterValue =  parseInt((orderedStartnos[0] ),10);
-//console.log(StartcounterValue + 'start counter');		
-//console.log(this.elementHolder[IDin[0]][StartcounterValue]);	
+	
 		var ElementcounterNumber = Object.keys(this.elementHolder[IDin[0]][StartcounterValue]);		
-//console.log(ElementcounterNumber); 
+
 		var elementCounter = ElementcounterNumber.slice(-1)[0];
-//console.log(elementCounter);		
+	
 		var ElementcounterValue =  parseInt((elementCounter),10) + 1;
-//console.log(ElementcounterValue + 'element counter now');
 		
 		holdtempory = inEvent[IDin[0]][1];
-//console.log(IDin[0]);		
-//console.log(this.elementHolder[IDin[0]]);
+
 		this.elementHolder[IDin[0]][StartcounterValue][ElementcounterValue] = holdtempory;
 		// inform the UI of the data need to present
 		presentationData = this.presentationPrepare(IDin[0], StartcounterValue, ElementcounterValue);
@@ -223,7 +198,6 @@ serverClock.prototype.IDtimeController = function(eventdataIN) {
 		
 	}
 	
-//console.log(this.serverTimeHolder);	
 };
 
 
@@ -248,40 +222,33 @@ serverClock.prototype.presentationPrepare = function(timeINid, startcounter, ele
 	
 	var timePrepared = {};
 	var lastcounterelement = '';
-	// extract the current time
-//console.log(this.elementHolder[timeINid][startcounter][elementcounter]);
-		
-	
+	// extract the current time	
 	if(elementcounter == 1)
 	{
 		// extract starttime
 		timePrepared['splitno'] = elementcounter;
-		var previousSettime = timePrepared['accumtime'] = this.elementHolder[timeINid][startcounter][elementcounter][0];
+		lastcounterelement = 0;
+		var previousSettime = this.elementHolder[timeINid][startcounter][elementcounter][0];
 		// setup split calculate
 		timePrepared['accumtime'] = this.elementHolder[timeINid][startcounter][elementcounter][3] - previousSettime;
 		 this.elementHolder[timeINid][startcounter][elementcounter][1] = timePrepared['accumtime'];
-//console.log(timePrepared['accumtime']);	
+
 	}
 	else
 	{
 		// get the previous split time
 		timePrepared['splitno'] = elementcounter;
-		lastcounterelement = elementcounter;// -1;
-		var previousSettime = this.elementHolder[timeINid][startcounter][lastcounterelement][3];
+		lastcounterelement = elementcounter - 1;
+		var previousSettime = this.elementHolder[timeINid][startcounter][lastcounterelement][1];
 		timePrepared['accumtime'] = this.elementHolder[timeINid][startcounter][elementcounter][3] - this.elementHolder[timeINid][startcounter][elementcounter][0];
-		this.elementHolder[timeINid][startcounter][elementcounter][1] = timePrepared['accumtime'];		
-//console.log(timePrepared['accumtime']);		
+		this.elementHolder[timeINid][startcounter][elementcounter][1] = timePrepared['accumtime'];			
 
-	}
-		
+	}	
 	
 	// calculate split 
-//console.log(timePrepared['accumtime']);
-//console.log(previousSettime);	
-	 timePrepared['splitdifftime'] = timePrepared['accumtime'] - (previousSettime - this.elementHolder[timeINid][startcounter][elementcounter][0]);
-//console.log(timePrepared['splitdifftime']); 
+	 timePrepared['splitdifftime'] = timePrepared['accumtime'] - (this.elementHolder[timeINid][startcounter][lastcounterelement][1]);
+
 	//set the difference for future comparison
-	//this.setsplitDifference(timePrepared['splitdifftime'], timeINid, startcounter, elementcounter);
 	this.elementHolder[timeINid][startcounter][elementcounter][4] = timePrepared['splitdifftime'];
 	// calculate faster slower and color
 	if(elementcounter == 1)
@@ -301,7 +268,7 @@ serverClock.prototype.presentationPrepare = function(timeINid, startcounter, ele
 	{
 		timePrepared['colortime'] = "green";
 	}	
-//console.log(timePrepared['colortime']);		
+	
 	return  timePrepared;
 
 };
@@ -311,26 +278,21 @@ serverClock.prototype.presentationPrepare = function(timeINid, startcounter, ele
 * @method saveLocal
 */
 serverClock.prototype.saveLocal = function(statusin) {
-//console.log('savelocal called');
 	// first workout previous elements data
 	var fixedOnData = this.elementHolder[statusin];
 	
 	var StartcounterNumbers = Object.keys(fixedOnData);
-//console.log(StartcounterNumbers);
 	// need to sort object low to highest and extract the highest number
 	var orderedStartnos = StartcounterNumbers.sort(function(a,b){return b-a});
 	var StartcounterValue =  parseInt((orderedStartnos[0] ),10);// - 1;
 	if(StartcounterValue > 0)
 
 	{
-//console.log(this.elementHolder[statusin][StartcounterValue]);	
 
 		var splitaccTime = this.splitDataextract(this.elementHolder[statusin][StartcounterValue]);
-//console.log(splitaccTime);
 	
 		//var sptoday = new Date();
-		var datesplitnumber = fixedOnData[StartcounterValue][0][0]; //Date.parse(sptoday);
-//console.log(datesplitnumber);		
+		var datesplitnumber = fixedOnData[StartcounterValue][0][0]; //Date.parse(sptoday);	
 
 		swimdatastatus = {};		
 		
@@ -360,7 +322,7 @@ serverClock.prototype.saveLocal = function(statusin) {
 		newjsonswim.session.sessionid = datesplitnumber;	
 		newjsonswim.session.swiminfo = swimdatastatus;	
 		newjsonswim.session.splittimes = splitaccTime;
-//console.log(newjsonswim);
+
 		livepouch.singleSave(newjsonswim);
 			
 		// emitt socket back to pi server
@@ -376,7 +338,7 @@ serverClock.prototype.saveLocal = function(statusin) {
 * @method splitDataextract
 */
 serverClock.prototype.splitDataextract = function(liveTimedata) {
-//console.log(liveTimedata);
+	
 	var timeData = [];
 	var ElemeantcounterNumbers = Object.keys(liveTimedata);
 	
