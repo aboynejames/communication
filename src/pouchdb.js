@@ -166,7 +166,7 @@ pouchdbSettings.prototype.mapQueryCommdate = function(commdatein, callbackin) {
 	function map(commquery) {
 
 		if(commquery.commdate) {
-		emit(commquery.commdate, [commquery.swimmerid, commquery.communication, commquery.commid]);
+			emit(commquery.commdate, [commquery.swimmerid, commquery.communication, commquery.commid]);
 		}
 	}
 
@@ -294,9 +294,9 @@ historicalswimdata = {};
 						//swimsetlive["swimdate"] = $("#swimdate").text();
 						swimsetlive.swimstyle = $("#" + liveelementrecord + ".liveswimelement #swimstyle").text();
 						swimsetlive.swimtype =	$("#" + liveelementrecord + ".liveswimelement #swimtype").text();
-						swimsetlive.swimstroke = $("#" + liveelementrecord + ".liveswimelement #swimstroke").text();
+						swimsetlive.Swimming_stroke = $("#" + liveelementrecord + ".liveswimelement #swimstroke").text();
 						swimsetlive.swimtechnique =  $("#" + liveelementrecord + ".liveswimelement #swimtechnique").text();
-						swimsetlive.swimdistance = $("#" + liveelementrecord + ".liveswimelement #swimdistance").text();							
+						swimsetlive.Distance = $("#" + liveelementrecord + ".liveswimelement #swimdistance").text();							
 					// itterate over results and pick out the one required	
 						spmap.rows.forEach(function(rowswimrs){
 

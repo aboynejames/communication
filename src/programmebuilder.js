@@ -27,9 +27,9 @@ $(document).ready(function(){
 	var year = today.getUTCFullYear();
 	
 	// connect to socket.io
-	var socketpi = io.connect('http://192.168.1.44:8881');
+	var socketpi = io.connect('http://192.168.1.44:8883');
 	cloudurl = 'http://localhost:8881';
-	homeurl = 'http://localhost/ll/opensportproject/swimtraintimer/communication/src/index.html';//'http://www.aboynejames.co.uk/opensportprojecttest/index.html'
+	homeurl = 'http://localhost/ll/opensportproject/swimtraintimer/communication/src/index.html';
 	//var socketpi = io.connect('http://localhost:8881');	
 	// make socket available to timing classes
 	starttiming.setsocket(socketpi);	
@@ -45,6 +45,8 @@ $(document).ready(function(){
 		liveLogic.setToken(qsobject.swimmer, qsobject.token);
 		$("#twitterin").text('Sign-out');
 		$("#twitterin").attr('id', 'twitterout');
+		//$("#facebookin").text('Sign-out');
+		//$("#facebookin").attr('id', 'facebookout');
 		$("#syncdata").show();
 		$("#clearpouchdb").show();
 		
@@ -188,7 +190,7 @@ stopwatch jquery code from stopwatch3.js
                                                         hash = hash & hash; // Convert to 32bit integer
                                                 }
                                                 return hash;
-                                        };
+						};
                                         passwordhash = hashCode(passwordin);
                                         cookieidhash = hashCode((usernamein + passwordin));                                    
                                             
@@ -312,7 +314,6 @@ success: function( resultback ){
 
 
 		// get all current doc from pouchdb and pass them on to nodejs to couchdb and delete local data (ideally leave 1 month or user directed future todo )
-		
 		var syncmessage = '<a  href=""><img  id="syncicon" alt="sync in progress" src="images/sync.png" ></a>';
 		
 		localsplitstodelete = [];
@@ -330,7 +331,6 @@ success: function( resultback ){
 			if(trainlog.results[0].doc.session)
 			{
 				// save the training data and delete ready for next batch of data
-
 				$("#syncbackup").html(syncmessage);				
 				trainlog.results.forEach(function(rowsswimsplit){
 

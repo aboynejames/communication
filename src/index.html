@@ -6,7 +6,7 @@
 	<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, ' name='viewport' />
 	<meta name="description" content="">
 	<meta name="author" content="">
-		<script type="text/javascript" src="pouchdb-2.1.0.min.js"></script>	
+		<script type="text/javascript" src="pouchdb-2.2.3.min.js"></script>	
 		<script type="text/javascript" src="IndexedDBShim.min.js"></script>
 		<script type="text/javascript" src="pouchdb.js"></script>
 		<script type="text/javascript" src="jquery-2.0.3.min.js"></script>
@@ -170,24 +170,31 @@
 		</div>
 
 		<div id="pooltrainsettings">
-		<div class="recordswimsettingslabel">
-			<label>Split:</label>
-			<select class="poolselect" id="swimsplit">
-				<option value="25">25</option>
-				<option value="50">50</option>
-				<option value="5">5</option>
-				<option value="10">10</option>
-				<option value="100">100</option>
-				<option value="200">200</option>
-			</select>
-		</div>
-		<div class="recordswimsettingslabel">
-		<label>Interval:</label>
-			<select class="poolselect" id="swiminterval">
-				<option value="5">5 secs</option>
-				<option value="0">Race</option>
-				<option value="10">10 secs</option>
-				<option value="15">15 secs</option>
+			<div class="recordswimsettingslabel">
+				<label>Split:</label>
+				<select class="poolselect" id="swimsplit">
+					<option value="25">25</option>
+					<option value="50">50</option>
+					<option value="5">5</option>
+					<option value="10">10</option>
+					<option value="100">100</option>
+					<option value="200">200</option>
+				</select>
+			</div>
+			<div class="recordswimsettingslabel">
+			<label>Interval:</label>
+				<select class="poolselect" id="swiminterval">
+					<option value="5">5 secs</option>
+					<option value="0">Race</option>
+					<option value="10">10 secs</option>
+					<option value="15">15 secs</option>
+				</select>
+			</div>
+			<div class="recordswimsettingslabel">
+			<label>Pool:</label>
+			<select class="poolselect" id="swimpoolsize">
+				<option value="Shortcourse">Shortcourse</option>
+				<option value="Longcourse">Longcourse</option>
 			</select>
 		</div>
 		</div>
@@ -332,6 +339,7 @@
 				<li></li>
 				<li>
 					<a id="twitterin" href="/twitterin" title="/twitterin" class="control-text">Twitter Sign-in</a>
+					<a id="facebookin" href="/facebookin" title="/facebookin" class="control-text">Facebook Sign-in</a>
 					<!--<a id="signinopener" href="/signin" title="signin" class="control-text">Sign-in to store data</a>-->
 			<div id="ifsignedin"></div>
 	<div id="siginformarea" style="display: none;">

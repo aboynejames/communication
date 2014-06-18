@@ -29,8 +29,8 @@
 			
 		this.identifer = swimtitle;
 		this.clicktype = clickid;
-//console.log('clickid= ' + this.clicktype);
-//console.log('title = ' + this.identifer);		
+console.log('clickid= ' + this.clicktype);
+console.log('title = ' + this.identifer);		
 		this.activetimeclock.startclock.load();	
 			
 		if(clickid == "split" || clickid == "stop" || clickid == "peranalysisid" || clickid =="pereditidremove" ){
@@ -536,8 +536,12 @@ $("#liveswimset").text('live: ' + currentsetset);
 			break;	
 
 			case "twitterin":
-			window.open(cloudurl + "/auth/twitter2", "_self");
+				window.open(cloudurl + "/auth/twitter2", "_self");
 
+			break;
+
+			case "facebookin":
+				window.open(cloudurl  + "/auth/facebook2", "_self");	
 			break;
 
 			case "twitterout":
@@ -969,14 +973,17 @@ var PerSwimmer = function() {
 				swimtechnique = $("#" + liveelementrecord + ".liveswimelement #swimtechnique").text();
 				swimdistance = $("#" + liveelementrecord + ".liveswimelement #swimdistance").text();
 				swimsplit = $("#swimsplit").val();
+				swimpool = $("#swimpoolsize").val();
+			
 				// form swim data
 				swimdatastatus = {};
 				swimdatastatus.swimdate = sptoday;
 				swimdatastatus.swimtype = swimtype;
-				swimdatastatus.swimstroke = swimstroke;
+				swimdatastatus.Swimming_stroke = swimstroke;
 				swimdatastatus.swimtechnique = swimtechnique;
-				swimdatastatus.swimdistance = swimdistance;
+				swimdatastatus.Distance = swimdistance;
 				swimdatastatus.swimsplit = swimsplit;
+				swimdatastatus.Swimmingpool = swimpool;	
 			// save to localpouchdb need to prepare buld array json structure 
 				newjsonswim = {};								
 				newjsonswim.swimmerid = '';
