@@ -27,10 +27,9 @@ $(document).ready(function(){
 	var year = today.getUTCFullYear();
 	
 	// connect to socket.io
-	var socketpi = io.connect('http://192.168.1.44:8883');
+	var socketpi = io.connect('http://192.168.1.44:8881');
 	cloudurl = 'http://localhost:8881';
 	homeurl = 'http://localhost/ll/opensportproject/swimtraintimer/communication/src/index.html';
-	//var socketpi = io.connect('http://localhost:8881');	
 	// make socket available to timing classes
 	starttiming.setsocket(socketpi);	
 	

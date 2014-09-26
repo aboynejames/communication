@@ -23,10 +23,16 @@
 		
 		this.classSocket = socketlive;
 	};
-	 
-// need to set id of the swimmer thats split or stop has been click on the UI
-	this.identifyswimmer = function(swimtitle, clickid) {
-			
+	
+};  // closes controller class	
+	
+/**
+* need to set id of the swimmer thats split or stop has been click on the UI
+* @method identifyswimmer		
+*
+*/		 
+SwimtimeController.prototype.identifyswimmer = function(swimtitle, clickid) {
+	
 		this.identifer = swimtitle;
 		this.clicktype = clickid;
 console.log('clickid= ' + this.clicktype);
@@ -556,9 +562,6 @@ $("#liveswimset").text('live: ' + currentsetset);
 			
  }; // closes id function
 			
-}  // closes controller class
-
-
 /**
 * Master Stop Watch Class
 * @class MasterWatch
@@ -585,12 +588,14 @@ var MasterWatch = function() {
 	 * 7 = split count
 	 */
 	this.t = [0, 0, 0, 0, 0, 0, 0, 0];
+}; // closes master class
 
 /**
 * format a digital number string to time format presentation
 * @method format
 */
-	this.format = function(ms) {
+MasterWatch.prototype.format = function(ms) {
+
 		var d = new Date(ms + this.t[5]).toString().replace(/.*(\d{2}:\d{2}:\d{2}).*/, '$1');
 		var x = String(ms % 1000);
 
@@ -610,11 +615,11 @@ var MasterWatch = function() {
 		return num;
 	},
 	
-	/**
-	* reset the master stopwatch to ZERO
-	* @method reset
-	*/
-	this.reset = function() {	
+/**
+* reset the master stopwatch to ZERO
+* @method reset
+*/
+MasterWatch.prototype.reset = function() {	
 		// re enable the drag and drop sorting
 $("#sortable1").sortable( "option", "revert", true );
 		
@@ -701,12 +706,12 @@ $("#sortable1").sortable( "option", "revert", true );
 		this.display();
 	},
 	
-	/**
-	*  Master stopwatch START
-	* @method startStop
-	*/
-	this.startStop = function() {
-
+/**
+*  Master stopwatch START
+* @method startStop
+*/
+MasterWatch.prototype.startStop = function() {
+	
 		this.itp = 0;  // clear touchpad counter
 	// set starting time
 			this.t[this.t[2]] = (+new Date()).valueOf();
@@ -790,11 +795,11 @@ $("#sortable1").sortable( "option", "revert", true );
 		return false;
 	};
 	
-	/**
-	*  Master record management
-	* @method recordmanagement
-	*/
-	this.recordmanagement = function() {
+/**
+*  Master record management
+* @method recordmanagement
+*/
+MasterWatch.prototype.recordmanagement = function() { 
 				// need to keep a counter of element order start if with one
 		var norepetitionsobject = $('#swimrepetition.recordlive');	
 		
@@ -832,11 +837,11 @@ $("#sortable1").sortable( "option", "revert", true );
 		
 	};
 
-	/**
-	*  Master record management back one set element
-	* @method backrecordmanagement
-	*/
-	this.backrecordmanagement = function() {
+/**
+*  Master record management back one set element
+* @method backrecordmanagement
+*/
+MasterWatch.prototype.backrecordmanagement = function() {	
 				// need to keep a counter of element order start if with one
 		var norepetitionsobject = $('#swimrepetition.recordlive');	
 		
@@ -871,10 +876,7 @@ $("#sortable1").sortable( "option", "revert", true );
 		
 	};
 	
-	
-}; // closes master class
-	
-	
+
 /**
 *  Per swimmer timer class 
 *  acting as sub class of Master Timer
@@ -885,11 +887,12 @@ var PerSwimmer = function() {
 	this.startclock = new MasterWatch();
 	this.stoppedlist = [];
 //	this.swimmer = swimid;	
-	
+}; // closes Per Swimmer
+
 /*
 * need to identify swimmer split or stop that has been clicked on the UI
 */	
-	this.splitswimmerid = function(splitid) {
+PerSwimmer.prototype.splitswimmerid = function(splitid) {	
 		this.splitidlive = splitid;			
 
 // keep track of the live split swimmers that are active
@@ -931,11 +934,11 @@ var PerSwimmer = function() {
 		}	
 };	
 
-	/**
-	*  Splits and calculations	
-	* @method split
-	*/
-	this.split = function(spidin) {
+/**
+*  Splits and calculations	
+* @method split
+*/
+PerSwimmer.prototype.split = function(spidin) {
 	// contorl logic, has the main timer been started? If yes proceed if not do nothing.		
 	if(this.startclock.t[1] === 0) {
 		// nothing start do nothing.
@@ -1033,7 +1036,4 @@ var PerSwimmer = function() {
 
 		}
 
-	};
-
-	
-}; // closes Per Swimmer
+};

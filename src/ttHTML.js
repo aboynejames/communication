@@ -89,7 +89,7 @@ ttHTML.prototype.checkboxswimmers = function(swname, swid) {
 
 /**
 * Display analysis data
-* @method checkboxswimmers		
+* @method viewdataHeader		
 *
 */			
 ttHTML.prototype.viewdataHeader = function(swimmerlist) {
@@ -219,7 +219,7 @@ ttHTML.prototype.clearIDdisplay = function(spidint) {
 * @method realtimestop		
 *
 */	
-	ttHTML.prototype.realtimestop = function(thisin, stoploc) {
+ttHTML.prototype.realtimestop = function(thisin, stoploc) {
 		
 			$splitslive = '#splits'+stoploc;
 			$stoplive = '#stop'+stoploc;
